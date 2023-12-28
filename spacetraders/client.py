@@ -22,9 +22,9 @@ class APIStub:
             imp = getattr(self._module, attr)
 
         if not hasattr(imp, self._exec_mode):
-            return APIStub(_client=self._client, mod=imp, exec=self._exec_mode)
+            return APIStub(client=self._client, mod=imp, exec=self._exec_mode)
 
-        return partial(getattr(imp, self._exec_mode), _client=self._client)
+        return partial(getattr(imp, self._exec_mode), client=self._client)
 
 
 @define
@@ -91,13 +91,6 @@ class Client:
             self._async_client.timeout = timeout
         return evolve(self, timeout=timeout)
 
-    def _build_api_stub(self, path, exec_mode):
-        myimp = import_module(f".api.{path}", "spacetraders")
-        return APIStub(client=self, mod=myimp, exec_mode=exec_mode)
-
-    def __getattr__(self, attr):
-        return self._build_api_stub(attr, "sync_detailed")
-
     def set_httpx_client(self, client: httpx.Client) -> "Client":
         """Manually the underlying httpx.Client
 
@@ -159,6 +152,13 @@ class Client:
     async def __aexit__(self, *args: Any, **kwargs: Any) -> None:
         """Exit a context manager for underlying httpx.AsyncClient (see httpx docs)"""
         await self.get_async_httpx_client().__aexit__(*args, **kwargs)
+
+    def _build_api_stub(self, path, exec_mode):
+        myimp = import_module(f".api.{path}", "spacetraders")
+        return APIStub(client=self, mod=myimp, exec_mode=exec_mode)
+
+    def __getattr__(self, attr):
+        return self._build_api_stub(attr, "sync_detailed")
 
 
 @define
