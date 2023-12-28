@@ -7,21 +7,21 @@ from typing import (
 
 from pydantic import BaseModel, Field
 
-from ..models.supply_construction_response_200_data import (
-    SupplyConstructionResponse200Data,
+from ..models.supply_construction_response_201_data import (
+    SupplyConstructionResponse201Data,
 )
 from ..types import Unset
 
-T = TypeVar("T", bound="SupplyConstructionResponse200")
+T = TypeVar("T", bound="SupplyConstructionResponse201")
 
 
-class SupplyConstructionResponse200(BaseModel):
+class SupplyConstructionResponse201(BaseModel):
     """
     Attributes:
-        data (SupplyConstructionResponse200Data):
+        data (SupplyConstructionResponse201Data):
     """
 
-    data: "SupplyConstructionResponse200Data" = Field(alias="data")
+    data: "SupplyConstructionResponse201Data" = Field(alias="data")
     additional_properties: Dict[str, Any] = {}
 
     class Config:

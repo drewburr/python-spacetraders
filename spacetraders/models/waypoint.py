@@ -23,9 +23,9 @@ class Waypoint(BaseModel):
     """A waypoint is a location that ships can travel to such as a Planet, Moon or Space Station.
 
     Attributes:
-        symbol (str): Symbol fo the waypoint.
+        symbol (str): The symbol of the waypoint.
         type (WaypointType): The type of waypoint.
-        system_symbol (str): The symbol of the system this waypoint belongs to.
+        system_symbol (str): The symbol of the system.
         x (int): Relative position of the waypoint on the system's x axis. This is not an absolute position in the
             universe.
         y (int): Relative position of the waypoint on the system's y axis. This is not an absolute position in the

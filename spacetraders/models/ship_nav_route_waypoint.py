@@ -19,7 +19,7 @@ class ShipNavRouteWaypoint(BaseModel):
     Attributes:
         symbol (str): The symbol of the waypoint.
         type (WaypointType): The type of waypoint.
-        system_symbol (str): The symbol of the system the waypoint is in.
+        system_symbol (str): The symbol of the system.
         x (int): Position in the universe in the x axis.
         y (int): Position in the universe in the y axis.
     """

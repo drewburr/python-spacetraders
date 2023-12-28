@@ -19,9 +19,8 @@ class ShipNav(BaseModel):
     """The navigation information of the ship.
 
     Attributes:
-        system_symbol (str): The system symbol of the ship's current location.
-        waypoint_symbol (str): The waypoint symbol of the ship's current location, or if the ship is in-transit, the
-            waypoint symbol of the ship's destination.
+        system_symbol (str): The symbol of the system.
+        waypoint_symbol (str): The symbol of the waypoint.
         route (ShipNavRoute): The routing information for the ship's most recent transit or current location.
         status (ShipNavStatus): The current status of the ship
         flight_mode (ShipNavFlightMode): The ship's set speed when traveling between waypoints or systems. Default:

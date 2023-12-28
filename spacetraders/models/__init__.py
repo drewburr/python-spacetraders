@@ -198,8 +198,8 @@ from .siphon_resources_response_201 import SiphonResourcesResponse201
 from .siphon_resources_response_201_data import SiphonResourcesResponse201Data
 from .siphon_yield import SiphonYield
 from .supply_construction_json_body import SupplyConstructionJsonBody
-from .supply_construction_response_200 import SupplyConstructionResponse200
-from .supply_construction_response_200_data import SupplyConstructionResponse200Data
+from .supply_construction_response_201 import SupplyConstructionResponse201
+from .supply_construction_response_201_data import SupplyConstructionResponse201Data
 from .supply_level import SupplyLevel
 from .survey import Survey
 from .survey_deposit import SurveyDeposit
@@ -394,8 +394,8 @@ __all__ = (
     "SiphonResourcesResponse201Data",
     "SiphonYield",
     "SupplyConstructionJsonBody",
-    "SupplyConstructionResponse200",
-    "SupplyConstructionResponse200Data",
+    "SupplyConstructionResponse201",
+    "SupplyConstructionResponse201Data",
     "SupplyLevel",
     "Survey",
     "SurveyDeposit",

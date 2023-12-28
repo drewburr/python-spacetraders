@@ -17,8 +17,9 @@ class ShipyardTransaction(BaseModel):
     """Results of a transaction with a shipyard.
 
     Attributes:
-        waypoint_symbol (str): The symbol of the waypoint where the transaction took place.
+        waypoint_symbol (str): The symbol of the waypoint.
         ship_symbol (str): The symbol of the ship that was the subject of the transaction.
+        ship_type (str): The symbol of the ship that was the subject of the transaction.
         price (int): The price of the transaction.
         agent_symbol (str): The symbol of the agent that made the transaction.
         timestamp (datetime.datetime): The timestamp of the transaction.
@@ -26,6 +27,7 @@ class ShipyardTransaction(BaseModel):
 
     waypoint_symbol: str = Field(alias="waypointSymbol")
     ship_symbol: str = Field(alias="shipSymbol")
+    ship_type: str = Field(alias="shipType")
     price: int = Field(alias="price")
     agent_symbol: str = Field(alias="agentSymbol")
     timestamp: datetime.datetime = Field(alias="timestamp")

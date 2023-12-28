@@ -13,7 +13,8 @@ T = TypeVar("T", bound="ContractPayment")
 
 
 class ContractPayment(BaseModel):
-    """
+    """Payments for the contract.
+
     Attributes:
         on_accepted (int): The amount of credits received up front for accepting the contract.
         on_fulfilled (int): The amount of credits received when the contract is fulfilled.

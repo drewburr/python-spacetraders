@@ -3,13 +3,12 @@ from typing import (
     Dict,
     List,
     TypeVar,
-    Union,
 )
 
 from pydantic import BaseModel, Field
 
 from ..models.ship_type import ShipType
-from ..types import UNSET, Unset
+from ..types import Unset
 
 T = TypeVar("T", bound="ShipyardShipTypesItem")
 
@@ -17,10 +16,10 @@ T = TypeVar("T", bound="ShipyardShipTypesItem")
 class ShipyardShipTypesItem(BaseModel):
     """
     Attributes:
-        type (Union[Unset, ShipType]): Type of ship
+        type (ShipType): Type of ship
     """
 
-    type: Union[Unset, ShipType] = Field(UNSET, alias="type")
+    type: ShipType = Field(alias="type")
     additional_properties: Dict[str, Any] = {}
 
     class Config:

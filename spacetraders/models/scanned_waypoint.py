@@ -22,9 +22,9 @@ class ScannedWaypoint(BaseModel):
     """A waypoint that was scanned by a ship.
 
     Attributes:
-        symbol (str): Symbol of the waypoint.
+        symbol (str): The symbol of the waypoint.
         type (WaypointType): The type of waypoint.
-        system_symbol (str): Symbol of the system.
+        system_symbol (str): The symbol of the system.
         x (int): Position in the universe in the x axis.
         y (int): Position in the universe in the y axis.
         orbitals (List['WaypointOrbital']): List of waypoints that orbit this waypoint.

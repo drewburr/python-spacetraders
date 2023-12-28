@@ -11,10 +11,10 @@ from ..models.construction import Construction
 from ..models.ship_cargo import ShipCargo
 from ..types import Unset
 
-T = TypeVar("T", bound="SupplyConstructionResponse200Data")
+T = TypeVar("T", bound="SupplyConstructionResponse201Data")
 
 
-class SupplyConstructionResponse200Data(BaseModel):
+class SupplyConstructionResponse201Data(BaseModel):
     """
     Attributes:
         construction (Construction): The construction details of a waypoint.

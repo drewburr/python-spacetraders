@@ -18,7 +18,7 @@ class MarketTransaction(BaseModel):
     """Result of a transaction with a market.
 
     Attributes:
-        waypoint_symbol (str): The symbol of the waypoint where the transaction took place.
+        waypoint_symbol (str): The symbol of the waypoint.
         ship_symbol (str): The symbol of the ship that made the transaction.
         trade_symbol (str): The symbol of the trade good.
         type (MarketTransactionType): The type of transaction.

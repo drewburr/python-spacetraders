@@ -25,6 +25,7 @@ T = TypeVar("T", bound="ShipyardShip")
 class ShipyardShip(BaseModel):
     """
     Attributes:
+        type (ShipType): Type of ship
         name (str):
         description (str):
         supply (SupplyLevel): The supply level of a trade good.
@@ -38,13 +39,13 @@ class ShipyardShip(BaseModel):
         modules (List['ShipModule']):
         mounts (List['ShipMount']):
         crew (ShipyardShipCrew):
-        type (Union[Unset, ShipType]): Type of ship
         activity (Union[Unset, ActivityLevel]): The activity level of a trade good. If the good is an import, this
             represents how strong consumption is. If the good is an export, this represents how strong the production is for
             the good. When activity is strong, consumption or production is near maximum capacity. When activity is weak,
             consumption or production is near minimum capacity.
     """
 
+    type: ShipType = Field(alias="type")
     name: str = Field(alias="name")
     description: str = Field(alias="description")
     supply: SupplyLevel = Field(alias="supply")
@@ -55,7 +56,6 @@ class ShipyardShip(BaseModel):
     modules: List["ShipModule"] = Field(alias="modules")
     mounts: List["ShipMount"] = Field(alias="mounts")
     crew: "ShipyardShipCrew" = Field(alias="crew")
-    type: Union[Unset, ShipType] = Field(UNSET, alias="type")
     activity: Union[Unset, ActivityLevel] = Field(UNSET, alias="activity")
     additional_properties: Dict[str, Any] = {}
 

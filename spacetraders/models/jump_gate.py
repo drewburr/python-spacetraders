@@ -15,9 +15,11 @@ T = TypeVar("T", bound="JumpGate")
 class JumpGate(BaseModel):
     """
     Attributes:
+        symbol (str): The symbol of the waypoint.
         connections (List[str]): All the gates that are connected to this waypoint.
     """
 
+    symbol: str = Field(alias="symbol")
     connections: List[str] = Field(alias="connections")
     additional_properties: Dict[str, Any] = {}
 

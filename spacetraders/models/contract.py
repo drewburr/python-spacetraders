@@ -23,7 +23,7 @@ class Contract(BaseModel):
         id (str): ID of the contract.
         faction_symbol (str): The symbol of the faction that this contract is for.
         type (ContractType): Type of contract.
-        terms (ContractTerms): Terms of the contract needed to fulfill it.
+        terms (ContractTerms): The terms to fulfill the contract.
         accepted (bool): Whether the contract has been accepted by the agent
         fulfilled (bool): Whether the contract has been fulfilled
         expiration (datetime.datetime): Deprecated in favor of deadlineToAccept

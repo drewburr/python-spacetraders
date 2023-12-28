@@ -7,7 +7,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.supply_construction_json_body import SupplyConstructionJsonBody
-from ...models.supply_construction_response_200 import SupplyConstructionResponse200
+from ...models.supply_construction_response_201 import SupplyConstructionResponse201
 from ...types import ApiError, Error, Response
 
 
@@ -40,11 +40,11 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Client, response: httpx.Response
-) -> Optional[SupplyConstructionResponse200]:
-    if response.status_code == HTTPStatus.OK:
-        response_200 = SupplyConstructionResponse200(**response.json())
+) -> Optional[SupplyConstructionResponse201]:
+    if response.status_code == HTTPStatus.CREATED:
+        response_201 = SupplyConstructionResponse201(**response.json())
 
-        return response_200
+        return response_201
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -53,7 +53,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Client, response: httpx.Response
-) -> Response[SupplyConstructionResponse200]:
+) -> Response[SupplyConstructionResponse201]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -69,7 +69,7 @@ def sync_detailed(
     _client: AuthenticatedClient,
     raise_on_error: Optional[bool] = None,
     **json_body: SupplyConstructionJsonBody,
-) -> Response[SupplyConstructionResponse200]:
+) -> Response[SupplyConstructionResponse201]:
     """Supply Construction Site
 
      Supply a construction site with the specified good. Requires a waypoint with a property of
@@ -88,7 +88,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SupplyConstructionResponse200]
+        Response[SupplyConstructionResponse201]
     """
 
     json_body = SupplyConstructionJsonBody.parse_obj(json_body)
@@ -139,7 +139,7 @@ async def asyncio_detailed(
     _client: AuthenticatedClient,
     raise_on_error: Optional[bool] = None,
     **json_body: SupplyConstructionJsonBody,
-) -> Response[SupplyConstructionResponse200]:
+) -> Response[SupplyConstructionResponse201]:
     """Supply Construction Site
 
      Supply a construction site with the specified good. Requires a waypoint with a property of
@@ -158,7 +158,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SupplyConstructionResponse200]
+        Response[SupplyConstructionResponse201]
     """
 
     json_body = SupplyConstructionJsonBody.parse_obj(json_body)

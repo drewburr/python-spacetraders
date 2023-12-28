@@ -22,16 +22,16 @@ class Agent(BaseModel):
         credits_ (int): The number of credits the agent has available. Credits can be negative if funds have been
             overdrawn.
         starting_faction (str): The faction the agent started with.
+        ship_count (int): How many ships are owned by the agent.
         account_id (Union[Unset, str]): Account ID that is tied to this agent. Only included on your own agent.
-        ship_count (Union[Unset, int]): How many ships are owned by the agent.
     """
 
     symbol: str = Field(alias="symbol")
     headquarters: str = Field(alias="headquarters")
     credits_: int = Field(alias="credits")
     starting_faction: str = Field(alias="startingFaction")
+    ship_count: int = Field(alias="shipCount")
     account_id: Union[Unset, str] = Field(UNSET, alias="accountId")
-    ship_count: Union[Unset, int] = Field(UNSET, alias="shipCount")
     additional_properties: Dict[str, Any] = {}
 
     class Config:
