@@ -1,7 +1,9 @@
 # spacetraders python client
+
 A client library for accessing SpaceTraders API
 
 ## Usage
+
 First, create a client:
 
 ```python
@@ -40,7 +42,7 @@ By default, when you're calling an HTTPS API it will attempt to verify that SSL 
 
 ```python
 client = AuthenticatedClient(
-    base_url="https://internal_api.example.com", 
+    base_url="https://internal_api.example.com",
     token="SuperSecretToken",
     verify_ssl="/path/to/certificate_bundle.pem",
 )
@@ -50,8 +52,8 @@ You can also disable certificate validation altogether, but beware that **this i
 
 ```python
 client = AuthenticatedClient(
-    base_url="https://internal_api.example.com", 
-    token="SuperSecretToken", 
+    base_url="https://internal_api.example.com",
+    token="SuperSecretToken",
     verify_ssl=False
 )
 ```
@@ -59,22 +61,31 @@ client = AuthenticatedClient(
 There are more settings on the generated `Client` class which let you control more runtime behavior, check out the docstring on that class for more info.
 
 Things to know:
+
 1. All path/query params and bodies become method arguments.
 1. Tagged endpoints will use the first tag as a module name for the function
 1. Any endpoint which did not have a tag will be in `client.default`
 
 ## Refreshing the API definition
-This project is generated from [SpaceTradersAPI/api-docs](https://github.com/SpaceTradersAPI/api-docs/). The following steps outline how to refresh from a new schema:
-1. Clone the version of the api-docs to be generated in another directory `git clone https://github.com/SpaceTradersAPI/api-docs /tmp/api-docs`
-1. Navigate to `/tmp/api-docs` and generate a single OpenAPI bundle `npx @redocly/openapi-cli@latest bundle -o bundle.json`
-1. In this projects directory, refresh the generated class with `poetry run openapi-python-client update --path /tmp/api-docs/bundle.json --meta none --config openapi-client.yml --custom-template-path=openapi-client-template`
+
+This project is generated from [SpaceTradersAPI/api-docs](https://github.com/SpaceTradersAPI/api-docs/).
+
+Ensure development dependencies are installed:
+
+- npx (10.1.2)
+- poetry (1.2.0)
+
+Run `./generate.sh` to execute steps needed to refresh the API defintion.
 
 ## Building / publishing this Client
+
 This project uses [Poetry](https://python-poetry.org/) to manage dependencies and packaging.  Here are the basics:
+
 1. Update the metadata in pyproject.toml (e.g. authors, version)
 1. Publish the client with `poetry publish --build -r <your-repository-name>` or, if for public PyPI, just `poetry publish --build`
 
 If you want to install this client into another project without publishing it (e.g. for development) then:
+
 1. If that project **is using Poetry**, you can simply do `poetry add <path-to-this-client>` from that project
 1. If that project is not using Poetry:
     1. Build a wheel with `poetry build -f wheel`
