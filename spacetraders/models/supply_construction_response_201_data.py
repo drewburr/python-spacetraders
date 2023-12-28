@@ -1,37 +1,70 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
-from ..models.construction import Construction
-from ..models.ship_cargo import ShipCargo
-from ..types import Unset
+
+if TYPE_CHECKING:
+    from ..models.construction import Construction
+    from ..models.ship_cargo import ShipCargo
+
 
 T = TypeVar("T", bound="SupplyConstructionResponse201Data")
 
 
-class SupplyConstructionResponse201Data(BaseModel):
+@_attrs_define
+class SupplyConstructionResponse201Data:
     """
     Attributes:
         construction (Construction): The construction details of a waypoint.
         cargo (ShipCargo): Ship cargo details.
     """
 
-    construction: "Construction" = Field(alias="construction")
-    cargo: "ShipCargo" = Field(alias="cargo")
-    additional_properties: Dict[str, Any] = {}
+    construction: "Construction"
+    cargo: "ShipCargo"
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        construction = self.construction.to_dict()
+
+        cargo = self.cargo.to_dict()
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "construction": construction,
+                "cargo": cargo,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.construction import Construction
+        from ..models.ship_cargo import ShipCargo
+
+        d = src_dict.copy()
+        construction = Construction.from_dict(d.pop("construction"))
+
+        cargo = ShipCargo.from_dict(d.pop("cargo"))
+
+        supply_construction_response_201_data = cls(
+            construction=construction,
+            cargo=cargo,
+        )
+
+        supply_construction_response_201_data.additional_properties = d
+        return supply_construction_response_201_data
 
     @property
     def additional_keys(self) -> List[str]:

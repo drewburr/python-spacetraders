@@ -2,17 +2,19 @@ from typing import (
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
-from ..types import Unset
 
 T = TypeVar("T", bound="GetStatusResponse200Stats")
 
 
-class GetStatusResponse200Stats(BaseModel):
+@_attrs_define
+class GetStatusResponse200Stats:
     """
     Attributes:
         agents (int): Number of registered agents in the game.
@@ -21,19 +23,51 @@ class GetStatusResponse200Stats(BaseModel):
         waypoints (int): Total number of waypoints in the game.
     """
 
-    agents: int = Field(alias="agents")
-    ships: int = Field(alias="ships")
-    systems: int = Field(alias="systems")
-    waypoints: int = Field(alias="waypoints")
-    additional_properties: Dict[str, Any] = {}
+    agents: int
+    ships: int
+    systems: int
+    waypoints: int
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
+        agents = self.agents
+        ships = self.ships
+        systems = self.systems
+        waypoints = self.waypoints
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "agents": agents,
+                "ships": ships,
+                "systems": systems,
+                "waypoints": waypoints,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        d = src_dict.copy()
+        agents = d.pop("agents")
+
+        ships = d.pop("ships")
+
+        systems = d.pop("systems")
+
+        waypoints = d.pop("waypoints")
+
+        get_status_response_200_stats = cls(
+            agents=agents,
+            ships=ships,
+            systems=systems,
+            waypoints=waypoints,
+        )
+
+        get_status_response_200_stats.additional_properties = d
+        return get_status_response_200_stats
 
     @property
     def additional_keys(self) -> List[str]:

@@ -1,19 +1,25 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
-from ..models.construction_material import ConstructionMaterial
-from ..types import Unset
+
+if TYPE_CHECKING:
+    from ..models.construction_material import ConstructionMaterial
+
 
 T = TypeVar("T", bound="Construction")
 
 
-class Construction(BaseModel):
+@_attrs_define
+class Construction:
     """The construction details of a waypoint.
 
     Attributes:
@@ -22,18 +28,58 @@ class Construction(BaseModel):
         is_complete (bool): Whether the waypoint has been constructed.
     """
 
-    symbol: str = Field(alias="symbol")
-    materials: List["ConstructionMaterial"] = Field(alias="materials")
-    is_complete: bool = Field(alias="isComplete")
-    additional_properties: Dict[str, Any] = {}
+    symbol: str
+    materials: List["ConstructionMaterial"]
+    is_complete: bool
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        symbol = self.symbol
+        materials = []
+        for materials_item_data in self.materials:
+            materials_item = materials_item_data.to_dict()
+
+            materials.append(materials_item)
+
+        is_complete = self.is_complete
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "symbol": symbol,
+                "materials": materials,
+                "isComplete": is_complete,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.construction_material import ConstructionMaterial
+
+        d = src_dict.copy()
+        symbol = d.pop("symbol")
+
+        materials = []
+        _materials = d.pop("materials")
+        for materials_item_data in _materials:
+            materials_item = ConstructionMaterial.from_dict(materials_item_data)
+
+            materials.append(materials_item)
+
+        is_complete = d.pop("isComplete")
+
+        construction = cls(
+            symbol=symbol,
+            materials=materials,
+            is_complete=is_complete,
+        )
+
+        construction.additional_properties = d
+        return construction
 
     @property
     def additional_keys(self) -> List[str]:

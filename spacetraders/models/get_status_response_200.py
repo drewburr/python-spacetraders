@@ -1,29 +1,37 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
-from ..models.get_status_response_200_announcements_item import (
-    GetStatusResponse200AnnouncementsItem,
-)
-from ..models.get_status_response_200_leaderboards import (
-    GetStatusResponse200Leaderboards,
-)
-from ..models.get_status_response_200_links_item import GetStatusResponse200LinksItem
-from ..models.get_status_response_200_server_resets import (
-    GetStatusResponse200ServerResets,
-)
-from ..models.get_status_response_200_stats import GetStatusResponse200Stats
-from ..types import Unset
+
+if TYPE_CHECKING:
+    from ..models.get_status_response_200_announcements_item import (
+        GetStatusResponse200AnnouncementsItem,
+    )
+    from ..models.get_status_response_200_leaderboards import (
+        GetStatusResponse200Leaderboards,
+    )
+    from ..models.get_status_response_200_links_item import (
+        GetStatusResponse200LinksItem,
+    )
+    from ..models.get_status_response_200_server_resets import (
+        GetStatusResponse200ServerResets,
+    )
+    from ..models.get_status_response_200_stats import GetStatusResponse200Stats
+
 
 T = TypeVar("T", bound="GetStatusResponse200")
 
 
-class GetStatusResponse200(BaseModel):
+@_attrs_define
+class GetStatusResponse200:
     """
     Attributes:
         status (str): The current status of the game server.
@@ -37,26 +45,122 @@ class GetStatusResponse200(BaseModel):
         links (List['GetStatusResponse200LinksItem']):
     """
 
-    status: str = Field(alias="status")
-    version: str = Field(alias="version")
-    reset_date: str = Field(alias="resetDate")
-    description: str = Field(alias="description")
-    stats: "GetStatusResponse200Stats" = Field(alias="stats")
-    leaderboards: "GetStatusResponse200Leaderboards" = Field(alias="leaderboards")
-    server_resets: "GetStatusResponse200ServerResets" = Field(alias="serverResets")
-    announcements: List["GetStatusResponse200AnnouncementsItem"] = Field(
-        alias="announcements"
-    )
-    links: List["GetStatusResponse200LinksItem"] = Field(alias="links")
-    additional_properties: Dict[str, Any] = {}
+    status: str
+    version: str
+    reset_date: str
+    description: str
+    stats: "GetStatusResponse200Stats"
+    leaderboards: "GetStatusResponse200Leaderboards"
+    server_resets: "GetStatusResponse200ServerResets"
+    announcements: List["GetStatusResponse200AnnouncementsItem"]
+    links: List["GetStatusResponse200LinksItem"]
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        status = self.status
+        version = self.version
+        reset_date = self.reset_date
+        description = self.description
+        stats = self.stats.to_dict()
+
+        leaderboards = self.leaderboards.to_dict()
+
+        server_resets = self.server_resets.to_dict()
+
+        announcements = []
+        for announcements_item_data in self.announcements:
+            announcements_item = announcements_item_data.to_dict()
+
+            announcements.append(announcements_item)
+
+        links = []
+        for links_item_data in self.links:
+            links_item = links_item_data.to_dict()
+
+            links.append(links_item)
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "status": status,
+                "version": version,
+                "resetDate": reset_date,
+                "description": description,
+                "stats": stats,
+                "leaderboards": leaderboards,
+                "serverResets": server_resets,
+                "announcements": announcements,
+                "links": links,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.get_status_response_200_announcements_item import (
+            GetStatusResponse200AnnouncementsItem,
+        )
+        from ..models.get_status_response_200_leaderboards import (
+            GetStatusResponse200Leaderboards,
+        )
+        from ..models.get_status_response_200_links_item import (
+            GetStatusResponse200LinksItem,
+        )
+        from ..models.get_status_response_200_server_resets import (
+            GetStatusResponse200ServerResets,
+        )
+        from ..models.get_status_response_200_stats import GetStatusResponse200Stats
+
+        d = src_dict.copy()
+        status = d.pop("status")
+
+        version = d.pop("version")
+
+        reset_date = d.pop("resetDate")
+
+        description = d.pop("description")
+
+        stats = GetStatusResponse200Stats.from_dict(d.pop("stats"))
+
+        leaderboards = GetStatusResponse200Leaderboards.from_dict(d.pop("leaderboards"))
+
+        server_resets = GetStatusResponse200ServerResets.from_dict(
+            d.pop("serverResets")
+        )
+
+        announcements = []
+        _announcements = d.pop("announcements")
+        for announcements_item_data in _announcements:
+            announcements_item = GetStatusResponse200AnnouncementsItem.from_dict(
+                announcements_item_data
+            )
+
+            announcements.append(announcements_item)
+
+        links = []
+        _links = d.pop("links")
+        for links_item_data in _links:
+            links_item = GetStatusResponse200LinksItem.from_dict(links_item_data)
+
+            links.append(links_item)
+
+        get_status_response_200 = cls(
+            status=status,
+            version=version,
+            reset_date=reset_date,
+            description=description,
+            stats=stats,
+            leaderboards=leaderboards,
+            server_resets=server_resets,
+            announcements=announcements,
+            links=links,
+        )
+
+        get_status_response_200.additional_properties = d
+        return get_status_response_200
 
     @property
     def additional_keys(self) -> List[str]:

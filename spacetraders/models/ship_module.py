@@ -1,21 +1,28 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
     Union,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 from ..models.ship_module_symbol import ShipModuleSymbol
-from ..models.ship_requirements import ShipRequirements
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.ship_requirements import ShipRequirements
+
 
 T = TypeVar("T", bound="ShipModule")
 
 
-class ShipModule(BaseModel):
+@_attrs_define
+class ShipModule:
     """A module can be installed in a ship and provides a set of capabilities such as storage space or quarters for crew.
     Module installations are permanent.
 
@@ -30,21 +37,70 @@ class ShipModule(BaseModel):
                 far can the module reach with its capabilities.
     """
 
-    symbol: ShipModuleSymbol = Field(alias="symbol")
-    name: str = Field(alias="name")
-    description: str = Field(alias="description")
-    requirements: "ShipRequirements" = Field(alias="requirements")
-    capacity: Union[Unset, int] = Field(UNSET, alias="capacity")
-    range_: Union[Unset, int] = Field(UNSET, alias="range")
-    additional_properties: Dict[str, Any] = {}
+    symbol: ShipModuleSymbol
+    name: str
+    description: str
+    requirements: "ShipRequirements"
+    capacity: Union[Unset, int] = UNSET
+    range_: Union[Unset, int] = UNSET
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        symbol = self.symbol.value
+
+        name = self.name
+        description = self.description
+        requirements = self.requirements.to_dict()
+
+        capacity = self.capacity
+        range_ = self.range_
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "symbol": symbol,
+                "name": name,
+                "description": description,
+                "requirements": requirements,
+            }
+        )
+        if capacity is not UNSET:
+            field_dict["capacity"] = capacity
+        if range_ is not UNSET:
+            field_dict["range"] = range_
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.ship_requirements import ShipRequirements
+
+        d = src_dict.copy()
+        symbol = ShipModuleSymbol(d.pop("symbol"))
+
+        name = d.pop("name")
+
+        description = d.pop("description")
+
+        requirements = ShipRequirements.from_dict(d.pop("requirements"))
+
+        capacity = d.pop("capacity", UNSET)
+
+        range_ = d.pop("range", UNSET)
+
+        ship_module = cls(
+            symbol=symbol,
+            name=name,
+            description=description,
+            requirements=requirements,
+            capacity=capacity,
+            range_=range_,
+        )
+
+        ship_module.additional_properties = d
+        return ship_module
 
     @property
     def additional_keys(self) -> List[str]:

@@ -2,18 +2,20 @@ from typing import (
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 from ..models.ship_role import ShipRole
-from ..types import Unset
 
 T = TypeVar("T", bound="ShipRegistration")
 
 
-class ShipRegistration(BaseModel):
+@_attrs_define
+class ShipRegistration:
     """The public registration information of the ship
 
     Attributes:
@@ -22,18 +24,45 @@ class ShipRegistration(BaseModel):
         role (ShipRole): The registered role of the ship
     """
 
-    name: str = Field(alias="name")
-    faction_symbol: str = Field(alias="factionSymbol")
-    role: ShipRole = Field(alias="role")
-    additional_properties: Dict[str, Any] = {}
+    name: str
+    faction_symbol: str
+    role: ShipRole
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
+        name = self.name
+        faction_symbol = self.faction_symbol
+        role = self.role.value
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "name": name,
+                "factionSymbol": faction_symbol,
+                "role": role,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        d = src_dict.copy()
+        name = d.pop("name")
+
+        faction_symbol = d.pop("factionSymbol")
+
+        role = ShipRole(d.pop("role"))
+
+        ship_registration = cls(
+            name=name,
+            faction_symbol=faction_symbol,
+            role=role,
+        )
+
+        ship_registration.additional_properties = d
+        return ship_registration
 
     @property
     def additional_keys(self) -> List[str]:

@@ -1,37 +1,70 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
-from ..models.contract import Contract
-from ..models.ship_cargo import ShipCargo
-from ..types import Unset
+
+if TYPE_CHECKING:
+    from ..models.contract import Contract
+    from ..models.ship_cargo import ShipCargo
+
 
 T = TypeVar("T", bound="DeliverContractResponse200Data")
 
 
-class DeliverContractResponse200Data(BaseModel):
+@_attrs_define
+class DeliverContractResponse200Data:
     """
     Attributes:
         contract (Contract): Contract details.
         cargo (ShipCargo): Ship cargo details.
     """
 
-    contract: "Contract" = Field(alias="contract")
-    cargo: "ShipCargo" = Field(alias="cargo")
-    additional_properties: Dict[str, Any] = {}
+    contract: "Contract"
+    cargo: "ShipCargo"
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        contract = self.contract.to_dict()
+
+        cargo = self.cargo.to_dict()
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "contract": contract,
+                "cargo": cargo,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.contract import Contract
+        from ..models.ship_cargo import ShipCargo
+
+        d = src_dict.copy()
+        contract = Contract.from_dict(d.pop("contract"))
+
+        cargo = ShipCargo.from_dict(d.pop("cargo"))
+
+        deliver_contract_response_200_data = cls(
+            contract=contract,
+            cargo=cargo,
+        )
+
+        deliver_contract_response_200_data.additional_properties = d
+        return deliver_contract_response_200_data
 
     @property
     def additional_keys(self) -> List[str]:

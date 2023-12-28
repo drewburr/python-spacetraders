@@ -1,34 +1,60 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
-from ..models.register_response_201_data import RegisterResponse201Data
-from ..types import Unset
+
+if TYPE_CHECKING:
+    from ..models.register_response_201_data import RegisterResponse201Data
+
 
 T = TypeVar("T", bound="RegisterResponse201")
 
 
-class RegisterResponse201(BaseModel):
+@_attrs_define
+class RegisterResponse201:
     """
     Attributes:
         data (RegisterResponse201Data):
     """
 
-    data: "RegisterResponse201Data" = Field(alias="data")
-    additional_properties: Dict[str, Any] = {}
+    data: "RegisterResponse201Data"
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        data = self.data.to_dict()
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "data": data,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.register_response_201_data import RegisterResponse201Data
+
+        d = src_dict.copy()
+        data = RegisterResponse201Data.from_dict(d.pop("data"))
+
+        register_response_201 = cls(
+            data=data,
+        )
+
+        register_response_201.additional_properties = d
+        return register_response_201
 
     @property
     def additional_keys(self) -> List[str]:

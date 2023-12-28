@@ -1,21 +1,27 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
-from ..models.agent import Agent
-from ..models.market_transaction import MarketTransaction
-from ..models.ship_cargo import ShipCargo
-from ..types import Unset
+
+if TYPE_CHECKING:
+    from ..models.agent import Agent
+    from ..models.market_transaction import MarketTransaction
+    from ..models.ship_cargo import ShipCargo
+
 
 T = TypeVar("T", bound="SellCargoSellCargo201ResponseData")
 
 
-class SellCargoSellCargo201ResponseData(BaseModel):
+@_attrs_define
+class SellCargoSellCargo201ResponseData:
     """
     Attributes:
         agent (Agent): Agent details.
@@ -23,18 +29,52 @@ class SellCargoSellCargo201ResponseData(BaseModel):
         transaction (MarketTransaction): Result of a transaction with a market.
     """
 
-    agent: "Agent" = Field(alias="agent")
-    cargo: "ShipCargo" = Field(alias="cargo")
-    transaction: "MarketTransaction" = Field(alias="transaction")
-    additional_properties: Dict[str, Any] = {}
+    agent: "Agent"
+    cargo: "ShipCargo"
+    transaction: "MarketTransaction"
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        agent = self.agent.to_dict()
+
+        cargo = self.cargo.to_dict()
+
+        transaction = self.transaction.to_dict()
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "agent": agent,
+                "cargo": cargo,
+                "transaction": transaction,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.agent import Agent
+        from ..models.market_transaction import MarketTransaction
+        from ..models.ship_cargo import ShipCargo
+
+        d = src_dict.copy()
+        agent = Agent.from_dict(d.pop("agent"))
+
+        cargo = ShipCargo.from_dict(d.pop("cargo"))
+
+        transaction = MarketTransaction.from_dict(d.pop("transaction"))
+
+        sell_cargo_sell_cargo_201_response_data = cls(
+            agent=agent,
+            cargo=cargo,
+            transaction=transaction,
+        )
+
+        sell_cargo_sell_cargo_201_response_data.additional_properties = d
+        return sell_cargo_sell_cargo_201_response_data
 
     @property
     def additional_keys(self) -> List[str]:

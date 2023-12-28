@@ -1,20 +1,26 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
-from ..models.ship_fuel import ShipFuel
-from ..models.ship_nav import ShipNav
-from ..types import Unset
+
+if TYPE_CHECKING:
+    from ..models.ship_fuel import ShipFuel
+    from ..models.ship_nav import ShipNav
+
 
 T = TypeVar("T", bound="WarpShipResponse200Data")
 
 
-class WarpShipResponse200Data(BaseModel):
+@_attrs_define
+class WarpShipResponse200Data:
     """
     Attributes:
         fuel (ShipFuel): Details of the ship's fuel tanks including how much fuel was consumed during the last transit
@@ -22,17 +28,44 @@ class WarpShipResponse200Data(BaseModel):
         nav (ShipNav): The navigation information of the ship.
     """
 
-    fuel: "ShipFuel" = Field(alias="fuel")
-    nav: "ShipNav" = Field(alias="nav")
-    additional_properties: Dict[str, Any] = {}
+    fuel: "ShipFuel"
+    nav: "ShipNav"
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        fuel = self.fuel.to_dict()
+
+        nav = self.nav.to_dict()
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "fuel": fuel,
+                "nav": nav,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.ship_fuel import ShipFuel
+        from ..models.ship_nav import ShipNav
+
+        d = src_dict.copy()
+        fuel = ShipFuel.from_dict(d.pop("fuel"))
+
+        nav = ShipNav.from_dict(d.pop("nav"))
+
+        warp_ship_response_200_data = cls(
+            fuel=fuel,
+            nav=nav,
+        )
+
+        warp_ship_response_200_data.additional_properties = d
+        return warp_ship_response_200_data
 
     @property
     def additional_keys(self) -> List[str]:

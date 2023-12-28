@@ -2,11 +2,13 @@ from typing import (
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
     Union,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 from ..models.faction_symbol import FactionSymbol
 from ..types import UNSET, Unset
@@ -14,7 +16,8 @@ from ..types import UNSET, Unset
 T = TypeVar("T", bound="RegisterJsonBody")
 
 
-class RegisterJsonBody(BaseModel):
+@_attrs_define
+class RegisterJsonBody:
     """
     Attributes:
         faction (FactionSymbol): The symbol of the faction.
@@ -23,18 +26,47 @@ class RegisterJsonBody(BaseModel):
         email (Union[Unset, str]): Your email address. This is used if you reserved your call sign between resets.
     """
 
-    faction: FactionSymbol = Field(alias="faction")
-    symbol: str = Field(alias="symbol")
-    email: Union[Unset, str] = Field(UNSET, alias="email")
-    additional_properties: Dict[str, Any] = {}
+    faction: FactionSymbol
+    symbol: str
+    email: Union[Unset, str] = UNSET
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
+        faction = self.faction.value
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        symbol = self.symbol
+        email = self.email
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "faction": faction,
+                "symbol": symbol,
+            }
+        )
+        if email is not UNSET:
+            field_dict["email"] = email
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        d = src_dict.copy()
+        faction = FactionSymbol(d.pop("faction"))
+
+        symbol = d.pop("symbol")
+
+        email = d.pop("email", UNSET)
+
+        register_json_body = cls(
+            faction=faction,
+            symbol=symbol,
+            email=email,
+        )
+
+        register_json_body.additional_properties = d
+        return register_json_body
 
     @property
     def additional_keys(self) -> List[str]:

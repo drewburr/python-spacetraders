@@ -2,18 +2,20 @@ from typing import (
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 from ..models.waypoint_modifier_symbol import WaypointModifierSymbol
-from ..types import Unset
 
 T = TypeVar("T", bound="WaypointModifier")
 
 
-class WaypointModifier(BaseModel):
+@_attrs_define
+class WaypointModifier:
     """
     Attributes:
         symbol (WaypointModifierSymbol): The unique identifier of the modifier.
@@ -21,18 +23,46 @@ class WaypointModifier(BaseModel):
         description (str): A description of the trait.
     """
 
-    symbol: WaypointModifierSymbol = Field(alias="symbol")
-    name: str = Field(alias="name")
-    description: str = Field(alias="description")
-    additional_properties: Dict[str, Any] = {}
+    symbol: WaypointModifierSymbol
+    name: str
+    description: str
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
+        symbol = self.symbol.value
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        name = self.name
+        description = self.description
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "symbol": symbol,
+                "name": name,
+                "description": description,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        d = src_dict.copy()
+        symbol = WaypointModifierSymbol(d.pop("symbol"))
+
+        name = d.pop("name")
+
+        description = d.pop("description")
+
+        waypoint_modifier = cls(
+            symbol=symbol,
+            name=name,
+            description=description,
+        )
+
+        waypoint_modifier.additional_properties = d
+        return waypoint_modifier
 
     @property
     def additional_keys(self) -> List[str]:

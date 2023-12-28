@@ -1,21 +1,28 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
     Union,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 from ..models.ship_engine_symbol import ShipEngineSymbol
-from ..models.ship_requirements import ShipRequirements
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.ship_requirements import ShipRequirements
+
 
 T = TypeVar("T", bound="ShipEngine")
 
 
-class ShipEngine(BaseModel):
+@_attrs_define
+class ShipEngine:
     """The engine determines how quickly a ship travels between waypoints.
 
     Attributes:
@@ -29,21 +36,69 @@ class ShipEngine(BaseModel):
             new.
     """
 
-    symbol: ShipEngineSymbol = Field(alias="symbol")
-    name: str = Field(alias="name")
-    description: str = Field(alias="description")
-    speed: int = Field(alias="speed")
-    requirements: "ShipRequirements" = Field(alias="requirements")
-    condition: Union[Unset, int] = Field(UNSET, alias="condition")
-    additional_properties: Dict[str, Any] = {}
+    symbol: ShipEngineSymbol
+    name: str
+    description: str
+    speed: int
+    requirements: "ShipRequirements"
+    condition: Union[Unset, int] = UNSET
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        symbol = self.symbol.value
+
+        name = self.name
+        description = self.description
+        speed = self.speed
+        requirements = self.requirements.to_dict()
+
+        condition = self.condition
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "symbol": symbol,
+                "name": name,
+                "description": description,
+                "speed": speed,
+                "requirements": requirements,
+            }
+        )
+        if condition is not UNSET:
+            field_dict["condition"] = condition
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.ship_requirements import ShipRequirements
+
+        d = src_dict.copy()
+        symbol = ShipEngineSymbol(d.pop("symbol"))
+
+        name = d.pop("name")
+
+        description = d.pop("description")
+
+        speed = d.pop("speed")
+
+        requirements = ShipRequirements.from_dict(d.pop("requirements"))
+
+        condition = d.pop("condition", UNSET)
+
+        ship_engine = cls(
+            symbol=symbol,
+            name=name,
+            description=description,
+            speed=speed,
+            requirements=requirements,
+            condition=condition,
+        )
+
+        ship_engine.additional_properties = d
+        return ship_engine
 
     @property
     def additional_keys(self) -> List[str]:

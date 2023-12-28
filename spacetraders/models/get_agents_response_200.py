@@ -1,37 +1,79 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
-from ..models.agent import Agent
-from ..models.meta import Meta
-from ..types import Unset
+
+if TYPE_CHECKING:
+    from ..models.agent import Agent
+    from ..models.meta import Meta
+
 
 T = TypeVar("T", bound="GetAgentsResponse200")
 
 
-class GetAgentsResponse200(BaseModel):
+@_attrs_define
+class GetAgentsResponse200:
     """
     Attributes:
         data (List['Agent']):
         meta (Meta): Meta details for pagination.
     """
 
-    data: List["Agent"] = Field(alias="data")
-    meta: "Meta" = Field(alias="meta")
-    additional_properties: Dict[str, Any] = {}
+    data: List["Agent"]
+    meta: "Meta"
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        data = []
+        for data_item_data in self.data:
+            data_item = data_item_data.to_dict()
+
+            data.append(data_item)
+
+        meta = self.meta.to_dict()
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "data": data,
+                "meta": meta,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.agent import Agent
+        from ..models.meta import Meta
+
+        d = src_dict.copy()
+        data = []
+        _data = d.pop("data")
+        for data_item_data in _data:
+            data_item = Agent.from_dict(data_item_data)
+
+            data.append(data_item)
+
+        meta = Meta.from_dict(d.pop("meta"))
+
+        get_agents_response_200 = cls(
+            data=data,
+            meta=meta,
+        )
+
+        get_agents_response_200.additional_properties = d
+        return get_agents_response_200
 
     @property
     def additional_keys(self) -> List[str]:

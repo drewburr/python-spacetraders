@@ -1,20 +1,27 @@
 import datetime
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
+from dateutil.parser import isoparse
 
-from ..models.ship_nav_route_waypoint import ShipNavRouteWaypoint
-from ..types import Unset
+
+if TYPE_CHECKING:
+    from ..models.ship_nav_route_waypoint import ShipNavRouteWaypoint
+
 
 T = TypeVar("T", bound="ShipNavRoute")
 
 
-class ShipNavRoute(BaseModel):
+@_attrs_define
+class ShipNavRoute:
     """The routing information for the ship's most recent transit or current location.
 
     Attributes:
@@ -25,19 +32,57 @@ class ShipNavRoute(BaseModel):
             expected time of arrival.
     """
 
-    destination: "ShipNavRouteWaypoint" = Field(alias="destination")
-    origin: "ShipNavRouteWaypoint" = Field(alias="origin")
-    departure_time: datetime.datetime = Field(alias="departureTime")
-    arrival: datetime.datetime = Field(alias="arrival")
-    additional_properties: Dict[str, Any] = {}
+    destination: "ShipNavRouteWaypoint"
+    origin: "ShipNavRouteWaypoint"
+    departure_time: datetime.datetime
+    arrival: datetime.datetime
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        destination = self.destination.to_dict()
+
+        origin = self.origin.to_dict()
+
+        departure_time = self.departure_time.isoformat()
+
+        arrival = self.arrival.isoformat()
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "destination": destination,
+                "origin": origin,
+                "departureTime": departure_time,
+                "arrival": arrival,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.ship_nav_route_waypoint import ShipNavRouteWaypoint
+
+        d = src_dict.copy()
+        destination = ShipNavRouteWaypoint.from_dict(d.pop("destination"))
+
+        origin = ShipNavRouteWaypoint.from_dict(d.pop("origin"))
+
+        departure_time = isoparse(d.pop("departureTime"))
+
+        arrival = isoparse(d.pop("arrival"))
+
+        ship_nav_route = cls(
+            destination=destination,
+            origin=origin,
+            departure_time=departure_time,
+            arrival=arrival,
+        )
+
+        ship_nav_route.additional_properties = d
+        return ship_nav_route
 
     @property
     def additional_keys(self) -> List[str]:

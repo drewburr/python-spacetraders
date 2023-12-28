@@ -2,34 +2,59 @@ from typing import (
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
+    cast,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
-from ..types import Unset
 
 T = TypeVar("T", bound="JumpGate")
 
 
-class JumpGate(BaseModel):
+@_attrs_define
+class JumpGate:
     """
     Attributes:
         symbol (str): The symbol of the waypoint.
         connections (List[str]): All the gates that are connected to this waypoint.
     """
 
-    symbol: str = Field(alias="symbol")
-    connections: List[str] = Field(alias="connections")
-    additional_properties: Dict[str, Any] = {}
+    symbol: str
+    connections: List[str]
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
+        symbol = self.symbol
+        connections = self.connections
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "symbol": symbol,
+                "connections": connections,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        d = src_dict.copy()
+        symbol = d.pop("symbol")
+
+        connections = cast(List[str], d.pop("connections"))
+
+        jump_gate = cls(
+            symbol=symbol,
+            connections=connections,
+        )
+
+        jump_gate.additional_properties = d
+        return jump_gate
 
     @property
     def additional_keys(self) -> List[str]:

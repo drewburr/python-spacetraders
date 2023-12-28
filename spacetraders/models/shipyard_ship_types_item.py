@@ -2,33 +2,52 @@ from typing import (
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 from ..models.ship_type import ShipType
-from ..types import Unset
 
 T = TypeVar("T", bound="ShipyardShipTypesItem")
 
 
-class ShipyardShipTypesItem(BaseModel):
+@_attrs_define
+class ShipyardShipTypesItem:
     """
     Attributes:
         type (ShipType): Type of ship
     """
 
-    type: ShipType = Field(alias="type")
-    additional_properties: Dict[str, Any] = {}
+    type: ShipType
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
+        type = self.type.value
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "type": type,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        d = src_dict.copy()
+        type = ShipType(d.pop("type"))
+
+        shipyard_ship_types_item = cls(
+            type=type,
+        )
+
+        shipyard_ship_types_item.additional_properties = d
+        return shipyard_ship_types_item
 
     @property
     def additional_keys(self) -> List[str]:

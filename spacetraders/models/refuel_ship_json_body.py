@@ -2,18 +2,21 @@ from typing import (
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
     Union,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="RefuelShipJsonBody")
 
 
-class RefuelShipJsonBody(BaseModel):
+@_attrs_define
+class RefuelShipJsonBody:
     """
     Attributes:
         units (Union[Unset, int]): The amount of fuel to fill in the ship's tanks. When not specified, the ship will be
@@ -23,17 +26,38 @@ class RefuelShipJsonBody(BaseModel):
         from_cargo (Union[Unset, bool]): Wether to use the FUEL thats in your cargo or not. Default: false
     """
 
-    units: Union[Unset, int] = Field(UNSET, alias="units")
-    from_cargo: Union[Unset, bool] = Field(UNSET, alias="fromCargo")
-    additional_properties: Dict[str, Any] = {}
+    units: Union[Unset, int] = UNSET
+    from_cargo: Union[Unset, bool] = UNSET
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
+        units = self.units
+        from_cargo = self.from_cargo
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update({})
+        if units is not UNSET:
+            field_dict["units"] = units
+        if from_cargo is not UNSET:
+            field_dict["fromCargo"] = from_cargo
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        d = src_dict.copy()
+        units = d.pop("units", UNSET)
+
+        from_cargo = d.pop("fromCargo", UNSET)
+
+        refuel_ship_json_body = cls(
+            units=units,
+            from_cargo=from_cargo,
+        )
+
+        refuel_ship_json_body.additional_properties = d
+        return refuel_ship_json_body
 
     @property
     def additional_keys(self) -> List[str]:

@@ -3,17 +3,20 @@ from typing import (
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
+from dateutil.parser import isoparse
 
-from ..types import Unset
 
 T = TypeVar("T", bound="ShipyardTransaction")
 
 
-class ShipyardTransaction(BaseModel):
+@_attrs_define
+class ShipyardTransaction:
     """Results of a transaction with a shipyard.
 
     Attributes:
@@ -25,21 +28,63 @@ class ShipyardTransaction(BaseModel):
         timestamp (datetime.datetime): The timestamp of the transaction.
     """
 
-    waypoint_symbol: str = Field(alias="waypointSymbol")
-    ship_symbol: str = Field(alias="shipSymbol")
-    ship_type: str = Field(alias="shipType")
-    price: int = Field(alias="price")
-    agent_symbol: str = Field(alias="agentSymbol")
-    timestamp: datetime.datetime = Field(alias="timestamp")
-    additional_properties: Dict[str, Any] = {}
+    waypoint_symbol: str
+    ship_symbol: str
+    ship_type: str
+    price: int
+    agent_symbol: str
+    timestamp: datetime.datetime
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
+        waypoint_symbol = self.waypoint_symbol
+        ship_symbol = self.ship_symbol
+        ship_type = self.ship_type
+        price = self.price
+        agent_symbol = self.agent_symbol
+        timestamp = self.timestamp.isoformat()
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "waypointSymbol": waypoint_symbol,
+                "shipSymbol": ship_symbol,
+                "shipType": ship_type,
+                "price": price,
+                "agentSymbol": agent_symbol,
+                "timestamp": timestamp,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        d = src_dict.copy()
+        waypoint_symbol = d.pop("waypointSymbol")
+
+        ship_symbol = d.pop("shipSymbol")
+
+        ship_type = d.pop("shipType")
+
+        price = d.pop("price")
+
+        agent_symbol = d.pop("agentSymbol")
+
+        timestamp = isoparse(d.pop("timestamp"))
+
+        shipyard_transaction = cls(
+            waypoint_symbol=waypoint_symbol,
+            ship_symbol=ship_symbol,
+            ship_type=ship_type,
+            price=price,
+            agent_symbol=agent_symbol,
+            timestamp=timestamp,
+        )
+
+        shipyard_transaction.additional_properties = d
+        return shipyard_transaction
 
     @property
     def additional_keys(self) -> List[str]:

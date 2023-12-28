@@ -2,18 +2,20 @@ from typing import (
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 from ..models.system_type import SystemType
-from ..types import Unset
 
 T = TypeVar("T", bound="ScannedSystem")
 
 
-class ScannedSystem(BaseModel):
+@_attrs_define
+class ScannedSystem:
     """Details of a system was that scanned.
 
     Attributes:
@@ -25,21 +27,64 @@ class ScannedSystem(BaseModel):
         distance (int): The system's distance from the scanning ship.
     """
 
-    symbol: str = Field(alias="symbol")
-    sector_symbol: str = Field(alias="sectorSymbol")
-    type: SystemType = Field(alias="type")
-    x: int = Field(alias="x")
-    y: int = Field(alias="y")
-    distance: int = Field(alias="distance")
-    additional_properties: Dict[str, Any] = {}
+    symbol: str
+    sector_symbol: str
+    type: SystemType
+    x: int
+    y: int
+    distance: int
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
+        symbol = self.symbol
+        sector_symbol = self.sector_symbol
+        type = self.type.value
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        x = self.x
+        y = self.y
+        distance = self.distance
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "symbol": symbol,
+                "sectorSymbol": sector_symbol,
+                "type": type,
+                "x": x,
+                "y": y,
+                "distance": distance,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        d = src_dict.copy()
+        symbol = d.pop("symbol")
+
+        sector_symbol = d.pop("sectorSymbol")
+
+        type = SystemType(d.pop("type"))
+
+        x = d.pop("x")
+
+        y = d.pop("y")
+
+        distance = d.pop("distance")
+
+        scanned_system = cls(
+            symbol=symbol,
+            sector_symbol=sector_symbol,
+            type=type,
+            x=x,
+            y=y,
+            distance=distance,
+        )
+
+        scanned_system.additional_properties = d
+        return scanned_system
 
     @property
     def additional_keys(self) -> List[str]:

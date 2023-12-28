@@ -1,20 +1,27 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
     Union,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
-from ..models.ship_fuel_consumed import ShipFuelConsumed
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.ship_fuel_consumed import ShipFuelConsumed
+
 
 T = TypeVar("T", bound="ShipFuel")
 
 
-class ShipFuel(BaseModel):
+@_attrs_define
+class ShipFuel:
     """Details of the ship's fuel tanks including how much fuel was consumed during the last transit or action.
 
     Attributes:
@@ -24,18 +31,56 @@ class ShipFuel(BaseModel):
             process. Shows the fuel consumption data.
     """
 
-    current: int = Field(alias="current")
-    capacity: int = Field(alias="capacity")
-    consumed: Union[Unset, "ShipFuelConsumed"] = Field(UNSET, alias="consumed")
-    additional_properties: Dict[str, Any] = {}
+    current: int
+    capacity: int
+    consumed: Union[Unset, "ShipFuelConsumed"] = UNSET
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        current = self.current
+        capacity = self.capacity
+        consumed: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.consumed, Unset):
+            consumed = self.consumed.to_dict()
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "current": current,
+                "capacity": capacity,
+            }
+        )
+        if consumed is not UNSET:
+            field_dict["consumed"] = consumed
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.ship_fuel_consumed import ShipFuelConsumed
+
+        d = src_dict.copy()
+        current = d.pop("current")
+
+        capacity = d.pop("capacity")
+
+        _consumed = d.pop("consumed", UNSET)
+        consumed: Union[Unset, ShipFuelConsumed]
+        if isinstance(_consumed, Unset):
+            consumed = UNSET
+        else:
+            consumed = ShipFuelConsumed.from_dict(_consumed)
+
+        ship_fuel = cls(
+            current=current,
+            capacity=capacity,
+            consumed=consumed,
+        )
+
+        ship_fuel.additional_properties = d
+        return ship_fuel
 
     @property
     def additional_keys(self) -> List[str]:

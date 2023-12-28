@@ -2,11 +2,13 @@ from typing import (
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
     Union,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 from ..models.activity_level import ActivityLevel
 from ..models.market_trade_good_type import MarketTradeGoodType
@@ -17,7 +19,8 @@ from ..types import UNSET, Unset
 T = TypeVar("T", bound="MarketTradeGood")
 
 
-class MarketTradeGood(BaseModel):
+@_attrs_define
+class MarketTradeGood:
     """
     Attributes:
         symbol (TradeSymbol): The good's symbol.
@@ -34,22 +37,80 @@ class MarketTradeGood(BaseModel):
             consumption or production is near minimum capacity.
     """
 
-    symbol: TradeSymbol = Field(alias="symbol")
-    type: MarketTradeGoodType = Field(alias="type")
-    trade_volume: int = Field(alias="tradeVolume")
-    supply: SupplyLevel = Field(alias="supply")
-    purchase_price: int = Field(alias="purchasePrice")
-    sell_price: int = Field(alias="sellPrice")
-    activity: Union[Unset, ActivityLevel] = Field(UNSET, alias="activity")
-    additional_properties: Dict[str, Any] = {}
+    symbol: TradeSymbol
+    type: MarketTradeGoodType
+    trade_volume: int
+    supply: SupplyLevel
+    purchase_price: int
+    sell_price: int
+    activity: Union[Unset, ActivityLevel] = UNSET
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
+        symbol = self.symbol.value
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        type = self.type.value
+
+        trade_volume = self.trade_volume
+        supply = self.supply.value
+
+        purchase_price = self.purchase_price
+        sell_price = self.sell_price
+        activity: Union[Unset, str] = UNSET
+        if not isinstance(self.activity, Unset):
+            activity = self.activity.value
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "symbol": symbol,
+                "type": type,
+                "tradeVolume": trade_volume,
+                "supply": supply,
+                "purchasePrice": purchase_price,
+                "sellPrice": sell_price,
+            }
+        )
+        if activity is not UNSET:
+            field_dict["activity"] = activity
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        d = src_dict.copy()
+        symbol = TradeSymbol(d.pop("symbol"))
+
+        type = MarketTradeGoodType(d.pop("type"))
+
+        trade_volume = d.pop("tradeVolume")
+
+        supply = SupplyLevel(d.pop("supply"))
+
+        purchase_price = d.pop("purchasePrice")
+
+        sell_price = d.pop("sellPrice")
+
+        _activity = d.pop("activity", UNSET)
+        activity: Union[Unset, ActivityLevel]
+        if isinstance(_activity, Unset):
+            activity = UNSET
+        else:
+            activity = ActivityLevel(_activity)
+
+        market_trade_good = cls(
+            symbol=symbol,
+            type=type,
+            trade_volume=trade_volume,
+            supply=supply,
+            purchase_price=purchase_price,
+            sell_price=sell_price,
+            activity=activity,
+        )
+
+        market_trade_good.additional_properties = d
+        return market_trade_good
 
     @property
     def additional_keys(self) -> List[str]:

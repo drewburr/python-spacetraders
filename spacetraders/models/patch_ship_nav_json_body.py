@@ -2,37 +2,60 @@ from typing import (
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
     Union,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 from ..models.ship_nav_flight_mode import ShipNavFlightMode
-from ..types import Unset
+from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="PatchShipNavJsonBody")
 
 
-class PatchShipNavJsonBody(BaseModel):
+@_attrs_define
+class PatchShipNavJsonBody:
     """
     Attributes:
         flight_mode (Union[Unset, ShipNavFlightMode]): The ship's set speed when traveling between waypoints or systems.
             Default: ShipNavFlightMode.CRUISE.
     """
 
-    flight_mode: Union[Unset, ShipNavFlightMode] = Field(
-        ShipNavFlightMode.CRUISE, alias="flightMode"
-    )
-    additional_properties: Dict[str, Any] = {}
+    flight_mode: Union[Unset, ShipNavFlightMode] = ShipNavFlightMode.CRUISE
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
+        flight_mode: Union[Unset, str] = UNSET
+        if not isinstance(self.flight_mode, Unset):
+            flight_mode = self.flight_mode.value
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update({})
+        if flight_mode is not UNSET:
+            field_dict["flightMode"] = flight_mode
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        d = src_dict.copy()
+        _flight_mode = d.pop("flightMode", UNSET)
+        flight_mode: Union[Unset, ShipNavFlightMode]
+        if isinstance(_flight_mode, Unset):
+            flight_mode = UNSET
+        else:
+            flight_mode = ShipNavFlightMode(_flight_mode)
+
+        patch_ship_nav_json_body = cls(
+            flight_mode=flight_mode,
+        )
+
+        patch_ship_nav_json_body.additional_properties = d
+        return patch_ship_nav_json_body
 
     @property
     def additional_keys(self) -> List[str]:

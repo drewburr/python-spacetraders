@@ -1,28 +1,35 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
     Union,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 from ..models.activity_level import ActivityLevel
-from ..models.ship_engine import ShipEngine
-from ..models.ship_frame import ShipFrame
-from ..models.ship_module import ShipModule
-from ..models.ship_mount import ShipMount
-from ..models.ship_reactor import ShipReactor
 from ..models.ship_type import ShipType
-from ..models.shipyard_ship_crew import ShipyardShipCrew
 from ..models.supply_level import SupplyLevel
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.ship_engine import ShipEngine
+    from ..models.ship_frame import ShipFrame
+    from ..models.ship_module import ShipModule
+    from ..models.ship_mount import ShipMount
+    from ..models.ship_reactor import ShipReactor
+    from ..models.shipyard_ship_crew import ShipyardShipCrew
+
 
 T = TypeVar("T", bound="ShipyardShip")
 
 
-class ShipyardShip(BaseModel):
+@_attrs_define
+class ShipyardShip:
     """
     Attributes:
         type (ShipType): Type of ship
@@ -45,27 +52,141 @@ class ShipyardShip(BaseModel):
             consumption or production is near minimum capacity.
     """
 
-    type: ShipType = Field(alias="type")
-    name: str = Field(alias="name")
-    description: str = Field(alias="description")
-    supply: SupplyLevel = Field(alias="supply")
-    purchase_price: int = Field(alias="purchasePrice")
-    frame: "ShipFrame" = Field(alias="frame")
-    reactor: "ShipReactor" = Field(alias="reactor")
-    engine: "ShipEngine" = Field(alias="engine")
-    modules: List["ShipModule"] = Field(alias="modules")
-    mounts: List["ShipMount"] = Field(alias="mounts")
-    crew: "ShipyardShipCrew" = Field(alias="crew")
-    activity: Union[Unset, ActivityLevel] = Field(UNSET, alias="activity")
-    additional_properties: Dict[str, Any] = {}
+    type: ShipType
+    name: str
+    description: str
+    supply: SupplyLevel
+    purchase_price: int
+    frame: "ShipFrame"
+    reactor: "ShipReactor"
+    engine: "ShipEngine"
+    modules: List["ShipModule"]
+    mounts: List["ShipMount"]
+    crew: "ShipyardShipCrew"
+    activity: Union[Unset, ActivityLevel] = UNSET
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        type = self.type.value
+
+        name = self.name
+        description = self.description
+        supply = self.supply.value
+
+        purchase_price = self.purchase_price
+        frame = self.frame.to_dict()
+
+        reactor = self.reactor.to_dict()
+
+        engine = self.engine.to_dict()
+
+        modules = []
+        for modules_item_data in self.modules:
+            modules_item = modules_item_data.to_dict()
+
+            modules.append(modules_item)
+
+        mounts = []
+        for mounts_item_data in self.mounts:
+            mounts_item = mounts_item_data.to_dict()
+
+            mounts.append(mounts_item)
+
+        crew = self.crew.to_dict()
+
+        activity: Union[Unset, str] = UNSET
+        if not isinstance(self.activity, Unset):
+            activity = self.activity.value
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "type": type,
+                "name": name,
+                "description": description,
+                "supply": supply,
+                "purchasePrice": purchase_price,
+                "frame": frame,
+                "reactor": reactor,
+                "engine": engine,
+                "modules": modules,
+                "mounts": mounts,
+                "crew": crew,
+            }
+        )
+        if activity is not UNSET:
+            field_dict["activity"] = activity
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.ship_engine import ShipEngine
+        from ..models.ship_frame import ShipFrame
+        from ..models.ship_module import ShipModule
+        from ..models.ship_mount import ShipMount
+        from ..models.ship_reactor import ShipReactor
+        from ..models.shipyard_ship_crew import ShipyardShipCrew
+
+        d = src_dict.copy()
+        type = ShipType(d.pop("type"))
+
+        name = d.pop("name")
+
+        description = d.pop("description")
+
+        supply = SupplyLevel(d.pop("supply"))
+
+        purchase_price = d.pop("purchasePrice")
+
+        frame = ShipFrame.from_dict(d.pop("frame"))
+
+        reactor = ShipReactor.from_dict(d.pop("reactor"))
+
+        engine = ShipEngine.from_dict(d.pop("engine"))
+
+        modules = []
+        _modules = d.pop("modules")
+        for modules_item_data in _modules:
+            modules_item = ShipModule.from_dict(modules_item_data)
+
+            modules.append(modules_item)
+
+        mounts = []
+        _mounts = d.pop("mounts")
+        for mounts_item_data in _mounts:
+            mounts_item = ShipMount.from_dict(mounts_item_data)
+
+            mounts.append(mounts_item)
+
+        crew = ShipyardShipCrew.from_dict(d.pop("crew"))
+
+        _activity = d.pop("activity", UNSET)
+        activity: Union[Unset, ActivityLevel]
+        if isinstance(_activity, Unset):
+            activity = UNSET
+        else:
+            activity = ActivityLevel(_activity)
+
+        shipyard_ship = cls(
+            type=type,
+            name=name,
+            description=description,
+            supply=supply,
+            purchase_price=purchase_price,
+            frame=frame,
+            reactor=reactor,
+            engine=engine,
+            modules=modules,
+            mounts=mounts,
+            crew=crew,
+            activity=activity,
+        )
+
+        shipyard_ship.additional_properties = d
+        return shipyard_ship
 
     @property
     def additional_keys(self) -> List[str]:

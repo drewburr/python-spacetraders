@@ -1,34 +1,60 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
-from ..models.warp_ship_response_200_data import WarpShipResponse200Data
-from ..types import Unset
+
+if TYPE_CHECKING:
+    from ..models.warp_ship_response_200_data import WarpShipResponse200Data
+
 
 T = TypeVar("T", bound="WarpShipResponse200")
 
 
-class WarpShipResponse200(BaseModel):
+@_attrs_define
+class WarpShipResponse200:
     """
     Attributes:
         data (WarpShipResponse200Data):
     """
 
-    data: "WarpShipResponse200Data" = Field(alias="data")
-    additional_properties: Dict[str, Any] = {}
+    data: "WarpShipResponse200Data"
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        data = self.data.to_dict()
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "data": data,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.warp_ship_response_200_data import WarpShipResponse200Data
+
+        d = src_dict.copy()
+        data = WarpShipResponse200Data.from_dict(d.pop("data"))
+
+        warp_ship_response_200 = cls(
+            data=data,
+        )
+
+        warp_ship_response_200.additional_properties = d
+        return warp_ship_response_200
 
     @property
     def additional_keys(self) -> List[str]:

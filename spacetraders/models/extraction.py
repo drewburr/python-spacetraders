@@ -1,19 +1,25 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
-from ..models.extraction_yield import ExtractionYield
-from ..types import Unset
+
+if TYPE_CHECKING:
+    from ..models.extraction_yield import ExtractionYield
+
 
 T = TypeVar("T", bound="Extraction")
 
 
-class Extraction(BaseModel):
+@_attrs_define
+class Extraction:
     """Extraction details.
 
     Attributes:
@@ -21,17 +27,42 @@ class Extraction(BaseModel):
         yield_ (ExtractionYield): A yield from the extraction operation.
     """
 
-    ship_symbol: str = Field(alias="shipSymbol")
-    yield_: "ExtractionYield" = Field(alias="yield")
-    additional_properties: Dict[str, Any] = {}
+    ship_symbol: str
+    yield_: "ExtractionYield"
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        ship_symbol = self.ship_symbol
+        yield_ = self.yield_.to_dict()
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "shipSymbol": ship_symbol,
+                "yield": yield_,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.extraction_yield import ExtractionYield
+
+        d = src_dict.copy()
+        ship_symbol = d.pop("shipSymbol")
+
+        yield_ = ExtractionYield.from_dict(d.pop("yield"))
+
+        extraction = cls(
+            ship_symbol=ship_symbol,
+            yield_=yield_,
+        )
+
+        extraction.additional_properties = d
+        return extraction
 
     @property
     def additional_keys(self) -> List[str]:

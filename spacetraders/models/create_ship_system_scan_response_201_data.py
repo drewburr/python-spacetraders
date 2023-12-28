@@ -1,37 +1,79 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
-from ..models.cooldown import Cooldown
-from ..models.scanned_system import ScannedSystem
-from ..types import Unset
+
+if TYPE_CHECKING:
+    from ..models.cooldown import Cooldown
+    from ..models.scanned_system import ScannedSystem
+
 
 T = TypeVar("T", bound="CreateShipSystemScanResponse201Data")
 
 
-class CreateShipSystemScanResponse201Data(BaseModel):
+@_attrs_define
+class CreateShipSystemScanResponse201Data:
     """
     Attributes:
         cooldown (Cooldown): A cooldown is a period of time in which a ship cannot perform certain actions.
         systems (List['ScannedSystem']): List of scanned systems.
     """
 
-    cooldown: "Cooldown" = Field(alias="cooldown")
-    systems: List["ScannedSystem"] = Field(alias="systems")
-    additional_properties: Dict[str, Any] = {}
+    cooldown: "Cooldown"
+    systems: List["ScannedSystem"]
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        cooldown = self.cooldown.to_dict()
+
+        systems = []
+        for systems_item_data in self.systems:
+            systems_item = systems_item_data.to_dict()
+
+            systems.append(systems_item)
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "cooldown": cooldown,
+                "systems": systems,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.cooldown import Cooldown
+        from ..models.scanned_system import ScannedSystem
+
+        d = src_dict.copy()
+        cooldown = Cooldown.from_dict(d.pop("cooldown"))
+
+        systems = []
+        _systems = d.pop("systems")
+        for systems_item_data in _systems:
+            systems_item = ScannedSystem.from_dict(systems_item_data)
+
+            systems.append(systems_item)
+
+        create_ship_system_scan_response_201_data = cls(
+            cooldown=cooldown,
+            systems=systems,
+        )
+
+        create_ship_system_scan_response_201_data.additional_properties = d
+        return create_ship_system_scan_response_201_data
 
     @property
     def additional_keys(self) -> List[str]:

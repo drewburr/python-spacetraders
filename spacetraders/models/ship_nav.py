@@ -1,21 +1,27 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 from ..models.ship_nav_flight_mode import ShipNavFlightMode
-from ..models.ship_nav_route import ShipNavRoute
 from ..models.ship_nav_status import ShipNavStatus
-from ..types import Unset
+
+if TYPE_CHECKING:
+    from ..models.ship_nav_route import ShipNavRoute
+
 
 T = TypeVar("T", bound="ShipNav")
 
 
-class ShipNav(BaseModel):
+@_attrs_define
+class ShipNav:
     """The navigation information of the ship.
 
     Attributes:
@@ -27,20 +33,62 @@ class ShipNav(BaseModel):
             ShipNavFlightMode.CRUISE.
     """
 
-    system_symbol: str = Field(alias="systemSymbol")
-    waypoint_symbol: str = Field(alias="waypointSymbol")
-    route: "ShipNavRoute" = Field(alias="route")
-    status: ShipNavStatus = Field(alias="status")
-    flight_mode: ShipNavFlightMode = Field(ShipNavFlightMode.CRUISE, alias="flightMode")
-    additional_properties: Dict[str, Any] = {}
+    system_symbol: str
+    waypoint_symbol: str
+    route: "ShipNavRoute"
+    status: ShipNavStatus
+    flight_mode: ShipNavFlightMode = ShipNavFlightMode.CRUISE
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        system_symbol = self.system_symbol
+        waypoint_symbol = self.waypoint_symbol
+        route = self.route.to_dict()
+
+        status = self.status.value
+
+        flight_mode = self.flight_mode.value
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "systemSymbol": system_symbol,
+                "waypointSymbol": waypoint_symbol,
+                "route": route,
+                "status": status,
+                "flightMode": flight_mode,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.ship_nav_route import ShipNavRoute
+
+        d = src_dict.copy()
+        system_symbol = d.pop("systemSymbol")
+
+        waypoint_symbol = d.pop("waypointSymbol")
+
+        route = ShipNavRoute.from_dict(d.pop("route"))
+
+        status = ShipNavStatus(d.pop("status"))
+
+        flight_mode = ShipNavFlightMode(d.pop("flightMode"))
+
+        ship_nav = cls(
+            system_symbol=system_symbol,
+            waypoint_symbol=waypoint_symbol,
+            route=route,
+            status=status,
+            flight_mode=flight_mode,
+        )
+
+        ship_nav.additional_properties = d
+        return ship_nav
 
     @property
     def additional_keys(self) -> List[str]:

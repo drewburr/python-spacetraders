@@ -1,37 +1,70 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
-from ..models.chart import Chart
-from ..models.waypoint import Waypoint
-from ..types import Unset
+
+if TYPE_CHECKING:
+    from ..models.chart import Chart
+    from ..models.waypoint import Waypoint
+
 
 T = TypeVar("T", bound="CreateChartResponse201Data")
 
 
-class CreateChartResponse201Data(BaseModel):
+@_attrs_define
+class CreateChartResponse201Data:
     """
     Attributes:
         chart (Chart): The chart of a system or waypoint, which makes the location visible to other agents.
         waypoint (Waypoint): A waypoint is a location that ships can travel to such as a Planet, Moon or Space Station.
     """
 
-    chart: "Chart" = Field(alias="chart")
-    waypoint: "Waypoint" = Field(alias="waypoint")
-    additional_properties: Dict[str, Any] = {}
+    chart: "Chart"
+    waypoint: "Waypoint"
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        chart = self.chart.to_dict()
+
+        waypoint = self.waypoint.to_dict()
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "chart": chart,
+                "waypoint": waypoint,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.chart import Chart
+        from ..models.waypoint import Waypoint
+
+        d = src_dict.copy()
+        chart = Chart.from_dict(d.pop("chart"))
+
+        waypoint = Waypoint.from_dict(d.pop("waypoint"))
+
+        create_chart_response_201_data = cls(
+            chart=chart,
+            waypoint=waypoint,
+        )
+
+        create_chart_response_201_data.additional_properties = d
+        return create_chart_response_201_data
 
     @property
     def additional_keys(self) -> List[str]:

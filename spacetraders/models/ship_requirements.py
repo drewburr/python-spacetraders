@@ -2,18 +2,21 @@ from typing import (
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
     Union,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="ShipRequirements")
 
 
-class ShipRequirements(BaseModel):
+@_attrs_define
+class ShipRequirements:
     """The requirements for installation on a ship
 
     Attributes:
@@ -22,18 +25,45 @@ class ShipRequirements(BaseModel):
         slots (Union[Unset, int]): The number of module slots required for installation.
     """
 
-    power: Union[Unset, int] = Field(UNSET, alias="power")
-    crew: Union[Unset, int] = Field(UNSET, alias="crew")
-    slots: Union[Unset, int] = Field(UNSET, alias="slots")
-    additional_properties: Dict[str, Any] = {}
+    power: Union[Unset, int] = UNSET
+    crew: Union[Unset, int] = UNSET
+    slots: Union[Unset, int] = UNSET
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
+        power = self.power
+        crew = self.crew
+        slots = self.slots
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update({})
+        if power is not UNSET:
+            field_dict["power"] = power
+        if crew is not UNSET:
+            field_dict["crew"] = crew
+        if slots is not UNSET:
+            field_dict["slots"] = slots
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        d = src_dict.copy()
+        power = d.pop("power", UNSET)
+
+        crew = d.pop("crew", UNSET)
+
+        slots = d.pop("slots", UNSET)
+
+        ship_requirements = cls(
+            power=power,
+            crew=crew,
+            slots=slots,
+        )
+
+        ship_requirements.additional_properties = d
+        return ship_requirements
 
     @property
     def additional_keys(self) -> List[str]:

@@ -1,19 +1,25 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
-from ..models.ship_cargo_item import ShipCargoItem
-from ..types import Unset
+
+if TYPE_CHECKING:
+    from ..models.ship_cargo_item import ShipCargoItem
+
 
 T = TypeVar("T", bound="ShipCargo")
 
 
-class ShipCargo(BaseModel):
+@_attrs_define
+class ShipCargo:
     """Ship cargo details.
 
     Attributes:
@@ -22,18 +28,57 @@ class ShipCargo(BaseModel):
         inventory (List['ShipCargoItem']): The items currently in the cargo hold.
     """
 
-    capacity: int = Field(alias="capacity")
-    units: int = Field(alias="units")
-    inventory: List["ShipCargoItem"] = Field(alias="inventory")
-    additional_properties: Dict[str, Any] = {}
+    capacity: int
+    units: int
+    inventory: List["ShipCargoItem"]
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        capacity = self.capacity
+        units = self.units
+        inventory = []
+        for inventory_item_data in self.inventory:
+            inventory_item = inventory_item_data.to_dict()
+
+            inventory.append(inventory_item)
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "capacity": capacity,
+                "units": units,
+                "inventory": inventory,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.ship_cargo_item import ShipCargoItem
+
+        d = src_dict.copy()
+        capacity = d.pop("capacity")
+
+        units = d.pop("units")
+
+        inventory = []
+        _inventory = d.pop("inventory")
+        for inventory_item_data in _inventory:
+            inventory_item = ShipCargoItem.from_dict(inventory_item_data)
+
+            inventory.append(inventory_item)
+
+        ship_cargo = cls(
+            capacity=capacity,
+            units=units,
+            inventory=inventory,
+        )
+
+        ship_cargo.additional_properties = d
+        return ship_cargo
 
     @property
     def additional_keys(self) -> List[str]:

@@ -2,34 +2,58 @@ from typing import (
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
-from ..types import Unset
 
 T = TypeVar("T", bound="GetStatusResponse200ServerResets")
 
 
-class GetStatusResponse200ServerResets(BaseModel):
+@_attrs_define
+class GetStatusResponse200ServerResets:
     """
     Attributes:
         next_ (str): The date and time when the game server will reset.
         frequency (str): How often we intend to reset the game server.
     """
 
-    next_: str = Field(alias="next")
-    frequency: str = Field(alias="frequency")
-    additional_properties: Dict[str, Any] = {}
+    next_: str
+    frequency: str
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
+        next_ = self.next_
+        frequency = self.frequency
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "next": next_,
+                "frequency": frequency,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        d = src_dict.copy()
+        next_ = d.pop("next")
+
+        frequency = d.pop("frequency")
+
+        get_status_response_200_server_resets = cls(
+            next_=next_,
+            frequency=frequency,
+        )
+
+        get_status_response_200_server_resets.additional_properties = d
+        return get_status_response_200_server_resets
 
     @property
     def additional_keys(self) -> List[str]:

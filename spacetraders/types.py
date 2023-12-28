@@ -10,8 +10,7 @@ from typing import (
     TypeVar,
 )
 
-import attr
-from pydantic import BaseModel
+from attrs import define
 
 
 class Unset:
@@ -24,7 +23,7 @@ UNSET: Unset = Unset()
 FileJsonType = Tuple[Optional[str], BinaryIO, Optional[str]]
 
 
-@attr.s(auto_attribs=True)
+@define
 class File:
     """Contains information for file uploads"""
 
@@ -40,7 +39,7 @@ class File:
 T = TypeVar("T")
 
 
-@attr.s(auto_attribs=True)
+@define
 class Response(Generic[T]):
     """A response from an endpoint"""
 
@@ -50,18 +49,4 @@ class Response(Generic[T]):
     parsed: Optional[T]
 
 
-class Error(BaseModel):
-    """API Error Model"""
-
-    status_code: HTTPStatus
-    message: str
-    code: Optional[str] = None
-    data: Optional[dict] = None
-    headers: MutableMapping[str, str]
-
-
-class ApiError(Exception):
-    """An API Error has occured"""
-
-
-__all__ = ["File", "Response", "FileJsonType", "ApiError", "Error"]
+__all__ = ["File", "Response", "FileJsonType"]

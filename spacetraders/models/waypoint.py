@@ -1,25 +1,32 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
     Union,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
-from ..models.chart import Chart
-from ..models.waypoint_faction import WaypointFaction
-from ..models.waypoint_modifier import WaypointModifier
-from ..models.waypoint_orbital import WaypointOrbital
-from ..models.waypoint_trait import WaypointTrait
 from ..models.waypoint_type import WaypointType
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.chart import Chart
+    from ..models.waypoint_faction import WaypointFaction
+    from ..models.waypoint_modifier import WaypointModifier
+    from ..models.waypoint_orbital import WaypointOrbital
+    from ..models.waypoint_trait import WaypointTrait
+
 
 T = TypeVar("T", bound="Waypoint")
 
 
-class Waypoint(BaseModel):
+@_attrs_define
+class Waypoint:
     """A waypoint is a location that ships can travel to such as a Planet, Moon or Space Station.
 
     Attributes:
@@ -41,27 +48,158 @@ class Waypoint(BaseModel):
             agents.
     """
 
-    symbol: str = Field(alias="symbol")
-    type: WaypointType = Field(alias="type")
-    system_symbol: str = Field(alias="systemSymbol")
-    x: int = Field(alias="x")
-    y: int = Field(alias="y")
-    orbitals: List["WaypointOrbital"] = Field(alias="orbitals")
-    traits: List["WaypointTrait"] = Field(alias="traits")
-    is_under_construction: bool = Field(alias="isUnderConstruction")
-    orbits: Union[Unset, str] = Field(UNSET, alias="orbits")
-    faction: Union[Unset, "WaypointFaction"] = Field(UNSET, alias="faction")
-    modifiers: Union[Unset, List["WaypointModifier"]] = Field(UNSET, alias="modifiers")
-    chart: Union[Unset, "Chart"] = Field(UNSET, alias="chart")
-    additional_properties: Dict[str, Any] = {}
+    symbol: str
+    type: WaypointType
+    system_symbol: str
+    x: int
+    y: int
+    orbitals: List["WaypointOrbital"]
+    traits: List["WaypointTrait"]
+    is_under_construction: bool
+    orbits: Union[Unset, str] = UNSET
+    faction: Union[Unset, "WaypointFaction"] = UNSET
+    modifiers: Union[Unset, List["WaypointModifier"]] = UNSET
+    chart: Union[Unset, "Chart"] = UNSET
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        symbol = self.symbol
+        type = self.type.value
+
+        system_symbol = self.system_symbol
+        x = self.x
+        y = self.y
+        orbitals = []
+        for orbitals_item_data in self.orbitals:
+            orbitals_item = orbitals_item_data.to_dict()
+
+            orbitals.append(orbitals_item)
+
+        traits = []
+        for traits_item_data in self.traits:
+            traits_item = traits_item_data.to_dict()
+
+            traits.append(traits_item)
+
+        is_under_construction = self.is_under_construction
+        orbits = self.orbits
+        faction: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.faction, Unset):
+            faction = self.faction.to_dict()
+
+        modifiers: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.modifiers, Unset):
+            modifiers = []
+            for modifiers_item_data in self.modifiers:
+                modifiers_item = modifiers_item_data.to_dict()
+
+                modifiers.append(modifiers_item)
+
+        chart: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.chart, Unset):
+            chart = self.chart.to_dict()
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "symbol": symbol,
+                "type": type,
+                "systemSymbol": system_symbol,
+                "x": x,
+                "y": y,
+                "orbitals": orbitals,
+                "traits": traits,
+                "isUnderConstruction": is_under_construction,
+            }
+        )
+        if orbits is not UNSET:
+            field_dict["orbits"] = orbits
+        if faction is not UNSET:
+            field_dict["faction"] = faction
+        if modifiers is not UNSET:
+            field_dict["modifiers"] = modifiers
+        if chart is not UNSET:
+            field_dict["chart"] = chart
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.chart import Chart
+        from ..models.waypoint_faction import WaypointFaction
+        from ..models.waypoint_modifier import WaypointModifier
+        from ..models.waypoint_orbital import WaypointOrbital
+        from ..models.waypoint_trait import WaypointTrait
+
+        d = src_dict.copy()
+        symbol = d.pop("symbol")
+
+        type = WaypointType(d.pop("type"))
+
+        system_symbol = d.pop("systemSymbol")
+
+        x = d.pop("x")
+
+        y = d.pop("y")
+
+        orbitals = []
+        _orbitals = d.pop("orbitals")
+        for orbitals_item_data in _orbitals:
+            orbitals_item = WaypointOrbital.from_dict(orbitals_item_data)
+
+            orbitals.append(orbitals_item)
+
+        traits = []
+        _traits = d.pop("traits")
+        for traits_item_data in _traits:
+            traits_item = WaypointTrait.from_dict(traits_item_data)
+
+            traits.append(traits_item)
+
+        is_under_construction = d.pop("isUnderConstruction")
+
+        orbits = d.pop("orbits", UNSET)
+
+        _faction = d.pop("faction", UNSET)
+        faction: Union[Unset, WaypointFaction]
+        if isinstance(_faction, Unset):
+            faction = UNSET
+        else:
+            faction = WaypointFaction.from_dict(_faction)
+
+        modifiers = []
+        _modifiers = d.pop("modifiers", UNSET)
+        for modifiers_item_data in _modifiers or []:
+            modifiers_item = WaypointModifier.from_dict(modifiers_item_data)
+
+            modifiers.append(modifiers_item)
+
+        _chart = d.pop("chart", UNSET)
+        chart: Union[Unset, Chart]
+        if isinstance(_chart, Unset):
+            chart = UNSET
+        else:
+            chart = Chart.from_dict(_chart)
+
+        waypoint = cls(
+            symbol=symbol,
+            type=type,
+            system_symbol=system_symbol,
+            x=x,
+            y=y,
+            orbitals=orbitals,
+            traits=traits,
+            is_under_construction=is_under_construction,
+            orbits=orbits,
+            faction=faction,
+            modifiers=modifiers,
+            chart=chart,
+        )
+
+        waypoint.additional_properties = d
+        return waypoint
 
     @property
     def additional_keys(self) -> List[str]:

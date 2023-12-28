@@ -1,34 +1,69 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
-from ..models.ship_mount import ShipMount
-from ..types import Unset
+
+if TYPE_CHECKING:
+    from ..models.ship_mount import ShipMount
+
 
 T = TypeVar("T", bound="GetMountsGetMounts200Response")
 
 
-class GetMountsGetMounts200Response(BaseModel):
+@_attrs_define
+class GetMountsGetMounts200Response:
     """
     Attributes:
         data (List['ShipMount']):
     """
 
-    data: List["ShipMount"] = Field(alias="data")
-    additional_properties: Dict[str, Any] = {}
+    data: List["ShipMount"]
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        data = []
+        for data_item_data in self.data:
+            data_item = data_item_data.to_dict()
+
+            data.append(data_item)
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "data": data,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.ship_mount import ShipMount
+
+        d = src_dict.copy()
+        data = []
+        _data = d.pop("data")
+        for data_item_data in _data:
+            data_item = ShipMount.from_dict(data_item_data)
+
+            data.append(data_item)
+
+        get_mounts_get_mounts_200_response = cls(
+            data=data,
+        )
+
+        get_mounts_get_mounts_200_response.additional_properties = d
+        return get_mounts_get_mounts_200_response
 
     @property
     def additional_keys(self) -> List[str]:

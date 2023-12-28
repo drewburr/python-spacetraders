@@ -2,17 +2,19 @@ from typing import (
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
-from ..types import Unset
 
 T = TypeVar("T", bound="ContractDeliverGood")
 
 
-class ContractDeliverGood(BaseModel):
+@_attrs_define
+class ContractDeliverGood:
     """The details of a delivery contract. Includes the type of good, units needed, and the destination.
 
     Attributes:
@@ -22,19 +24,51 @@ class ContractDeliverGood(BaseModel):
         units_fulfilled (int): The number of units fulfilled on this contract.
     """
 
-    trade_symbol: str = Field(alias="tradeSymbol")
-    destination_symbol: str = Field(alias="destinationSymbol")
-    units_required: int = Field(alias="unitsRequired")
-    units_fulfilled: int = Field(alias="unitsFulfilled")
-    additional_properties: Dict[str, Any] = {}
+    trade_symbol: str
+    destination_symbol: str
+    units_required: int
+    units_fulfilled: int
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
+        trade_symbol = self.trade_symbol
+        destination_symbol = self.destination_symbol
+        units_required = self.units_required
+        units_fulfilled = self.units_fulfilled
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "tradeSymbol": trade_symbol,
+                "destinationSymbol": destination_symbol,
+                "unitsRequired": units_required,
+                "unitsFulfilled": units_fulfilled,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        d = src_dict.copy()
+        trade_symbol = d.pop("tradeSymbol")
+
+        destination_symbol = d.pop("destinationSymbol")
+
+        units_required = d.pop("unitsRequired")
+
+        units_fulfilled = d.pop("unitsFulfilled")
+
+        contract_deliver_good = cls(
+            trade_symbol=trade_symbol,
+            destination_symbol=destination_symbol,
+            units_required=units_required,
+            units_fulfilled=units_fulfilled,
+        )
+
+        contract_deliver_good.additional_properties = d
+        return contract_deliver_good
 
     @property
     def additional_keys(self) -> List[str]:

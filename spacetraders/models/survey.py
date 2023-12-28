@@ -1,21 +1,28 @@
 import datetime
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
+from dateutil.parser import isoparse
 
-from ..models.survey_deposit import SurveyDeposit
 from ..models.survey_size import SurveySize
-from ..types import Unset
+
+if TYPE_CHECKING:
+    from ..models.survey_deposit import SurveyDeposit
+
 
 T = TypeVar("T", bound="Survey")
 
 
-class Survey(BaseModel):
+@_attrs_define
+class Survey:
     """A resource survey of a waypoint, detailing a specific extraction location and the types of resources that can be
     found there.
 
@@ -32,20 +39,71 @@ class Survey(BaseModel):
                 before it is exhausted.
     """
 
-    signature: str = Field(alias="signature")
-    symbol: str = Field(alias="symbol")
-    deposits: List["SurveyDeposit"] = Field(alias="deposits")
-    expiration: datetime.datetime = Field(alias="expiration")
-    size: SurveySize = Field(alias="size")
-    additional_properties: Dict[str, Any] = {}
+    signature: str
+    symbol: str
+    deposits: List["SurveyDeposit"]
+    expiration: datetime.datetime
+    size: SurveySize
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        signature = self.signature
+        symbol = self.symbol
+        deposits = []
+        for deposits_item_data in self.deposits:
+            deposits_item = deposits_item_data.to_dict()
+
+            deposits.append(deposits_item)
+
+        expiration = self.expiration.isoformat()
+
+        size = self.size.value
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "signature": signature,
+                "symbol": symbol,
+                "deposits": deposits,
+                "expiration": expiration,
+                "size": size,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.survey_deposit import SurveyDeposit
+
+        d = src_dict.copy()
+        signature = d.pop("signature")
+
+        symbol = d.pop("symbol")
+
+        deposits = []
+        _deposits = d.pop("deposits")
+        for deposits_item_data in _deposits:
+            deposits_item = SurveyDeposit.from_dict(deposits_item_data)
+
+            deposits.append(deposits_item)
+
+        expiration = isoparse(d.pop("expiration"))
+
+        size = SurveySize(d.pop("size"))
+
+        survey = cls(
+            signature=signature,
+            symbol=symbol,
+            deposits=deposits,
+            expiration=expiration,
+            size=size,
+        )
+
+        survey.additional_properties = d
+        return survey
 
     @property
     def additional_keys(self) -> List[str]:

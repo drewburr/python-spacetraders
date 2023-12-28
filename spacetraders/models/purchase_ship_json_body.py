@@ -2,35 +2,60 @@ from typing import (
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 from ..models.ship_type import ShipType
-from ..types import Unset
 
 T = TypeVar("T", bound="PurchaseShipJsonBody")
 
 
-class PurchaseShipJsonBody(BaseModel):
+@_attrs_define
+class PurchaseShipJsonBody:
     """
     Attributes:
         ship_type (ShipType): Type of ship
         waypoint_symbol (str): The symbol of the waypoint you want to purchase the ship at.
     """
 
-    ship_type: ShipType = Field(alias="shipType")
-    waypoint_symbol: str = Field(alias="waypointSymbol")
-    additional_properties: Dict[str, Any] = {}
+    ship_type: ShipType
+    waypoint_symbol: str
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
+        ship_type = self.ship_type.value
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        waypoint_symbol = self.waypoint_symbol
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "shipType": ship_type,
+                "waypointSymbol": waypoint_symbol,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        d = src_dict.copy()
+        ship_type = ShipType(d.pop("shipType"))
+
+        waypoint_symbol = d.pop("waypointSymbol")
+
+        purchase_ship_json_body = cls(
+            ship_type=ship_type,
+            waypoint_symbol=waypoint_symbol,
+        )
+
+        purchase_ship_json_body.additional_properties = d
+        return purchase_ship_json_body
 
     @property
     def additional_keys(self) -> List[str]:

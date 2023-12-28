@@ -1,22 +1,29 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
     Union,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 from ..models.ship_mount_deposits_item import ShipMountDepositsItem
 from ..models.ship_mount_symbol import ShipMountSymbol
-from ..models.ship_requirements import ShipRequirements
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.ship_requirements import ShipRequirements
+
 
 T = TypeVar("T", bound="ShipMount")
 
 
-class ShipMount(BaseModel):
+@_attrs_define
+class ShipMount:
     """A mount is installed on the exterier of a ship.
 
     Attributes:
@@ -30,21 +37,82 @@ class ShipMount(BaseModel):
             produced from using the mount.
     """
 
-    symbol: ShipMountSymbol = Field(alias="symbol")
-    name: str = Field(alias="name")
-    requirements: "ShipRequirements" = Field(alias="requirements")
-    description: Union[Unset, str] = Field(UNSET, alias="description")
-    strength: Union[Unset, int] = Field(UNSET, alias="strength")
-    deposits: Union[Unset, List[ShipMountDepositsItem]] = Field(UNSET, alias="deposits")
-    additional_properties: Dict[str, Any] = {}
+    symbol: ShipMountSymbol
+    name: str
+    requirements: "ShipRequirements"
+    description: Union[Unset, str] = UNSET
+    strength: Union[Unset, int] = UNSET
+    deposits: Union[Unset, List[ShipMountDepositsItem]] = UNSET
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        symbol = self.symbol.value
+
+        name = self.name
+        requirements = self.requirements.to_dict()
+
+        description = self.description
+        strength = self.strength
+        deposits: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.deposits, Unset):
+            deposits = []
+            for deposits_item_data in self.deposits:
+                deposits_item = deposits_item_data.value
+
+                deposits.append(deposits_item)
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "symbol": symbol,
+                "name": name,
+                "requirements": requirements,
+            }
+        )
+        if description is not UNSET:
+            field_dict["description"] = description
+        if strength is not UNSET:
+            field_dict["strength"] = strength
+        if deposits is not UNSET:
+            field_dict["deposits"] = deposits
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.ship_requirements import ShipRequirements
+
+        d = src_dict.copy()
+        symbol = ShipMountSymbol(d.pop("symbol"))
+
+        name = d.pop("name")
+
+        requirements = ShipRequirements.from_dict(d.pop("requirements"))
+
+        description = d.pop("description", UNSET)
+
+        strength = d.pop("strength", UNSET)
+
+        deposits = []
+        _deposits = d.pop("deposits", UNSET)
+        for deposits_item_data in _deposits or []:
+            deposits_item = ShipMountDepositsItem(deposits_item_data)
+
+            deposits.append(deposits_item)
+
+        ship_mount = cls(
+            symbol=symbol,
+            name=name,
+            requirements=requirements,
+            description=description,
+            strength=strength,
+            deposits=deposits,
+        )
+
+        ship_mount.additional_properties = d
+        return ship_mount
 
     @property
     def additional_keys(self) -> List[str]:

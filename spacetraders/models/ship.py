@@ -1,29 +1,35 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
-from ..models.cooldown import Cooldown
-from ..models.ship_cargo import ShipCargo
-from ..models.ship_crew import ShipCrew
-from ..models.ship_engine import ShipEngine
-from ..models.ship_frame import ShipFrame
-from ..models.ship_fuel import ShipFuel
-from ..models.ship_module import ShipModule
-from ..models.ship_mount import ShipMount
-from ..models.ship_nav import ShipNav
-from ..models.ship_reactor import ShipReactor
-from ..models.ship_registration import ShipRegistration
-from ..types import Unset
+
+if TYPE_CHECKING:
+    from ..models.cooldown import Cooldown
+    from ..models.ship_cargo import ShipCargo
+    from ..models.ship_crew import ShipCrew
+    from ..models.ship_engine import ShipEngine
+    from ..models.ship_frame import ShipFrame
+    from ..models.ship_fuel import ShipFuel
+    from ..models.ship_module import ShipModule
+    from ..models.ship_mount import ShipMount
+    from ..models.ship_nav import ShipNav
+    from ..models.ship_reactor import ShipReactor
+    from ..models.ship_registration import ShipRegistration
+
 
 T = TypeVar("T", bound="Ship")
 
 
-class Ship(BaseModel):
+@_attrs_define
+class Ship:
     """Ship details.
 
     Attributes:
@@ -45,27 +51,140 @@ class Ship(BaseModel):
             or action.
     """
 
-    symbol: str = Field(alias="symbol")
-    registration: "ShipRegistration" = Field(alias="registration")
-    nav: "ShipNav" = Field(alias="nav")
-    crew: "ShipCrew" = Field(alias="crew")
-    frame: "ShipFrame" = Field(alias="frame")
-    reactor: "ShipReactor" = Field(alias="reactor")
-    engine: "ShipEngine" = Field(alias="engine")
-    cooldown: "Cooldown" = Field(alias="cooldown")
-    modules: List["ShipModule"] = Field(alias="modules")
-    mounts: List["ShipMount"] = Field(alias="mounts")
-    cargo: "ShipCargo" = Field(alias="cargo")
-    fuel: "ShipFuel" = Field(alias="fuel")
-    additional_properties: Dict[str, Any] = {}
+    symbol: str
+    registration: "ShipRegistration"
+    nav: "ShipNav"
+    crew: "ShipCrew"
+    frame: "ShipFrame"
+    reactor: "ShipReactor"
+    engine: "ShipEngine"
+    cooldown: "Cooldown"
+    modules: List["ShipModule"]
+    mounts: List["ShipMount"]
+    cargo: "ShipCargo"
+    fuel: "ShipFuel"
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        symbol = self.symbol
+        registration = self.registration.to_dict()
+
+        nav = self.nav.to_dict()
+
+        crew = self.crew.to_dict()
+
+        frame = self.frame.to_dict()
+
+        reactor = self.reactor.to_dict()
+
+        engine = self.engine.to_dict()
+
+        cooldown = self.cooldown.to_dict()
+
+        modules = []
+        for modules_item_data in self.modules:
+            modules_item = modules_item_data.to_dict()
+
+            modules.append(modules_item)
+
+        mounts = []
+        for mounts_item_data in self.mounts:
+            mounts_item = mounts_item_data.to_dict()
+
+            mounts.append(mounts_item)
+
+        cargo = self.cargo.to_dict()
+
+        fuel = self.fuel.to_dict()
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "symbol": symbol,
+                "registration": registration,
+                "nav": nav,
+                "crew": crew,
+                "frame": frame,
+                "reactor": reactor,
+                "engine": engine,
+                "cooldown": cooldown,
+                "modules": modules,
+                "mounts": mounts,
+                "cargo": cargo,
+                "fuel": fuel,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.cooldown import Cooldown
+        from ..models.ship_cargo import ShipCargo
+        from ..models.ship_crew import ShipCrew
+        from ..models.ship_engine import ShipEngine
+        from ..models.ship_frame import ShipFrame
+        from ..models.ship_fuel import ShipFuel
+        from ..models.ship_module import ShipModule
+        from ..models.ship_mount import ShipMount
+        from ..models.ship_nav import ShipNav
+        from ..models.ship_reactor import ShipReactor
+        from ..models.ship_registration import ShipRegistration
+
+        d = src_dict.copy()
+        symbol = d.pop("symbol")
+
+        registration = ShipRegistration.from_dict(d.pop("registration"))
+
+        nav = ShipNav.from_dict(d.pop("nav"))
+
+        crew = ShipCrew.from_dict(d.pop("crew"))
+
+        frame = ShipFrame.from_dict(d.pop("frame"))
+
+        reactor = ShipReactor.from_dict(d.pop("reactor"))
+
+        engine = ShipEngine.from_dict(d.pop("engine"))
+
+        cooldown = Cooldown.from_dict(d.pop("cooldown"))
+
+        modules = []
+        _modules = d.pop("modules")
+        for modules_item_data in _modules:
+            modules_item = ShipModule.from_dict(modules_item_data)
+
+            modules.append(modules_item)
+
+        mounts = []
+        _mounts = d.pop("mounts")
+        for mounts_item_data in _mounts:
+            mounts_item = ShipMount.from_dict(mounts_item_data)
+
+            mounts.append(mounts_item)
+
+        cargo = ShipCargo.from_dict(d.pop("cargo"))
+
+        fuel = ShipFuel.from_dict(d.pop("fuel"))
+
+        ship = cls(
+            symbol=symbol,
+            registration=registration,
+            nav=nav,
+            crew=crew,
+            frame=frame,
+            reactor=reactor,
+            engine=engine,
+            cooldown=cooldown,
+            modules=modules,
+            mounts=mounts,
+            cargo=cargo,
+            fuel=fuel,
+        )
+
+        ship.additional_properties = d
+        return ship
 
     @property
     def additional_keys(self) -> List[str]:

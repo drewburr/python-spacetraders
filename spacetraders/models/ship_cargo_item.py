@@ -2,18 +2,20 @@ from typing import (
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 from ..models.trade_symbol import TradeSymbol
-from ..types import Unset
 
 T = TypeVar("T", bound="ShipCargoItem")
 
 
-class ShipCargoItem(BaseModel):
+@_attrs_define
+class ShipCargoItem:
     """The type of cargo item and the number of units.
 
     Attributes:
@@ -23,19 +25,52 @@ class ShipCargoItem(BaseModel):
         units (int): The number of units of the cargo item.
     """
 
-    symbol: TradeSymbol = Field(alias="symbol")
-    name: str = Field(alias="name")
-    description: str = Field(alias="description")
-    units: int = Field(alias="units")
-    additional_properties: Dict[str, Any] = {}
+    symbol: TradeSymbol
+    name: str
+    description: str
+    units: int
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
+        symbol = self.symbol.value
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        name = self.name
+        description = self.description
+        units = self.units
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "symbol": symbol,
+                "name": name,
+                "description": description,
+                "units": units,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        d = src_dict.copy()
+        symbol = TradeSymbol(d.pop("symbol"))
+
+        name = d.pop("name")
+
+        description = d.pop("description")
+
+        units = d.pop("units")
+
+        ship_cargo_item = cls(
+            symbol=symbol,
+            name=name,
+            description=description,
+            units=units,
+        )
+
+        ship_cargo_item.additional_properties = d
+        return ship_cargo_item
 
     @property
     def additional_keys(self) -> List[str]:

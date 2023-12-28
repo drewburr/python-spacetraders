@@ -2,18 +2,20 @@ from typing import (
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 from ..models.trade_symbol import TradeSymbol
-from ..types import Unset
 
 T = TypeVar("T", bound="SiphonYield")
 
 
-class SiphonYield(BaseModel):
+@_attrs_define
+class SiphonYield:
     """A yield from the siphon operation.
 
     Attributes:
@@ -21,17 +23,40 @@ class SiphonYield(BaseModel):
         units (int): The number of units siphoned that were placed into the ship's cargo hold.
     """
 
-    symbol: TradeSymbol = Field(alias="symbol")
-    units: int = Field(alias="units")
-    additional_properties: Dict[str, Any] = {}
+    symbol: TradeSymbol
+    units: int
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
+        symbol = self.symbol.value
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        units = self.units
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "symbol": symbol,
+                "units": units,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        d = src_dict.copy()
+        symbol = TradeSymbol(d.pop("symbol"))
+
+        units = d.pop("units")
+
+        siphon_yield = cls(
+            symbol=symbol,
+            units=units,
+        )
+
+        siphon_yield.additional_properties = d
+        return siphon_yield
 
     @property
     def additional_keys(self) -> List[str]:

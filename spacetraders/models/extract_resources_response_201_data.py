@@ -1,21 +1,27 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
-from ..models.cooldown import Cooldown
-from ..models.extraction import Extraction
-from ..models.ship_cargo import ShipCargo
-from ..types import Unset
+
+if TYPE_CHECKING:
+    from ..models.cooldown import Cooldown
+    from ..models.extraction import Extraction
+    from ..models.ship_cargo import ShipCargo
+
 
 T = TypeVar("T", bound="ExtractResourcesResponse201Data")
 
 
-class ExtractResourcesResponse201Data(BaseModel):
+@_attrs_define
+class ExtractResourcesResponse201Data:
     """
     Attributes:
         cooldown (Cooldown): A cooldown is a period of time in which a ship cannot perform certain actions.
@@ -23,18 +29,52 @@ class ExtractResourcesResponse201Data(BaseModel):
         cargo (ShipCargo): Ship cargo details.
     """
 
-    cooldown: "Cooldown" = Field(alias="cooldown")
-    extraction: "Extraction" = Field(alias="extraction")
-    cargo: "ShipCargo" = Field(alias="cargo")
-    additional_properties: Dict[str, Any] = {}
+    cooldown: "Cooldown"
+    extraction: "Extraction"
+    cargo: "ShipCargo"
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        cooldown = self.cooldown.to_dict()
+
+        extraction = self.extraction.to_dict()
+
+        cargo = self.cargo.to_dict()
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "cooldown": cooldown,
+                "extraction": extraction,
+                "cargo": cargo,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.cooldown import Cooldown
+        from ..models.extraction import Extraction
+        from ..models.ship_cargo import ShipCargo
+
+        d = src_dict.copy()
+        cooldown = Cooldown.from_dict(d.pop("cooldown"))
+
+        extraction = Extraction.from_dict(d.pop("extraction"))
+
+        cargo = ShipCargo.from_dict(d.pop("cargo"))
+
+        extract_resources_response_201_data = cls(
+            cooldown=cooldown,
+            extraction=extraction,
+            cargo=cargo,
+        )
+
+        extract_resources_response_201_data.additional_properties = d
+        return extract_resources_response_201_data
 
     @property
     def additional_keys(self) -> List[str]:

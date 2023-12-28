@@ -1,4 +1,3 @@
-import json
 from http import HTTPStatus
 from typing import Any, Dict, List, Optional, Union
 
@@ -9,25 +8,17 @@ from ...client import AuthenticatedClient, Client
 from ...models.get_system_waypoints_response_200 import GetSystemWaypointsResponse200
 from ...models.waypoint_trait_symbol import WaypointTraitSymbol
 from ...models.waypoint_type import WaypointType
-from ...types import UNSET, ApiError, Error, Response, Unset
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     system_symbol: str,
     *,
-    _client: AuthenticatedClient,
     page: Union[Unset, None, int] = 1,
     limit: Union[Unset, None, int] = 10,
     type: Union[Unset, None, WaypointType] = UNSET,
     traits: Union[List[WaypointTraitSymbol], None, Unset, WaypointTraitSymbol] = UNSET,
 ) -> Dict[str, Any]:
-    url = "{}/systems/{systemSymbol}/waypoints".format(
-        _client.base_url, systemSymbol=system_symbol
-    )
-
-    headers: Dict[str, str] = _client.get_headers()
-    cookies: Dict[str, Any] = _client.get_cookies()
-
     params: Dict[str, Any] = {}
     params["page"] = page
 
@@ -65,20 +56,18 @@ def _get_kwargs(
 
     return {
         "method": "get",
-        "url": url,
-        "headers": headers,
-        "cookies": cookies,
-        "timeout": _client.get_timeout(),
-        "follow_redirects": _client.follow_redirects,
+        "url": "/systems/{systemSymbol}/waypoints".format(
+            systemSymbol=system_symbol,
+        ),
         "params": params,
     }
 
 
 def _parse_response(
-    *, client: Client, response: httpx.Response
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
 ) -> Optional[GetSystemWaypointsResponse200]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = GetSystemWaypointsResponse200(**response.json())
+        response_200 = GetSystemWaypointsResponse200.from_dict(response.json())
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -88,7 +77,7 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Client, response: httpx.Response
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
 ) -> Response[GetSystemWaypointsResponse200]:
     return Response(
         status_code=HTTPStatus(response.status_code),
@@ -101,8 +90,7 @@ def _build_response(
 def sync_detailed(
     system_symbol: str,
     *,
-    _client: AuthenticatedClient,
-    raise_on_error: Optional[bool] = None,
+    client: AuthenticatedClient,
     page: Union[Unset, None, int] = 1,
     limit: Union[Unset, None, int] = 10,
     type: Union[Unset, None, WaypointType] = UNSET,
@@ -131,50 +119,63 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         system_symbol=system_symbol,
-        _client=_client,
         page=page,
         limit=limit,
         type=type,
         traits=traits,
     )
 
-    response = httpx.request(
-        verify=_client.verify_ssl,
+    response = client.get_httpx_client().request(
         **kwargs,
     )
 
-    resp = _build_response(client=_client, response=response)
+    return _build_response(client=client, response=response)
 
-    raise_on_error = (
-        raise_on_error if raise_on_error is not None else _client.raise_on_error
-    )
-    if not raise_on_error:
-        return resp
 
-    if resp.status_code < 300:
-        return resp.parsed.data
+def sync(
+    system_symbol: str,
+    *,
+    client: AuthenticatedClient,
+    page: Union[Unset, None, int] = 1,
+    limit: Union[Unset, None, int] = 10,
+    type: Union[Unset, None, WaypointType] = UNSET,
+    traits: Union[List[WaypointTraitSymbol], None, Unset, WaypointTraitSymbol] = UNSET,
+) -> Optional[GetSystemWaypointsResponse200]:
+    """List Waypoints in System
 
-    try:
-        error = json.loads(resp.content)
-        details = error.get("error", {})
-    except Exception:
-        details = {"message": resp.content}
-    raise ApiError(
-        Error(
-            status_code=resp.status_code,
-            message=details.get("message"),
-            code=details.get("code"),
-            data=details.get("data"),
-            headers=resp.headers,
-        )
-    )
+     Return a paginated list of all of the waypoints for a given system.
+
+    If a waypoint is uncharted, it will return the `Uncharted` trait instead of its actual traits.
+
+    Args:
+        system_symbol (str):
+        page (Union[Unset, None, int]):  Default: 1.
+        limit (Union[Unset, None, int]):  Default: 10.
+        type (Union[Unset, None, WaypointType]): The type of waypoint.
+        traits (Union[List[WaypointTraitSymbol], None, Unset, WaypointTraitSymbol]):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        GetSystemWaypointsResponse200
+    """
+
+    return sync_detailed(
+        system_symbol=system_symbol,
+        client=client,
+        page=page,
+        limit=limit,
+        type=type,
+        traits=traits,
+    ).parsed
 
 
 async def asyncio_detailed(
     system_symbol: str,
     *,
-    _client: AuthenticatedClient,
-    raise_on_error: Optional[bool] = None,
+    client: AuthenticatedClient,
     page: Union[Unset, None, int] = 1,
     limit: Union[Unset, None, int] = 10,
     type: Union[Unset, None, WaypointType] = UNSET,
@@ -203,38 +204,54 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         system_symbol=system_symbol,
-        _client=_client,
         page=page,
         limit=limit,
         type=type,
         traits=traits,
     )
 
-    async with httpx.AsyncClient(verify=_client.verify_ssl) as c:
-        response = await c.request(**kwargs)
+    response = await client.get_async_httpx_client().request(**kwargs)
 
-    resp = _build_response(client=_client, response=response)
+    return _build_response(client=client, response=response)
 
-    raise_on_error = (
-        raise_on_error if raise_on_error is not None else _client.raise_on_error
-    )
-    if not raise_on_error:
-        return resp
 
-    if resp.status_code < 300:
-        return resp.parsed.data
+async def asyncio(
+    system_symbol: str,
+    *,
+    client: AuthenticatedClient,
+    page: Union[Unset, None, int] = 1,
+    limit: Union[Unset, None, int] = 10,
+    type: Union[Unset, None, WaypointType] = UNSET,
+    traits: Union[List[WaypointTraitSymbol], None, Unset, WaypointTraitSymbol] = UNSET,
+) -> Optional[GetSystemWaypointsResponse200]:
+    """List Waypoints in System
 
-    try:
-        error = json.loads(resp.content)
-        details = error.get("error", {})
-    except Exception:
-        details = {"message": resp.content}
-    raise ApiError(
-        Error(
-            status_code=resp.status_code,
-            message=details.get("message"),
-            code=details.get("code"),
-            data=details.get("data"),
-            headers=resp.headers,
+     Return a paginated list of all of the waypoints for a given system.
+
+    If a waypoint is uncharted, it will return the `Uncharted` trait instead of its actual traits.
+
+    Args:
+        system_symbol (str):
+        page (Union[Unset, None, int]):  Default: 1.
+        limit (Union[Unset, None, int]):  Default: 10.
+        type (Union[Unset, None, WaypointType]): The type of waypoint.
+        traits (Union[List[WaypointTraitSymbol], None, Unset, WaypointTraitSymbol]):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        GetSystemWaypointsResponse200
+    """
+
+    return (
+        await asyncio_detailed(
+            system_symbol=system_symbol,
+            client=client,
+            page=page,
+            limit=limit,
+            type=type,
+            traits=traits,
         )
-    )
+    ).parsed

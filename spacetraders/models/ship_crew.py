@@ -2,18 +2,20 @@ from typing import (
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 from ..models.ship_crew_rotation import ShipCrewRotation
-from ..types import Unset
 
 T = TypeVar("T", bound="ShipCrew")
 
 
-class ShipCrew(BaseModel):
+@_attrs_define
+class ShipCrew:
     """The ship's crew service and maintain the ship's systems and equipment.
 
     Attributes:
@@ -28,21 +30,64 @@ class ShipCrew(BaseModel):
             civilized waypoint.
     """
 
-    current: int = Field(alias="current")
-    required: int = Field(alias="required")
-    capacity: int = Field(alias="capacity")
-    morale: int = Field(alias="morale")
-    wages: int = Field(alias="wages")
-    rotation: ShipCrewRotation = Field(ShipCrewRotation.STRICT, alias="rotation")
-    additional_properties: Dict[str, Any] = {}
+    current: int
+    required: int
+    capacity: int
+    morale: int
+    wages: int
+    rotation: ShipCrewRotation = ShipCrewRotation.STRICT
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
+        current = self.current
+        required = self.required
+        capacity = self.capacity
+        rotation = self.rotation.value
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        morale = self.morale
+        wages = self.wages
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "current": current,
+                "required": required,
+                "capacity": capacity,
+                "rotation": rotation,
+                "morale": morale,
+                "wages": wages,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        d = src_dict.copy()
+        current = d.pop("current")
+
+        required = d.pop("required")
+
+        capacity = d.pop("capacity")
+
+        rotation = ShipCrewRotation(d.pop("rotation"))
+
+        morale = d.pop("morale")
+
+        wages = d.pop("wages")
+
+        ship_crew = cls(
+            current=current,
+            required=required,
+            capacity=capacity,
+            rotation=rotation,
+            morale=morale,
+            wages=wages,
+        )
+
+        ship_crew.additional_properties = d
+        return ship_crew
 
     @property
     def additional_keys(self) -> List[str]:

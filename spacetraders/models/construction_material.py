@@ -2,18 +2,20 @@ from typing import (
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 from ..models.trade_symbol import TradeSymbol
-from ..types import Unset
 
 T = TypeVar("T", bound="ConstructionMaterial")
 
 
-class ConstructionMaterial(BaseModel):
+@_attrs_define
+class ConstructionMaterial:
     """The details of the required construction materials for a given waypoint under construction.
 
     Attributes:
@@ -22,18 +24,46 @@ class ConstructionMaterial(BaseModel):
         fulfilled (int): The number of units fulfilled toward the required amount.
     """
 
-    trade_symbol: TradeSymbol = Field(alias="tradeSymbol")
-    required: int = Field(alias="required")
-    fulfilled: int = Field(alias="fulfilled")
-    additional_properties: Dict[str, Any] = {}
+    trade_symbol: TradeSymbol
+    required: int
+    fulfilled: int
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
+        trade_symbol = self.trade_symbol.value
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        required = self.required
+        fulfilled = self.fulfilled
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "tradeSymbol": trade_symbol,
+                "required": required,
+                "fulfilled": fulfilled,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        d = src_dict.copy()
+        trade_symbol = TradeSymbol(d.pop("tradeSymbol"))
+
+        required = d.pop("required")
+
+        fulfilled = d.pop("fulfilled")
+
+        construction_material = cls(
+            trade_symbol=trade_symbol,
+            required=required,
+            fulfilled=fulfilled,
+        )
+
+        construction_material.additional_properties = d
+        return construction_material
 
     @property
     def additional_keys(self) -> List[str]:

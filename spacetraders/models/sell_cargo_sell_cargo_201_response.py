@@ -1,36 +1,64 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
-from ..models.sell_cargo_sell_cargo_201_response_data import (
-    SellCargoSellCargo201ResponseData,
-)
-from ..types import Unset
+
+if TYPE_CHECKING:
+    from ..models.sell_cargo_sell_cargo_201_response_data import (
+        SellCargoSellCargo201ResponseData,
+    )
+
 
 T = TypeVar("T", bound="SellCargoSellCargo201Response")
 
 
-class SellCargoSellCargo201Response(BaseModel):
+@_attrs_define
+class SellCargoSellCargo201Response:
     """
     Attributes:
         data (SellCargoSellCargo201ResponseData):
     """
 
-    data: "SellCargoSellCargo201ResponseData" = Field(alias="data")
-    additional_properties: Dict[str, Any] = {}
+    data: "SellCargoSellCargo201ResponseData"
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        data = self.data.to_dict()
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "data": data,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.sell_cargo_sell_cargo_201_response_data import (
+            SellCargoSellCargo201ResponseData,
+        )
+
+        d = src_dict.copy()
+        data = SellCargoSellCargo201ResponseData.from_dict(d.pop("data"))
+
+        sell_cargo_sell_cargo_201_response = cls(
+            data=data,
+        )
+
+        sell_cargo_sell_cargo_201_response.additional_properties = d
+        return sell_cargo_sell_cargo_201_response
 
     @property
     def additional_keys(self) -> List[str]:

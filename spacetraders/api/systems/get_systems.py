@@ -1,4 +1,3 @@
-import json
 from http import HTTPStatus
 from typing import Any, Dict, Optional, Union
 
@@ -7,20 +6,14 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.get_systems_response_200 import GetSystemsResponse200
-from ...types import UNSET, ApiError, Error, Response, Unset
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     *,
-    _client: AuthenticatedClient,
     page: Union[Unset, None, int] = 1,
     limit: Union[Unset, None, int] = 10,
 ) -> Dict[str, Any]:
-    url = "{}/systems".format(_client.base_url)
-
-    headers: Dict[str, str] = _client.get_headers()
-    cookies: Dict[str, Any] = _client.get_cookies()
-
     params: Dict[str, Any] = {}
     params["page"] = page
 
@@ -30,20 +23,16 @@ def _get_kwargs(
 
     return {
         "method": "get",
-        "url": url,
-        "headers": headers,
-        "cookies": cookies,
-        "timeout": _client.get_timeout(),
-        "follow_redirects": _client.follow_redirects,
+        "url": "/systems",
         "params": params,
     }
 
 
 def _parse_response(
-    *, client: Client, response: httpx.Response
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
 ) -> Optional[GetSystemsResponse200]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = GetSystemsResponse200(**response.json())
+        response_200 = GetSystemsResponse200.from_dict(response.json())
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -53,7 +42,7 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Client, response: httpx.Response
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
 ) -> Response[GetSystemsResponse200]:
     return Response(
         status_code=HTTPStatus(response.status_code),
@@ -65,8 +54,7 @@ def _build_response(
 
 def sync_detailed(
     *,
-    _client: AuthenticatedClient,
-    raise_on_error: Optional[bool] = None,
+    client: AuthenticatedClient,
     page: Union[Unset, None, int] = 1,
     limit: Union[Unset, None, int] = 10,
 ) -> Response[GetSystemsResponse200]:
@@ -87,47 +75,49 @@ def sync_detailed(
     """
 
     kwargs = _get_kwargs(
-        _client=_client,
         page=page,
         limit=limit,
     )
 
-    response = httpx.request(
-        verify=_client.verify_ssl,
+    response = client.get_httpx_client().request(
         **kwargs,
     )
 
-    resp = _build_response(client=_client, response=response)
+    return _build_response(client=client, response=response)
 
-    raise_on_error = (
-        raise_on_error if raise_on_error is not None else _client.raise_on_error
-    )
-    if not raise_on_error:
-        return resp
 
-    if resp.status_code < 300:
-        return resp.parsed.data
+def sync(
+    *,
+    client: AuthenticatedClient,
+    page: Union[Unset, None, int] = 1,
+    limit: Union[Unset, None, int] = 10,
+) -> Optional[GetSystemsResponse200]:
+    """List Systems
 
-    try:
-        error = json.loads(resp.content)
-        details = error.get("error", {})
-    except Exception:
-        details = {"message": resp.content}
-    raise ApiError(
-        Error(
-            status_code=resp.status_code,
-            message=details.get("message"),
-            code=details.get("code"),
-            data=details.get("data"),
-            headers=resp.headers,
-        )
-    )
+     Return a paginated list of all systems.
+
+    Args:
+        page (Union[Unset, None, int]):  Default: 1.
+        limit (Union[Unset, None, int]):  Default: 10.
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        GetSystemsResponse200
+    """
+
+    return sync_detailed(
+        client=client,
+        page=page,
+        limit=limit,
+    ).parsed
 
 
 async def asyncio_detailed(
     *,
-    _client: AuthenticatedClient,
-    raise_on_error: Optional[bool] = None,
+    client: AuthenticatedClient,
     page: Union[Unset, None, int] = 1,
     limit: Union[Unset, None, int] = 10,
 ) -> Response[GetSystemsResponse200]:
@@ -148,36 +138,41 @@ async def asyncio_detailed(
     """
 
     kwargs = _get_kwargs(
-        _client=_client,
         page=page,
         limit=limit,
     )
 
-    async with httpx.AsyncClient(verify=_client.verify_ssl) as c:
-        response = await c.request(**kwargs)
+    response = await client.get_async_httpx_client().request(**kwargs)
 
-    resp = _build_response(client=_client, response=response)
+    return _build_response(client=client, response=response)
 
-    raise_on_error = (
-        raise_on_error if raise_on_error is not None else _client.raise_on_error
-    )
-    if not raise_on_error:
-        return resp
 
-    if resp.status_code < 300:
-        return resp.parsed.data
+async def asyncio(
+    *,
+    client: AuthenticatedClient,
+    page: Union[Unset, None, int] = 1,
+    limit: Union[Unset, None, int] = 10,
+) -> Optional[GetSystemsResponse200]:
+    """List Systems
 
-    try:
-        error = json.loads(resp.content)
-        details = error.get("error", {})
-    except Exception:
-        details = {"message": resp.content}
-    raise ApiError(
-        Error(
-            status_code=resp.status_code,
-            message=details.get("message"),
-            code=details.get("code"),
-            data=details.get("data"),
-            headers=resp.headers,
+     Return a paginated list of all systems.
+
+    Args:
+        page (Union[Unset, None, int]):  Default: 1.
+        limit (Union[Unset, None, int]):  Default: 10.
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        GetSystemsResponse200
+    """
+
+    return (
+        await asyncio_detailed(
+            client=client,
+            page=page,
+            limit=limit,
         )
-    )
+    ).parsed

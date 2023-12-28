@@ -1,21 +1,28 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
     Union,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
-from ..models.waypoint_orbital import WaypointOrbital
 from ..models.waypoint_type import WaypointType
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.waypoint_orbital import WaypointOrbital
+
 
 T = TypeVar("T", bound="SystemWaypoint")
 
 
-class SystemWaypoint(BaseModel):
+@_attrs_define
+class SystemWaypoint:
     """
     Attributes:
         symbol (str): The symbol of the waypoint.
@@ -29,21 +36,78 @@ class SystemWaypoint(BaseModel):
             waypoint. Otherwise this value is undefined.
     """
 
-    symbol: str = Field(alias="symbol")
-    type: WaypointType = Field(alias="type")
-    x: int = Field(alias="x")
-    y: int = Field(alias="y")
-    orbitals: List["WaypointOrbital"] = Field(alias="orbitals")
-    orbits: Union[Unset, str] = Field(UNSET, alias="orbits")
-    additional_properties: Dict[str, Any] = {}
+    symbol: str
+    type: WaypointType
+    x: int
+    y: int
+    orbitals: List["WaypointOrbital"]
+    orbits: Union[Unset, str] = UNSET
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        symbol = self.symbol
+        type = self.type.value
+
+        x = self.x
+        y = self.y
+        orbitals = []
+        for orbitals_item_data in self.orbitals:
+            orbitals_item = orbitals_item_data.to_dict()
+
+            orbitals.append(orbitals_item)
+
+        orbits = self.orbits
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "symbol": symbol,
+                "type": type,
+                "x": x,
+                "y": y,
+                "orbitals": orbitals,
+            }
+        )
+        if orbits is not UNSET:
+            field_dict["orbits"] = orbits
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.waypoint_orbital import WaypointOrbital
+
+        d = src_dict.copy()
+        symbol = d.pop("symbol")
+
+        type = WaypointType(d.pop("type"))
+
+        x = d.pop("x")
+
+        y = d.pop("y")
+
+        orbitals = []
+        _orbitals = d.pop("orbitals")
+        for orbitals_item_data in _orbitals:
+            orbitals_item = WaypointOrbital.from_dict(orbitals_item_data)
+
+            orbitals.append(orbitals_item)
+
+        orbits = d.pop("orbits", UNSET)
+
+        system_waypoint = cls(
+            symbol=symbol,
+            type=type,
+            x=x,
+            y=y,
+            orbitals=orbitals,
+            orbits=orbits,
+        )
+
+        system_waypoint.additional_properties = d
+        return system_waypoint
 
     @property
     def additional_keys(self) -> List[str]:

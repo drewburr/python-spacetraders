@@ -1,36 +1,68 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
     Union,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
-from ..models.survey import Survey
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.survey import Survey
+
 
 T = TypeVar("T", bound="ExtractResourcesJsonBody")
 
 
-class ExtractResourcesJsonBody(BaseModel):
+@_attrs_define
+class ExtractResourcesJsonBody:
     """
     Attributes:
         survey (Union[Unset, Survey]): A resource survey of a waypoint, detailing a specific extraction location and the
             types of resources that can be found there.
     """
 
-    survey: Union[Unset, "Survey"] = Field(UNSET, alias="survey")
-    additional_properties: Dict[str, Any] = {}
+    survey: Union[Unset, "Survey"] = UNSET
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        survey: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.survey, Unset):
+            survey = self.survey.to_dict()
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update({})
+        if survey is not UNSET:
+            field_dict["survey"] = survey
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.survey import Survey
+
+        d = src_dict.copy()
+        _survey = d.pop("survey", UNSET)
+        survey: Union[Unset, Survey]
+        if isinstance(_survey, Unset):
+            survey = UNSET
+        else:
+            survey = Survey.from_dict(_survey)
+
+        extract_resources_json_body = cls(
+            survey=survey,
+        )
+
+        extract_resources_json_body.additional_properties = d
+        return extract_resources_json_body
 
     @property
     def additional_keys(self) -> List[str]:

@@ -2,17 +2,19 @@ from typing import (
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
-from ..types import Unset
 
 T = TypeVar("T", bound="ContractPayment")
 
 
-class ContractPayment(BaseModel):
+@_attrs_define
+class ContractPayment:
     """Payments for the contract.
 
     Attributes:
@@ -20,17 +22,39 @@ class ContractPayment(BaseModel):
         on_fulfilled (int): The amount of credits received when the contract is fulfilled.
     """
 
-    on_accepted: int = Field(alias="onAccepted")
-    on_fulfilled: int = Field(alias="onFulfilled")
-    additional_properties: Dict[str, Any] = {}
+    on_accepted: int
+    on_fulfilled: int
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
+        on_accepted = self.on_accepted
+        on_fulfilled = self.on_fulfilled
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "onAccepted": on_accepted,
+                "onFulfilled": on_fulfilled,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        d = src_dict.copy()
+        on_accepted = d.pop("onAccepted")
+
+        on_fulfilled = d.pop("onFulfilled")
+
+        contract_payment = cls(
+            on_accepted=on_accepted,
+            on_fulfilled=on_fulfilled,
+        )
+
+        contract_payment.additional_properties = d
+        return contract_payment
 
     @property
     def additional_keys(self) -> List[str]:

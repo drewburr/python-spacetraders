@@ -1,37 +1,79 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
-from ..models.cooldown import Cooldown
-from ..models.survey import Survey
-from ..types import Unset
+
+if TYPE_CHECKING:
+    from ..models.cooldown import Cooldown
+    from ..models.survey import Survey
+
 
 T = TypeVar("T", bound="CreateSurveyResponse201Data")
 
 
-class CreateSurveyResponse201Data(BaseModel):
+@_attrs_define
+class CreateSurveyResponse201Data:
     """
     Attributes:
         cooldown (Cooldown): A cooldown is a period of time in which a ship cannot perform certain actions.
         surveys (List['Survey']): Surveys created by this action.
     """
 
-    cooldown: "Cooldown" = Field(alias="cooldown")
-    surveys: List["Survey"] = Field(alias="surveys")
-    additional_properties: Dict[str, Any] = {}
+    cooldown: "Cooldown"
+    surveys: List["Survey"]
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        cooldown = self.cooldown.to_dict()
+
+        surveys = []
+        for surveys_item_data in self.surveys:
+            surveys_item = surveys_item_data.to_dict()
+
+            surveys.append(surveys_item)
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "cooldown": cooldown,
+                "surveys": surveys,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.cooldown import Cooldown
+        from ..models.survey import Survey
+
+        d = src_dict.copy()
+        cooldown = Cooldown.from_dict(d.pop("cooldown"))
+
+        surveys = []
+        _surveys = d.pop("surveys")
+        for surveys_item_data in _surveys:
+            surveys_item = Survey.from_dict(surveys_item_data)
+
+            surveys.append(surveys_item)
+
+        create_survey_response_201_data = cls(
+            cooldown=cooldown,
+            surveys=surveys,
+        )
+
+        create_survey_response_201_data.additional_properties = d
+        return create_survey_response_201_data
 
     @property
     def additional_keys(self) -> List[str]:

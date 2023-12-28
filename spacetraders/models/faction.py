@@ -1,20 +1,26 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 from ..models.faction_symbol import FactionSymbol
-from ..models.faction_trait import FactionTrait
-from ..types import Unset
+
+if TYPE_CHECKING:
+    from ..models.faction_trait import FactionTrait
+
 
 T = TypeVar("T", bound="Faction")
 
 
-class Faction(BaseModel):
+@_attrs_define
+class Faction:
     """Faction details.
 
     Attributes:
@@ -26,21 +32,77 @@ class Faction(BaseModel):
         is_recruiting (bool): Whether or not the faction is currently recruiting new agents.
     """
 
-    symbol: FactionSymbol = Field(alias="symbol")
-    name: str = Field(alias="name")
-    description: str = Field(alias="description")
-    headquarters: str = Field(alias="headquarters")
-    traits: List["FactionTrait"] = Field(alias="traits")
-    is_recruiting: bool = Field(alias="isRecruiting")
-    additional_properties: Dict[str, Any] = {}
+    symbol: FactionSymbol
+    name: str
+    description: str
+    headquarters: str
+    traits: List["FactionTrait"]
+    is_recruiting: bool
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        symbol = self.symbol.value
+
+        name = self.name
+        description = self.description
+        headquarters = self.headquarters
+        traits = []
+        for traits_item_data in self.traits:
+            traits_item = traits_item_data.to_dict()
+
+            traits.append(traits_item)
+
+        is_recruiting = self.is_recruiting
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "symbol": symbol,
+                "name": name,
+                "description": description,
+                "headquarters": headquarters,
+                "traits": traits,
+                "isRecruiting": is_recruiting,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.faction_trait import FactionTrait
+
+        d = src_dict.copy()
+        symbol = FactionSymbol(d.pop("symbol"))
+
+        name = d.pop("name")
+
+        description = d.pop("description")
+
+        headquarters = d.pop("headquarters")
+
+        traits = []
+        _traits = d.pop("traits")
+        for traits_item_data in _traits:
+            traits_item = FactionTrait.from_dict(traits_item_data)
+
+            traits.append(traits_item)
+
+        is_recruiting = d.pop("isRecruiting")
+
+        faction = cls(
+            symbol=symbol,
+            name=name,
+            description=description,
+            headquarters=headquarters,
+            traits=traits,
+            is_recruiting=is_recruiting,
+        )
+
+        faction.additional_properties = d
+        return faction
 
     @property
     def additional_keys(self) -> List[str]:

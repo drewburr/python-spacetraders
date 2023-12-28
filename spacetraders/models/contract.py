@@ -1,22 +1,30 @@
 import datetime
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
     Union,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
+from dateutil.parser import isoparse
 
-from ..models.contract_terms import ContractTerms
 from ..models.contract_type import ContractType
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.contract_terms import ContractTerms
+
 
 T = TypeVar("T", bound="Contract")
 
 
-class Contract(BaseModel):
+@_attrs_define
+class Contract:
     """Contract details.
 
     Attributes:
@@ -31,25 +39,89 @@ class Contract(BaseModel):
             be accepted
     """
 
-    id: str = Field(alias="id")
-    faction_symbol: str = Field(alias="factionSymbol")
-    type: ContractType = Field(alias="type")
-    terms: "ContractTerms" = Field(alias="terms")
-    expiration: datetime.datetime = Field(alias="expiration")
-    accepted: bool = Field(False, alias="accepted")
-    fulfilled: bool = Field(False, alias="fulfilled")
-    deadline_to_accept: Union[Unset, datetime.datetime] = Field(
-        UNSET, alias="deadlineToAccept"
-    )
-    additional_properties: Dict[str, Any] = {}
+    id: str
+    faction_symbol: str
+    type: ContractType
+    terms: "ContractTerms"
+    expiration: datetime.datetime
+    accepted: bool = False
+    fulfilled: bool = False
+    deadline_to_accept: Union[Unset, datetime.datetime] = UNSET
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        id = self.id
+        faction_symbol = self.faction_symbol
+        type = self.type.value
+
+        terms = self.terms.to_dict()
+
+        accepted = self.accepted
+        fulfilled = self.fulfilled
+        expiration = self.expiration.isoformat()
+
+        deadline_to_accept: Union[Unset, str] = UNSET
+        if not isinstance(self.deadline_to_accept, Unset):
+            deadline_to_accept = self.deadline_to_accept.isoformat()
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "id": id,
+                "factionSymbol": faction_symbol,
+                "type": type,
+                "terms": terms,
+                "accepted": accepted,
+                "fulfilled": fulfilled,
+                "expiration": expiration,
+            }
+        )
+        if deadline_to_accept is not UNSET:
+            field_dict["deadlineToAccept"] = deadline_to_accept
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.contract_terms import ContractTerms
+
+        d = src_dict.copy()
+        id = d.pop("id")
+
+        faction_symbol = d.pop("factionSymbol")
+
+        type = ContractType(d.pop("type"))
+
+        terms = ContractTerms.from_dict(d.pop("terms"))
+
+        accepted = d.pop("accepted")
+
+        fulfilled = d.pop("fulfilled")
+
+        expiration = isoparse(d.pop("expiration"))
+
+        _deadline_to_accept = d.pop("deadlineToAccept", UNSET)
+        deadline_to_accept: Union[Unset, datetime.datetime]
+        if isinstance(_deadline_to_accept, Unset):
+            deadline_to_accept = UNSET
+        else:
+            deadline_to_accept = isoparse(_deadline_to_accept)
+
+        contract = cls(
+            id=id,
+            faction_symbol=faction_symbol,
+            type=type,
+            terms=terms,
+            accepted=accepted,
+            fulfilled=fulfilled,
+            expiration=expiration,
+            deadline_to_accept=deadline_to_accept,
+        )
+
+        contract.additional_properties = d
+        return contract
 
     @property
     def additional_keys(self) -> List[str]:

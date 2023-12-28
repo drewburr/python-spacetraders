@@ -1,22 +1,28 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
+    Type,
     TypeVar,
 )
 
-from pydantic import BaseModel, Field
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
-from ..models.agent import Agent
-from ..models.ship_cargo import ShipCargo
-from ..models.ship_modification_transaction import ShipModificationTransaction
-from ..models.ship_mount import ShipMount
-from ..types import Unset
+
+if TYPE_CHECKING:
+    from ..models.agent import Agent
+    from ..models.ship_cargo import ShipCargo
+    from ..models.ship_modification_transaction import ShipModificationTransaction
+    from ..models.ship_mount import ShipMount
+
 
 T = TypeVar("T", bound="RemoveMountRemoveMount201ResponseData")
 
 
-class RemoveMountRemoveMount201ResponseData(BaseModel):
+@_attrs_define
+class RemoveMountRemoveMount201ResponseData:
     """
     Attributes:
         agent (Agent): Agent details.
@@ -26,19 +32,69 @@ class RemoveMountRemoveMount201ResponseData(BaseModel):
             mount or a module.
     """
 
-    agent: "Agent" = Field(alias="agent")
-    mounts: List["ShipMount"] = Field(alias="mounts")
-    cargo: "ShipCargo" = Field(alias="cargo")
-    transaction: "ShipModificationTransaction" = Field(alias="transaction")
-    additional_properties: Dict[str, Any] = {}
+    agent: "Agent"
+    mounts: List["ShipMount"]
+    cargo: "ShipCargo"
+    transaction: "ShipModificationTransaction"
+    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    class Config:
-        arbitrary_types_allowed = True
-        allow_population_by_field_name = True
+    def to_dict(self) -> Dict[str, Any]:
 
-    def dict(self, *args, **kwargs):
-        output = super().dict(*args, **kwargs)
-        return {k: v for k, v in output.items() if not isinstance(v, Unset)}
+        agent = self.agent.to_dict()
+
+        mounts = []
+        for mounts_item_data in self.mounts:
+            mounts_item = mounts_item_data.to_dict()
+
+            mounts.append(mounts_item)
+
+        cargo = self.cargo.to_dict()
+
+        transaction = self.transaction.to_dict()
+
+        field_dict: Dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "agent": agent,
+                "mounts": mounts,
+                "cargo": cargo,
+                "transaction": transaction,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.agent import Agent
+        from ..models.ship_cargo import ShipCargo
+        from ..models.ship_modification_transaction import ShipModificationTransaction
+        from ..models.ship_mount import ShipMount
+
+        d = src_dict.copy()
+        agent = Agent.from_dict(d.pop("agent"))
+
+        mounts = []
+        _mounts = d.pop("mounts")
+        for mounts_item_data in _mounts:
+            mounts_item = ShipMount.from_dict(mounts_item_data)
+
+            mounts.append(mounts_item)
+
+        cargo = ShipCargo.from_dict(d.pop("cargo"))
+
+        transaction = ShipModificationTransaction.from_dict(d.pop("transaction"))
+
+        remove_mount_remove_mount_201_response_data = cls(
+            agent=agent,
+            mounts=mounts,
+            cargo=cargo,
+            transaction=transaction,
+        )
+
+        remove_mount_remove_mount_201_response_data.additional_properties = d
+        return remove_mount_remove_mount_201_response_data
 
     @property
     def additional_keys(self) -> List[str]:
