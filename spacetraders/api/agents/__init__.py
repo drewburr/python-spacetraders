@@ -8,11 +8,17 @@ from .get_agents import sync_detailed as get_agents
 from .get_my_agent import asyncio_detailed as get_my_agent_asyncio
 from .get_my_agent import sync_detailed as get_my_agent
 
-__all__ = (
-    "get_my_agent",
-    "get_my_agent_asyncio",
-    "get_agents",
-    "get_agents_asyncio",
-    "get_agent",
-    "get_agent_asyncio",
-)
+
+class Agents:
+    get_my_agent = get_my_agent
+    get_agents = get_agents
+    get_agent = get_agent
+
+
+class AsyncAgents:
+    get_my_agent = get_my_agent_asyncio
+    get_agents = get_agents_asyncio
+    get_agent = get_agent_asyncio
+
+
+__all__ = ("Agents", "AsyncAgents")

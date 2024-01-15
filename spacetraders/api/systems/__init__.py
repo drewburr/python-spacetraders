@@ -20,23 +20,29 @@ from .get_waypoint import sync_detailed as get_waypoint
 from .supply_construction import asyncio_detailed as supply_construction_asyncio
 from .supply_construction import sync_detailed as supply_construction
 
-__all__ = (
-    "get_systems",
-    "get_systems_asyncio",
-    "get_system",
-    "get_system_asyncio",
-    "get_system_waypoints",
-    "get_system_waypoints_asyncio",
-    "get_waypoint",
-    "get_waypoint_asyncio",
-    "get_market",
-    "get_market_asyncio",
-    "get_shipyard",
-    "get_shipyard_asyncio",
-    "get_jump_gate",
-    "get_jump_gate_asyncio",
-    "get_construction",
-    "get_construction_asyncio",
-    "supply_construction",
-    "supply_construction_asyncio",
-)
+
+class Systems:
+    get_systems = get_systems
+    get_system = get_system
+    get_system_waypoints = get_system_waypoints
+    get_waypoint = get_waypoint
+    get_market = get_market
+    get_shipyard = get_shipyard
+    get_jump_gate = get_jump_gate
+    get_construction = get_construction
+    supply_construction = supply_construction
+
+
+class AsyncSystems:
+    get_systems = get_systems_asyncio
+    get_system = get_system_asyncio
+    get_system_waypoints = get_system_waypoints_asyncio
+    get_waypoint = get_waypoint_asyncio
+    get_market = get_market_asyncio
+    get_shipyard = get_shipyard_asyncio
+    get_jump_gate = get_jump_gate_asyncio
+    get_construction = get_construction_asyncio
+    supply_construction = supply_construction_asyncio
+
+
+__all__ = ("Systems", "AsyncSystems")

@@ -1,0 +1,26 @@
+
+{% for collection_tag in endpoint_collections_by_tag.keys() %}
+from . import {{ collection_tag }}
+{% endfor %}
+
+
+class API(
+    {% for collection_tag in endpoint_collections_by_tag.keys() %}
+    {{ collection_tag }}.{{ class_name(collection_tag) }},
+    {% endfor %}
+):
+    pass
+
+
+class AsyncAPI(
+    {% for collection_tag in endpoint_collections_by_tag.keys() %}
+    {{ collection_tag }}.Async{{ class_name(collection_tag) }},
+    {% endfor %}
+):
+    pass
+
+
+__all__ = (
+    "API",
+    "AsyncAPI"
+)

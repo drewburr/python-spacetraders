@@ -4,11 +4,9 @@ from typing import Any, Dict, Optional, Union
 import httpx
 from attrs import define, evolve, field
 
-from spacetraders import api
-
 
 @define
-class Client(dict):
+class Client:
     """A class for keeping track of data related to the API
 
     The following are accepted as keyword arguments and will be used to construct httpx Clients internally:
@@ -36,12 +34,6 @@ class Client(dict):
             argument to the constructor.
     """
 
-    def __setattr__(self, name, value):
-        self[name] = value
-
-    def __getattr__(self, name):
-        return self[name]
-
     raise_on_unexpected_status: bool = field(default=False, kw_only=True)
     _base_url: str
     _cookies: Dict[str, str] = field(factory=dict, kw_only=True)
@@ -52,7 +44,6 @@ class Client(dict):
     _httpx_args: Dict[str, Any] = field(factory=dict, kw_only=True)
     _client: Optional[httpx.Client] = field(default=None, init=False)
     _async_client: Optional[httpx.AsyncClient] = field(default=None, init=False)
-    api = api
 
     def with_headers(self, headers: Dict[str, str]) -> "Client":
         """Get a new client matching this one with additional headers"""

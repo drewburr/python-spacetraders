@@ -43,8 +43,8 @@ from .jump_ship import asyncio_detailed as jump_ship_asyncio
 from .jump_ship import sync_detailed as jump_ship
 from .navigate_ship import asyncio_detailed as navigate_ship_asyncio
 from .navigate_ship import sync_detailed as navigate_ship
-from .negotiateContract import asyncio_detailed as negotiateContract_asyncio
-from .negotiateContract import sync_detailed as negotiateContract
+from .negotiate_contract import asyncio_detailed as negotiate_contract_asyncio
+from .negotiate_contract import sync_detailed as negotiate_contract
 from .orbit_ship import asyncio_detailed as orbit_ship_asyncio
 from .orbit_ship import sync_detailed as orbit_ship
 from .patch_ship_nav import asyncio_detailed as patch_ship_nav_asyncio
@@ -68,65 +68,71 @@ from .transfer_cargo import sync_detailed as transfer_cargo
 from .warp_ship import asyncio_detailed as warp_ship_asyncio
 from .warp_ship import sync_detailed as warp_ship
 
-__all__ = (
-    "get_my_ships",
-    "get_my_ships_asyncio",
-    "purchase_ship",
-    "purchase_ship_asyncio",
-    "get_my_ship",
-    "get_my_ship_asyncio",
-    "get_my_ship_cargo",
-    "get_my_ship_cargo_asyncio",
-    "orbit_ship",
-    "orbit_ship_asyncio",
-    "ship_refine",
-    "ship_refine_asyncio",
-    "create_chart",
-    "create_chart_asyncio",
-    "get_ship_cooldown",
-    "get_ship_cooldown_asyncio",
-    "dock_ship",
-    "dock_ship_asyncio",
-    "create_survey",
-    "create_survey_asyncio",
-    "extract_resources",
-    "extract_resources_asyncio",
-    "siphon_resources",
-    "siphon_resources_asyncio",
-    "extract_resources_with_survey",
-    "extract_resources_with_survey_asyncio",
-    "jettison",
-    "jettison_asyncio",
-    "jump_ship",
-    "jump_ship_asyncio",
-    "navigate_ship",
-    "navigate_ship_asyncio",
-    "get_ship_nav",
-    "get_ship_nav_asyncio",
-    "patch_ship_nav",
-    "patch_ship_nav_asyncio",
-    "warp_ship",
-    "warp_ship_asyncio",
-    "sell_cargo",
-    "sell_cargo_asyncio",
-    "create_ship_system_scan",
-    "create_ship_system_scan_asyncio",
-    "create_ship_waypoint_scan",
-    "create_ship_waypoint_scan_asyncio",
-    "create_ship_ship_scan",
-    "create_ship_ship_scan_asyncio",
-    "refuel_ship",
-    "refuel_ship_asyncio",
-    "purchase_cargo",
-    "purchase_cargo_asyncio",
-    "transfer_cargo",
-    "transfer_cargo_asyncio",
-    "negotiateContract",
-    "negotiateContract_asyncio",
-    "get_mounts",
-    "get_mounts_asyncio",
-    "install_mount",
-    "install_mount_asyncio",
-    "remove_mount",
-    "remove_mount_asyncio",
-)
+
+class Fleet:
+    get_my_ships = get_my_ships
+    purchase_ship = purchase_ship
+    get_my_ship = get_my_ship
+    get_my_ship_cargo = get_my_ship_cargo
+    orbit_ship = orbit_ship
+    ship_refine = ship_refine
+    create_chart = create_chart
+    get_ship_cooldown = get_ship_cooldown
+    dock_ship = dock_ship
+    create_survey = create_survey
+    extract_resources = extract_resources
+    siphon_resources = siphon_resources
+    extract_resources_with_survey = extract_resources_with_survey
+    jettison = jettison
+    jump_ship = jump_ship
+    navigate_ship = navigate_ship
+    get_ship_nav = get_ship_nav
+    patch_ship_nav = patch_ship_nav
+    warp_ship = warp_ship
+    sell_cargo = sell_cargo
+    create_ship_system_scan = create_ship_system_scan
+    create_ship_waypoint_scan = create_ship_waypoint_scan
+    create_ship_ship_scan = create_ship_ship_scan
+    refuel_ship = refuel_ship
+    purchase_cargo = purchase_cargo
+    transfer_cargo = transfer_cargo
+    negotiate_contract = negotiate_contract
+    get_mounts = get_mounts
+    install_mount = install_mount
+    remove_mount = remove_mount
+
+
+class AsyncFleet:
+    get_my_ships = get_my_ships_asyncio
+    purchase_ship = purchase_ship_asyncio
+    get_my_ship = get_my_ship_asyncio
+    get_my_ship_cargo = get_my_ship_cargo_asyncio
+    orbit_ship = orbit_ship_asyncio
+    ship_refine = ship_refine_asyncio
+    create_chart = create_chart_asyncio
+    get_ship_cooldown = get_ship_cooldown_asyncio
+    dock_ship = dock_ship_asyncio
+    create_survey = create_survey_asyncio
+    extract_resources = extract_resources_asyncio
+    siphon_resources = siphon_resources_asyncio
+    extract_resources_with_survey = extract_resources_with_survey_asyncio
+    jettison = jettison_asyncio
+    jump_ship = jump_ship_asyncio
+    navigate_ship = navigate_ship_asyncio
+    get_ship_nav = get_ship_nav_asyncio
+    patch_ship_nav = patch_ship_nav_asyncio
+    warp_ship = warp_ship_asyncio
+    sell_cargo = sell_cargo_asyncio
+    create_ship_system_scan = create_ship_system_scan_asyncio
+    create_ship_waypoint_scan = create_ship_waypoint_scan_asyncio
+    create_ship_ship_scan = create_ship_ship_scan_asyncio
+    refuel_ship = refuel_ship_asyncio
+    purchase_cargo = purchase_cargo_asyncio
+    transfer_cargo = transfer_cargo_asyncio
+    negotiate_contract = negotiate_contract_asyncio
+    get_mounts = get_mounts_asyncio
+    install_mount = install_mount_asyncio
+    remove_mount = remove_mount_asyncio
+
+
+__all__ = ("Fleet", "AsyncFleet")

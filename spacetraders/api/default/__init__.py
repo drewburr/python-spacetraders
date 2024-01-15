@@ -6,9 +6,15 @@ from .get_status import sync_detailed as get_status
 from .register import asyncio_detailed as register_asyncio
 from .register import sync_detailed as register
 
-__all__ = (
-    "get_status",
-    "get_status_asyncio",
-    "register",
-    "register_asyncio",
-)
+
+class Default:
+    get_status = get_status
+    register = register
+
+
+class AsyncDefault:
+    get_status = get_status_asyncio
+    register = register_asyncio
+
+
+__all__ = ("Default", "AsyncDefault")
