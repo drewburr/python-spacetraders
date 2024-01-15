@@ -1,0 +1,16 @@
+""" Contains methods for accessing the API """
+
+{% for endpoint in endpoint_collection.endpoints %}
+{% set func_name = endpoint.name|replace('-', '_') %}
+
+from .{{ func_name }} import sync_detailed as {{ func_name }}
+from .{{ func_name }} import asyncio_detailed as {{ func_name }}_asyncio
+{% endfor %}
+
+__all__ = (
+{% for endpoint in endpoint_collection.endpoints %}
+    {% set func_name = endpoint.name|replace('-', '_') %}
+    "{{ func_name }}",
+    "{{ func_name }}_asyncio",
+{% endfor %}
+)
