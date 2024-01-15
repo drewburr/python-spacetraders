@@ -18,7 +18,7 @@ else
 fi
 
 cd $CLONE_DIR
-npx @redocly/openapi-cli@latest bundle -o ../bundle.json
+npx @redocly/cli@latest bundle --lint-config error -o ../bundle.json
 cd -
 
 poetry run openapi-python-client update \
