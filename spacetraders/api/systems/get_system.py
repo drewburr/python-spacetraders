@@ -12,12 +12,14 @@ from ...types import Response
 def _get_kwargs(
     system_symbol: str = "X1-OE",
 ) -> Dict[str, Any]:
-    return {
+    _kwargs: Dict[str, Any] = {
         "method": "get",
         "url": "/systems/{systemSymbol}".format(
             systemSymbol=system_symbol,
         ),
     }
+
+    return _kwargs
 
 
 def _parse_response(

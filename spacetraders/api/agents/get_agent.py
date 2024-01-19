@@ -12,12 +12,14 @@ from ...types import Response
 def _get_kwargs(
     agent_symbol: str = "FEBA66",
 ) -> Dict[str, Any]:
-    return {
+    _kwargs: Dict[str, Any] = {
         "method": "get",
         "url": "/agents/{agentSymbol}".format(
             agentSymbol=agent_symbol,
         ),
     }
+
+    return _kwargs
 
 
 def _parse_response(

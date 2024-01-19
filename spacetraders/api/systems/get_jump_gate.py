@@ -13,13 +13,15 @@ def _get_kwargs(
     system_symbol: str,
     waypoint_symbol: str,
 ) -> Dict[str, Any]:
-    return {
+    _kwargs: Dict[str, Any] = {
         "method": "get",
         "url": "/systems/{systemSymbol}/waypoints/{waypointSymbol}/jump-gate".format(
             systemSymbol=system_symbol,
             waypointSymbol=waypoint_symbol,
         ),
     }
+
+    return _kwargs
 
 
 def _parse_response(
