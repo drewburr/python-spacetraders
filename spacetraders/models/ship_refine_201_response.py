@@ -12,31 +12,31 @@ from attrs import field as _attrs_field
 
 
 if TYPE_CHECKING:
-    from ..models.ship_nav import ShipNav
+    from ..models.ship_refine_201_response_data import ShipRefine201ResponseData
 
 
-T = TypeVar("T", bound="DockShipDockShip200ResponseData")
+T = TypeVar("T", bound="ShipRefine201Response")
 
 
 @_attrs_define
-class DockShipDockShip200ResponseData:
+class ShipRefine201Response:
     """
     Attributes:
-        nav (ShipNav): The navigation information of the ship.
+        data (ShipRefine201ResponseData):
     """
 
-    nav: "ShipNav"
+    data: "ShipRefine201ResponseData"
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
 
-        nav = self.nav.to_dict()
+        data = self.data.to_dict()
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "nav": nav,
+                "data": data,
             }
         )
 
@@ -44,17 +44,17 @@ class DockShipDockShip200ResponseData:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        from ..models.ship_nav import ShipNav
+        from ..models.ship_refine_201_response_data import ShipRefine201ResponseData
 
         d = src_dict.copy()
-        nav = ShipNav.from_dict(d.pop("nav"))
+        data = ShipRefine201ResponseData.from_dict(d.pop("data"))
 
-        dock_ship_dock_ship_200_response_data = cls(
-            nav=nav,
+        ship_refine_201_response = cls(
+            data=data,
         )
 
-        dock_ship_dock_ship_200_response_data.additional_properties = d
-        return dock_ship_dock_ship_200_response_data
+        ship_refine_201_response.additional_properties = d
+        return ship_refine_201_response
 
     @property
     def additional_keys(self) -> List[str]:

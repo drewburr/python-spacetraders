@@ -5,7 +5,7 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.dock_ship_dock_ship_200_response import DockShipDockShip200Response
+from ...models.dock_ship_200_response import DockShip200Response
 from ...types import Response
 
 
@@ -24,9 +24,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[DockShipDockShip200Response]:
+) -> Optional[DockShip200Response]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = DockShipDockShip200Response.from_dict(response.json())
+        response_200 = DockShip200Response.from_dict(response.json())
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -37,7 +37,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[DockShipDockShip200Response]:
+) -> Response[DockShip200Response]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -50,7 +50,7 @@ def sync_detailed(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-) -> Response[DockShipDockShip200Response]:
+) -> Response[DockShip200Response]:
     """Dock Ship
 
      Attempt to dock your ship at its current location. Docking will only succeed if your ship is capable
@@ -69,7 +69,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[DockShipDockShip200Response]
+        Response[DockShip200Response]
     """
 
     kwargs = _get_kwargs(
@@ -87,7 +87,7 @@ def sync(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-) -> Optional[DockShipDockShip200Response]:
+) -> Optional[DockShip200Response]:
     """Dock Ship
 
      Attempt to dock your ship at its current location. Docking will only succeed if your ship is capable
@@ -106,7 +106,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        DockShipDockShip200Response
+        DockShip200Response
     """
 
     return sync_detailed(
@@ -119,7 +119,7 @@ async def asyncio_detailed(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-) -> Response[DockShipDockShip200Response]:
+) -> Response[DockShip200Response]:
     """Dock Ship
 
      Attempt to dock your ship at its current location. Docking will only succeed if your ship is capable
@@ -138,7 +138,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[DockShipDockShip200Response]
+        Response[DockShip200Response]
     """
 
     kwargs = _get_kwargs(
@@ -154,7 +154,7 @@ async def asyncio(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-) -> Optional[DockShipDockShip200Response]:
+) -> Optional[DockShip200Response]:
     """Dock Ship
 
      Attempt to dock your ship at its current location. Docking will only succeed if your ship is capable
@@ -173,7 +173,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        DockShipDockShip200Response
+        DockShip200Response
     """
 
     return (

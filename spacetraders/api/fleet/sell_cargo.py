@@ -5,15 +5,15 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.sell_cargo_sell_cargo_201_response import SellCargoSellCargo201Response
-from ...models.sell_cargo_sell_cargo_request import SellCargoSellCargoRequest
+from ...models.sell_cargo_201_response import SellCargo201Response
+from ...models.sell_cargo_request import SellCargoRequest
 from ...types import Response
 
 
 def _get_kwargs(
     ship_symbol: str,
     *,
-    json_body: SellCargoSellCargoRequest,
+    json_body: SellCargoRequest,
 ) -> Dict[str, Any]:
     _kwargs: Dict[str, Any] = {
         "method": "post",
@@ -27,9 +27,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[SellCargoSellCargo201Response]:
+) -> Optional[SellCargo201Response]:
     if response.status_code == HTTPStatus.CREATED:
-        response_201 = SellCargoSellCargo201Response.from_dict(response.json())
+        response_201 = SellCargo201Response.from_dict(response.json())
 
         return response_201
     if client.raise_on_unexpected_status:
@@ -40,7 +40,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[SellCargoSellCargo201Response]:
+) -> Response[SellCargo201Response]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -53,8 +53,8 @@ def sync_detailed(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-    json_body: SellCargoSellCargoRequest,
-) -> Response[SellCargoSellCargo201Response]:
+    json_body: SellCargoRequest,
+) -> Response[SellCargo201Response]:
     """Sell Cargo
 
      Sell cargo in your ship to a market that trades this cargo. The ship must be docked in a waypoint
@@ -62,14 +62,14 @@ def sync_detailed(
 
     Args:
         ship_symbol (str):
-        json_body (SellCargoSellCargoRequest):
+        json_body (SellCargoRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SellCargoSellCargo201Response]
+        Response[SellCargo201Response]
     """
 
     kwargs = _get_kwargs(
@@ -88,8 +88,8 @@ def sync(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-    json_body: SellCargoSellCargoRequest,
-) -> Optional[SellCargoSellCargo201Response]:
+    json_body: SellCargoRequest,
+) -> Optional[SellCargo201Response]:
     """Sell Cargo
 
      Sell cargo in your ship to a market that trades this cargo. The ship must be docked in a waypoint
@@ -97,14 +97,14 @@ def sync(
 
     Args:
         ship_symbol (str):
-        json_body (SellCargoSellCargoRequest):
+        json_body (SellCargoRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SellCargoSellCargo201Response
+        SellCargo201Response
     """
 
     return sync_detailed(
@@ -118,8 +118,8 @@ async def asyncio_detailed(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-    json_body: SellCargoSellCargoRequest,
-) -> Response[SellCargoSellCargo201Response]:
+    json_body: SellCargoRequest,
+) -> Response[SellCargo201Response]:
     """Sell Cargo
 
      Sell cargo in your ship to a market that trades this cargo. The ship must be docked in a waypoint
@@ -127,14 +127,14 @@ async def asyncio_detailed(
 
     Args:
         ship_symbol (str):
-        json_body (SellCargoSellCargoRequest):
+        json_body (SellCargoRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SellCargoSellCargo201Response]
+        Response[SellCargo201Response]
     """
 
     kwargs = _get_kwargs(
@@ -151,8 +151,8 @@ async def asyncio(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-    json_body: SellCargoSellCargoRequest,
-) -> Optional[SellCargoSellCargo201Response]:
+    json_body: SellCargoRequest,
+) -> Optional[SellCargo201Response]:
     """Sell Cargo
 
      Sell cargo in your ship to a market that trades this cargo. The ship must be docked in a waypoint
@@ -160,14 +160,14 @@ async def asyncio(
 
     Args:
         ship_symbol (str):
-        json_body (SellCargoSellCargoRequest):
+        json_body (SellCargoRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SellCargoSellCargo201Response
+        SellCargo201Response
     """
 
     return (

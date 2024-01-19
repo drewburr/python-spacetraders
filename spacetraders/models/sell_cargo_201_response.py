@@ -12,22 +12,20 @@ from attrs import field as _attrs_field
 
 
 if TYPE_CHECKING:
-    from ..models.install_mount_install_mount_201_response_data import (
-        InstallMountInstallMount201ResponseData,
-    )
+    from ..models.sell_cargo_201_response_data import SellCargo201ResponseData
 
 
-T = TypeVar("T", bound="InstallMountInstallMount201Response")
+T = TypeVar("T", bound="SellCargo201Response")
 
 
 @_attrs_define
-class InstallMountInstallMount201Response:
+class SellCargo201Response:
     """
     Attributes:
-        data (InstallMountInstallMount201ResponseData):
+        data (SellCargo201ResponseData):
     """
 
-    data: "InstallMountInstallMount201ResponseData"
+    data: "SellCargo201ResponseData"
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -46,19 +44,17 @@ class InstallMountInstallMount201Response:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        from ..models.install_mount_install_mount_201_response_data import (
-            InstallMountInstallMount201ResponseData,
-        )
+        from ..models.sell_cargo_201_response_data import SellCargo201ResponseData
 
         d = src_dict.copy()
-        data = InstallMountInstallMount201ResponseData.from_dict(d.pop("data"))
+        data = SellCargo201ResponseData.from_dict(d.pop("data"))
 
-        install_mount_install_mount_201_response = cls(
+        sell_cargo_201_response = cls(
             data=data,
         )
 
-        install_mount_install_mount_201_response.additional_properties = d
-        return install_mount_install_mount_201_response
+        sell_cargo_201_response.additional_properties = d
+        return sell_cargo_201_response
 
     @property
     def additional_keys(self) -> List[str]:

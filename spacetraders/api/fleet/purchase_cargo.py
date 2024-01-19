@@ -5,19 +5,15 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.purchase_cargo_purchase_cargo_201_response import (
-    PurchaseCargoPurchaseCargo201Response,
-)
-from ...models.purchase_cargo_purchase_cargo_request import (
-    PurchaseCargoPurchaseCargoRequest,
-)
+from ...models.purchase_cargo_201_response import PurchaseCargo201Response
+from ...models.purchase_cargo_request import PurchaseCargoRequest
 from ...types import Response
 
 
 def _get_kwargs(
     ship_symbol: str,
     *,
-    json_body: PurchaseCargoPurchaseCargoRequest,
+    json_body: PurchaseCargoRequest,
 ) -> Dict[str, Any]:
     _kwargs: Dict[str, Any] = {
         "method": "post",
@@ -31,9 +27,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[PurchaseCargoPurchaseCargo201Response]:
+) -> Optional[PurchaseCargo201Response]:
     if response.status_code == HTTPStatus.CREATED:
-        response_201 = PurchaseCargoPurchaseCargo201Response.from_dict(response.json())
+        response_201 = PurchaseCargo201Response.from_dict(response.json())
 
         return response_201
     if client.raise_on_unexpected_status:
@@ -44,7 +40,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[PurchaseCargoPurchaseCargo201Response]:
+) -> Response[PurchaseCargo201Response]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -57,8 +53,8 @@ def sync_detailed(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-    json_body: PurchaseCargoPurchaseCargoRequest,
-) -> Response[PurchaseCargoPurchaseCargo201Response]:
+    json_body: PurchaseCargoRequest,
+) -> Response[PurchaseCargo201Response]:
     """Purchase Cargo
 
      Purchase cargo from a market.
@@ -73,14 +69,14 @@ def sync_detailed(
 
     Args:
         ship_symbol (str):
-        json_body (PurchaseCargoPurchaseCargoRequest):
+        json_body (PurchaseCargoRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[PurchaseCargoPurchaseCargo201Response]
+        Response[PurchaseCargo201Response]
     """
 
     kwargs = _get_kwargs(
@@ -99,8 +95,8 @@ def sync(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-    json_body: PurchaseCargoPurchaseCargoRequest,
-) -> Optional[PurchaseCargoPurchaseCargo201Response]:
+    json_body: PurchaseCargoRequest,
+) -> Optional[PurchaseCargo201Response]:
     """Purchase Cargo
 
      Purchase cargo from a market.
@@ -115,14 +111,14 @@ def sync(
 
     Args:
         ship_symbol (str):
-        json_body (PurchaseCargoPurchaseCargoRequest):
+        json_body (PurchaseCargoRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        PurchaseCargoPurchaseCargo201Response
+        PurchaseCargo201Response
     """
 
     return sync_detailed(
@@ -136,8 +132,8 @@ async def asyncio_detailed(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-    json_body: PurchaseCargoPurchaseCargoRequest,
-) -> Response[PurchaseCargoPurchaseCargo201Response]:
+    json_body: PurchaseCargoRequest,
+) -> Response[PurchaseCargo201Response]:
     """Purchase Cargo
 
      Purchase cargo from a market.
@@ -152,14 +148,14 @@ async def asyncio_detailed(
 
     Args:
         ship_symbol (str):
-        json_body (PurchaseCargoPurchaseCargoRequest):
+        json_body (PurchaseCargoRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[PurchaseCargoPurchaseCargo201Response]
+        Response[PurchaseCargo201Response]
     """
 
     kwargs = _get_kwargs(
@@ -176,8 +172,8 @@ async def asyncio(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-    json_body: PurchaseCargoPurchaseCargoRequest,
-) -> Optional[PurchaseCargoPurchaseCargo201Response]:
+    json_body: PurchaseCargoRequest,
+) -> Optional[PurchaseCargo201Response]:
     """Purchase Cargo
 
      Purchase cargo from a market.
@@ -192,14 +188,14 @@ async def asyncio(
 
     Args:
         ship_symbol (str):
-        json_body (PurchaseCargoPurchaseCargoRequest):
+        json_body (PurchaseCargoRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        PurchaseCargoPurchaseCargo201Response
+        PurchaseCargo201Response
     """
 
     return (

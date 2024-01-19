@@ -5,7 +5,7 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.orbit_ship_orbit_ship_200_response import OrbitShipOrbitShip200Response
+from ...models.orbit_ship_200_response import OrbitShip200Response
 from ...types import Response
 
 
@@ -24,9 +24,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[OrbitShipOrbitShip200Response]:
+) -> Optional[OrbitShip200Response]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = OrbitShipOrbitShip200Response.from_dict(response.json())
+        response_200 = OrbitShip200Response.from_dict(response.json())
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -37,7 +37,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[OrbitShipOrbitShip200Response]:
+) -> Response[OrbitShip200Response]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -50,7 +50,7 @@ def sync_detailed(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-) -> Response[OrbitShipOrbitShip200Response]:
+) -> Response[OrbitShip200Response]:
     """Orbit Ship
 
      Attempt to move your ship into orbit at its current location. The request will only succeed if your
@@ -70,7 +70,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[OrbitShipOrbitShip200Response]
+        Response[OrbitShip200Response]
     """
 
     kwargs = _get_kwargs(
@@ -88,7 +88,7 @@ def sync(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-) -> Optional[OrbitShipOrbitShip200Response]:
+) -> Optional[OrbitShip200Response]:
     """Orbit Ship
 
      Attempt to move your ship into orbit at its current location. The request will only succeed if your
@@ -108,7 +108,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        OrbitShipOrbitShip200Response
+        OrbitShip200Response
     """
 
     return sync_detailed(
@@ -121,7 +121,7 @@ async def asyncio_detailed(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-) -> Response[OrbitShipOrbitShip200Response]:
+) -> Response[OrbitShip200Response]:
     """Orbit Ship
 
      Attempt to move your ship into orbit at its current location. The request will only succeed if your
@@ -141,7 +141,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[OrbitShipOrbitShip200Response]
+        Response[OrbitShip200Response]
     """
 
     kwargs = _get_kwargs(
@@ -157,7 +157,7 @@ async def asyncio(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-) -> Optional[OrbitShipOrbitShip200Response]:
+) -> Optional[OrbitShip200Response]:
     """Orbit Ship
 
      Attempt to move your ship into orbit at its current location. The request will only succeed if your
@@ -177,7 +177,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        OrbitShipOrbitShip200Response
+        OrbitShip200Response
     """
 
     return (

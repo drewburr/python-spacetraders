@@ -10,27 +10,31 @@ from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 
-T = TypeVar("T", bound="InstallMountInstallMountRequest")
+T = TypeVar("T", bound="ShipRefine201ResponseDataConsumedItem")
 
 
 @_attrs_define
-class InstallMountInstallMountRequest:
+class ShipRefine201ResponseDataConsumedItem:
     """
     Attributes:
-        symbol (str):
+        trade_symbol (str): Symbol of the good.
+        units (int): Amount of units of the good.
     """
 
-    symbol: str
+    trade_symbol: str
+    units: int
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
-        symbol = self.symbol
+        trade_symbol = self.trade_symbol
+        units = self.units
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "symbol": symbol,
+                "tradeSymbol": trade_symbol,
+                "units": units,
             }
         )
 
@@ -39,14 +43,17 @@ class InstallMountInstallMountRequest:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        symbol = d.pop("symbol")
+        trade_symbol = d.pop("tradeSymbol")
 
-        install_mount_install_mount_request = cls(
-            symbol=symbol,
+        units = d.pop("units")
+
+        ship_refine_201_response_data_consumed_item = cls(
+            trade_symbol=trade_symbol,
+            units=units,
         )
 
-        install_mount_install_mount_request.additional_properties = d
-        return install_mount_install_mount_request
+        ship_refine_201_response_data_consumed_item.additional_properties = d
+        return ship_refine_201_response_data_consumed_item
 
     @property
     def additional_keys(self) -> List[str]:

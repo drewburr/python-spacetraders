@@ -1,5 +1,4 @@
 from typing import (
-    TYPE_CHECKING,
     Any,
     Dict,
     List,
@@ -11,32 +10,27 @@ from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 
-if TYPE_CHECKING:
-    from ..models.ship_cargo import ShipCargo
-
-
-T = TypeVar("T", bound="TransferCargoTransferCargo200ResponseData")
+T = TypeVar("T", bound="RemoveMountRequest")
 
 
 @_attrs_define
-class TransferCargoTransferCargo200ResponseData:
+class RemoveMountRequest:
     """
     Attributes:
-        cargo (ShipCargo): Ship cargo details.
+        symbol (str): The symbol of the mount to remove.
     """
 
-    cargo: "ShipCargo"
+    symbol: str
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
-
-        cargo = self.cargo.to_dict()
+        symbol = self.symbol
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "cargo": cargo,
+                "symbol": symbol,
             }
         )
 
@@ -44,17 +38,15 @@ class TransferCargoTransferCargo200ResponseData:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        from ..models.ship_cargo import ShipCargo
-
         d = src_dict.copy()
-        cargo = ShipCargo.from_dict(d.pop("cargo"))
+        symbol = d.pop("symbol")
 
-        transfer_cargo_transfer_cargo_200_response_data = cls(
-            cargo=cargo,
+        remove_mount_request = cls(
+            symbol=symbol,
         )
 
-        transfer_cargo_transfer_cargo_200_response_data.additional_properties = d
-        return transfer_cargo_transfer_cargo_200_response_data
+        remove_mount_request.additional_properties = d
+        return remove_mount_request
 
     @property
     def additional_keys(self) -> List[str]:

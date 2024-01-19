@@ -1,4 +1,5 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
@@ -9,38 +10,37 @@ from typing import (
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..models.trade_symbol import TradeSymbol
 
-T = TypeVar("T", bound="TransferCargoTransferCargoRequest")
+if TYPE_CHECKING:
+    from ..models.ship_mount import ShipMount
+
+
+T = TypeVar("T", bound="GetMounts200Response")
 
 
 @_attrs_define
-class TransferCargoTransferCargoRequest:
+class GetMounts200Response:
     """
     Attributes:
-        trade_symbol (TradeSymbol): The good's symbol.
-        units (int): Amount of units to transfer.
-        ship_symbol (str): The symbol of the ship to transfer to.
+        data (List['ShipMount']):
     """
 
-    trade_symbol: TradeSymbol
-    units: int
-    ship_symbol: str
+    data: List["ShipMount"]
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
-        trade_symbol = self.trade_symbol.value
 
-        units = self.units
-        ship_symbol = self.ship_symbol
+        data = []
+        for data_item_data in self.data:
+            data_item = data_item_data.to_dict()
+
+            data.append(data_item)
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "tradeSymbol": trade_symbol,
-                "units": units,
-                "shipSymbol": ship_symbol,
+                "data": data,
             }
         )
 
@@ -48,21 +48,22 @@ class TransferCargoTransferCargoRequest:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.ship_mount import ShipMount
+
         d = src_dict.copy()
-        trade_symbol = TradeSymbol(d.pop("tradeSymbol"))
+        data = []
+        _data = d.pop("data")
+        for data_item_data in _data:
+            data_item = ShipMount.from_dict(data_item_data)
 
-        units = d.pop("units")
+            data.append(data_item)
 
-        ship_symbol = d.pop("shipSymbol")
-
-        transfer_cargo_transfer_cargo_request = cls(
-            trade_symbol=trade_symbol,
-            units=units,
-            ship_symbol=ship_symbol,
+        get_mounts_200_response = cls(
+            data=data,
         )
 
-        transfer_cargo_transfer_cargo_request.additional_properties = d
-        return transfer_cargo_transfer_cargo_request
+        get_mounts_200_response.additional_properties = d
+        return get_mounts_200_response
 
     @property
     def additional_keys(self) -> List[str]:

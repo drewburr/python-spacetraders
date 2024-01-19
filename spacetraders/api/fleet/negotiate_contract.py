@@ -5,9 +5,7 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.negotiate_contract_negotiate_contract_200_response import (
-    NegotiateContractNegotiateContract200Response,
-)
+from ...models.negotiate_contract_200_response import NegotiateContract200Response
 from ...types import Response
 
 
@@ -26,11 +24,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[NegotiateContractNegotiateContract200Response]:
+) -> Optional[NegotiateContract200Response]:
     if response.status_code == HTTPStatus.CREATED:
-        response_201 = NegotiateContractNegotiateContract200Response.from_dict(
-            response.json()
-        )
+        response_201 = NegotiateContract200Response.from_dict(response.json())
 
         return response_201
     if client.raise_on_unexpected_status:
@@ -41,7 +37,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[NegotiateContractNegotiateContract200Response]:
+) -> Response[NegotiateContract200Response]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -54,7 +50,7 @@ def sync_detailed(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-) -> Response[NegotiateContractNegotiateContract200Response]:
+) -> Response[NegotiateContract200Response]:
     """Negotiate Contract
 
      Negotiate a new contract with the HQ.
@@ -76,7 +72,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[NegotiateContractNegotiateContract200Response]
+        Response[NegotiateContract200Response]
     """
 
     kwargs = _get_kwargs(
@@ -94,7 +90,7 @@ def sync(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-) -> Optional[NegotiateContractNegotiateContract200Response]:
+) -> Optional[NegotiateContract200Response]:
     """Negotiate Contract
 
      Negotiate a new contract with the HQ.
@@ -116,7 +112,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        NegotiateContractNegotiateContract200Response
+        NegotiateContract200Response
     """
 
     return sync_detailed(
@@ -129,7 +125,7 @@ async def asyncio_detailed(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-) -> Response[NegotiateContractNegotiateContract200Response]:
+) -> Response[NegotiateContract200Response]:
     """Negotiate Contract
 
      Negotiate a new contract with the HQ.
@@ -151,7 +147,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[NegotiateContractNegotiateContract200Response]
+        Response[NegotiateContract200Response]
     """
 
     kwargs = _get_kwargs(
@@ -167,7 +163,7 @@ async def asyncio(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-) -> Optional[NegotiateContractNegotiateContract200Response]:
+) -> Optional[NegotiateContract200Response]:
     """Negotiate Contract
 
      Negotiate a new contract with the HQ.
@@ -189,7 +185,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        NegotiateContractNegotiateContract200Response
+        NegotiateContract200Response
     """
 
     return (

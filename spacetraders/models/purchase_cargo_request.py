@@ -1,5 +1,4 @@
 from typing import (
-    TYPE_CHECKING,
     Any,
     Dict,
     List,
@@ -10,35 +9,34 @@ from typing import (
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..models.trade_symbol import TradeSymbol
 
-if TYPE_CHECKING:
-    from ..models.orbit_ship_orbit_ship_200_response_data import (
-        OrbitShipOrbitShip200ResponseData,
-    )
-
-
-T = TypeVar("T", bound="OrbitShipOrbitShip200Response")
+T = TypeVar("T", bound="PurchaseCargoRequest")
 
 
 @_attrs_define
-class OrbitShipOrbitShip200Response:
+class PurchaseCargoRequest:
     """
     Attributes:
-        data (OrbitShipOrbitShip200ResponseData):
+        symbol (TradeSymbol): The good's symbol.
+        units (int): Amounts of units to purchase.
     """
 
-    data: "OrbitShipOrbitShip200ResponseData"
+    symbol: TradeSymbol
+    units: int
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
+        symbol = self.symbol.value
 
-        data = self.data.to_dict()
+        units = self.units
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "data": data,
+                "symbol": symbol,
+                "units": units,
             }
         )
 
@@ -46,19 +44,18 @@ class OrbitShipOrbitShip200Response:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        from ..models.orbit_ship_orbit_ship_200_response_data import (
-            OrbitShipOrbitShip200ResponseData,
-        )
-
         d = src_dict.copy()
-        data = OrbitShipOrbitShip200ResponseData.from_dict(d.pop("data"))
+        symbol = TradeSymbol(d.pop("symbol"))
 
-        orbit_ship_orbit_ship_200_response = cls(
-            data=data,
+        units = d.pop("units")
+
+        purchase_cargo_request = cls(
+            symbol=symbol,
+            units=units,
         )
 
-        orbit_ship_orbit_ship_200_response.additional_properties = d
-        return orbit_ship_orbit_ship_200_response
+        purchase_cargo_request.additional_properties = d
+        return purchase_cargo_request
 
     @property
     def additional_keys(self) -> List[str]:

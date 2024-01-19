@@ -12,22 +12,22 @@ from attrs import field as _attrs_field
 
 
 if TYPE_CHECKING:
-    from ..models.dock_ship_dock_ship_200_response_data import (
-        DockShipDockShip200ResponseData,
+    from ..models.negotiate_contract_200_response_data import (
+        NegotiateContract200ResponseData,
     )
 
 
-T = TypeVar("T", bound="DockShipDockShip200Response")
+T = TypeVar("T", bound="NegotiateContract200Response")
 
 
 @_attrs_define
-class DockShipDockShip200Response:
+class NegotiateContract200Response:
     """
     Attributes:
-        data (DockShipDockShip200ResponseData):
+        data (NegotiateContract200ResponseData):
     """
 
-    data: "DockShipDockShip200ResponseData"
+    data: "NegotiateContract200ResponseData"
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -46,19 +46,19 @@ class DockShipDockShip200Response:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        from ..models.dock_ship_dock_ship_200_response_data import (
-            DockShipDockShip200ResponseData,
+        from ..models.negotiate_contract_200_response_data import (
+            NegotiateContract200ResponseData,
         )
 
         d = src_dict.copy()
-        data = DockShipDockShip200ResponseData.from_dict(d.pop("data"))
+        data = NegotiateContract200ResponseData.from_dict(d.pop("data"))
 
-        dock_ship_dock_ship_200_response = cls(
+        negotiate_contract_200_response = cls(
             data=data,
         )
 
-        dock_ship_dock_ship_200_response.additional_properties = d
-        return dock_ship_dock_ship_200_response
+        negotiate_contract_200_response.additional_properties = d
+        return negotiate_contract_200_response
 
     @property
     def additional_keys(self) -> List[str]:

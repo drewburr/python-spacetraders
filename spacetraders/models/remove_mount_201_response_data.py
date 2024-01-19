@@ -13,30 +13,40 @@ from attrs import field as _attrs_field
 
 if TYPE_CHECKING:
     from ..models.agent import Agent
-    from ..models.market_transaction import MarketTransaction
     from ..models.ship_cargo import ShipCargo
+    from ..models.ship_modification_transaction import ShipModificationTransaction
+    from ..models.ship_mount import ShipMount
 
 
-T = TypeVar("T", bound="PurchaseCargoPurchaseCargo201ResponseData")
+T = TypeVar("T", bound="RemoveMount201ResponseData")
 
 
 @_attrs_define
-class PurchaseCargoPurchaseCargo201ResponseData:
+class RemoveMount201ResponseData:
     """
     Attributes:
         agent (Agent): Agent details.
+        mounts (List['ShipMount']): List of installed mounts after the removal of the selected mount.
         cargo (ShipCargo): Ship cargo details.
-        transaction (MarketTransaction): Result of a transaction with a market.
+        transaction (ShipModificationTransaction): Result of a transaction for a ship modification, such as installing a
+            mount or a module.
     """
 
     agent: "Agent"
+    mounts: List["ShipMount"]
     cargo: "ShipCargo"
-    transaction: "MarketTransaction"
+    transaction: "ShipModificationTransaction"
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
 
         agent = self.agent.to_dict()
+
+        mounts = []
+        for mounts_item_data in self.mounts:
+            mounts_item = mounts_item_data.to_dict()
+
+            mounts.append(mounts_item)
 
         cargo = self.cargo.to_dict()
 
@@ -47,6 +57,7 @@ class PurchaseCargoPurchaseCargo201ResponseData:
         field_dict.update(
             {
                 "agent": agent,
+                "mounts": mounts,
                 "cargo": cargo,
                 "transaction": transaction,
             }
@@ -57,24 +68,33 @@ class PurchaseCargoPurchaseCargo201ResponseData:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         from ..models.agent import Agent
-        from ..models.market_transaction import MarketTransaction
         from ..models.ship_cargo import ShipCargo
+        from ..models.ship_modification_transaction import ShipModificationTransaction
+        from ..models.ship_mount import ShipMount
 
         d = src_dict.copy()
         agent = Agent.from_dict(d.pop("agent"))
 
+        mounts = []
+        _mounts = d.pop("mounts")
+        for mounts_item_data in _mounts:
+            mounts_item = ShipMount.from_dict(mounts_item_data)
+
+            mounts.append(mounts_item)
+
         cargo = ShipCargo.from_dict(d.pop("cargo"))
 
-        transaction = MarketTransaction.from_dict(d.pop("transaction"))
+        transaction = ShipModificationTransaction.from_dict(d.pop("transaction"))
 
-        purchase_cargo_purchase_cargo_201_response_data = cls(
+        remove_mount_201_response_data = cls(
             agent=agent,
+            mounts=mounts,
             cargo=cargo,
             transaction=transaction,
         )
 
-        purchase_cargo_purchase_cargo_201_response_data.additional_properties = d
-        return purchase_cargo_purchase_cargo_201_response_data
+        remove_mount_201_response_data.additional_properties = d
+        return remove_mount_201_response_data
 
     @property
     def additional_keys(self) -> List[str]:

@@ -5,19 +5,15 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.transfer_cargo_transfer_cargo_200_response import (
-    TransferCargoTransferCargo200Response,
-)
-from ...models.transfer_cargo_transfer_cargo_request import (
-    TransferCargoTransferCargoRequest,
-)
+from ...models.transfer_cargo_200_response import TransferCargo200Response
+from ...models.transfer_cargo_request import TransferCargoRequest
 from ...types import Response
 
 
 def _get_kwargs(
     ship_symbol: str,
     *,
-    json_body: TransferCargoTransferCargoRequest,
+    json_body: TransferCargoRequest,
 ) -> Dict[str, Any]:
     _kwargs: Dict[str, Any] = {
         "method": "post",
@@ -31,9 +27,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[TransferCargoTransferCargo200Response]:
+) -> Optional[TransferCargo200Response]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = TransferCargoTransferCargo200Response.from_dict(response.json())
+        response_200 = TransferCargo200Response.from_dict(response.json())
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -44,7 +40,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[TransferCargoTransferCargo200Response]:
+) -> Response[TransferCargo200Response]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -57,8 +53,8 @@ def sync_detailed(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-    json_body: TransferCargoTransferCargoRequest,
-) -> Response[TransferCargoTransferCargo200Response]:
+    json_body: TransferCargoRequest,
+) -> Response[TransferCargo200Response]:
     """Transfer Cargo
 
      Transfer cargo between ships.
@@ -71,14 +67,14 @@ def sync_detailed(
 
     Args:
         ship_symbol (str):
-        json_body (TransferCargoTransferCargoRequest):
+        json_body (TransferCargoRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[TransferCargoTransferCargo200Response]
+        Response[TransferCargo200Response]
     """
 
     kwargs = _get_kwargs(
@@ -97,8 +93,8 @@ def sync(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-    json_body: TransferCargoTransferCargoRequest,
-) -> Optional[TransferCargoTransferCargo200Response]:
+    json_body: TransferCargoRequest,
+) -> Optional[TransferCargo200Response]:
     """Transfer Cargo
 
      Transfer cargo between ships.
@@ -111,14 +107,14 @@ def sync(
 
     Args:
         ship_symbol (str):
-        json_body (TransferCargoTransferCargoRequest):
+        json_body (TransferCargoRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        TransferCargoTransferCargo200Response
+        TransferCargo200Response
     """
 
     return sync_detailed(
@@ -132,8 +128,8 @@ async def asyncio_detailed(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-    json_body: TransferCargoTransferCargoRequest,
-) -> Response[TransferCargoTransferCargo200Response]:
+    json_body: TransferCargoRequest,
+) -> Response[TransferCargo200Response]:
     """Transfer Cargo
 
      Transfer cargo between ships.
@@ -146,14 +142,14 @@ async def asyncio_detailed(
 
     Args:
         ship_symbol (str):
-        json_body (TransferCargoTransferCargoRequest):
+        json_body (TransferCargoRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[TransferCargoTransferCargo200Response]
+        Response[TransferCargo200Response]
     """
 
     kwargs = _get_kwargs(
@@ -170,8 +166,8 @@ async def asyncio(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-    json_body: TransferCargoTransferCargoRequest,
-) -> Optional[TransferCargoTransferCargo200Response]:
+    json_body: TransferCargoRequest,
+) -> Optional[TransferCargo200Response]:
     """Transfer Cargo
 
      Transfer cargo between ships.
@@ -184,14 +180,14 @@ async def asyncio(
 
     Args:
         ship_symbol (str):
-        json_body (TransferCargoTransferCargoRequest):
+        json_body (TransferCargoRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        TransferCargoTransferCargo200Response
+        TransferCargo200Response
     """
 
     return (

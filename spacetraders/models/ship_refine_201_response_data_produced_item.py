@@ -9,33 +9,31 @@ from typing import (
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..models.trade_symbol import TradeSymbol
 
-T = TypeVar("T", bound="PurchaseCargoPurchaseCargoRequest")
+T = TypeVar("T", bound="ShipRefine201ResponseDataProducedItem")
 
 
 @_attrs_define
-class PurchaseCargoPurchaseCargoRequest:
+class ShipRefine201ResponseDataProducedItem:
     """
     Attributes:
-        symbol (TradeSymbol): The good's symbol.
-        units (int): Amounts of units to purchase.
+        trade_symbol (str): Symbol of the good.
+        units (int): Amount of units of the good.
     """
 
-    symbol: TradeSymbol
+    trade_symbol: str
     units: int
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
-        symbol = self.symbol.value
-
+        trade_symbol = self.trade_symbol
         units = self.units
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "symbol": symbol,
+                "tradeSymbol": trade_symbol,
                 "units": units,
             }
         )
@@ -45,17 +43,17 @@ class PurchaseCargoPurchaseCargoRequest:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        symbol = TradeSymbol(d.pop("symbol"))
+        trade_symbol = d.pop("tradeSymbol")
 
         units = d.pop("units")
 
-        purchase_cargo_purchase_cargo_request = cls(
-            symbol=symbol,
+        ship_refine_201_response_data_produced_item = cls(
+            trade_symbol=trade_symbol,
             units=units,
         )
 
-        purchase_cargo_purchase_cargo_request.additional_properties = d
-        return purchase_cargo_purchase_cargo_request
+        ship_refine_201_response_data_produced_item.additional_properties = d
+        return ship_refine_201_response_data_produced_item
 
     @property
     def additional_keys(self) -> List[str]:

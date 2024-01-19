@@ -5,17 +5,15 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.remove_mount_remove_mount_201_response import (
-    RemoveMountRemoveMount201Response,
-)
-from ...models.remove_mount_remove_mount_request import RemoveMountRemoveMountRequest
+from ...models.remove_mount_201_response import RemoveMount201Response
+from ...models.remove_mount_request import RemoveMountRequest
 from ...types import Response
 
 
 def _get_kwargs(
     ship_symbol: str,
     *,
-    json_body: RemoveMountRemoveMountRequest,
+    json_body: RemoveMountRequest,
 ) -> Dict[str, Any]:
     _kwargs: Dict[str, Any] = {
         "method": "post",
@@ -29,9 +27,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[RemoveMountRemoveMount201Response]:
+) -> Optional[RemoveMount201Response]:
     if response.status_code == HTTPStatus.CREATED:
-        response_201 = RemoveMountRemoveMount201Response.from_dict(response.json())
+        response_201 = RemoveMount201Response.from_dict(response.json())
 
         return response_201
     if client.raise_on_unexpected_status:
@@ -42,7 +40,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[RemoveMountRemoveMount201Response]:
+) -> Response[RemoveMount201Response]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -55,8 +53,8 @@ def sync_detailed(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-    json_body: RemoveMountRemoveMountRequest,
-) -> Response[RemoveMountRemoveMount201Response]:
+    json_body: RemoveMountRequest,
+) -> Response[RemoveMount201Response]:
     """Remove Mount
 
      Remove a mount from a ship.
@@ -68,14 +66,14 @@ def sync_detailed(
 
     Args:
         ship_symbol (str):
-        json_body (RemoveMountRemoveMountRequest):
+        json_body (RemoveMountRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[RemoveMountRemoveMount201Response]
+        Response[RemoveMount201Response]
     """
 
     kwargs = _get_kwargs(
@@ -94,8 +92,8 @@ def sync(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-    json_body: RemoveMountRemoveMountRequest,
-) -> Optional[RemoveMountRemoveMount201Response]:
+    json_body: RemoveMountRequest,
+) -> Optional[RemoveMount201Response]:
     """Remove Mount
 
      Remove a mount from a ship.
@@ -107,14 +105,14 @@ def sync(
 
     Args:
         ship_symbol (str):
-        json_body (RemoveMountRemoveMountRequest):
+        json_body (RemoveMountRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        RemoveMountRemoveMount201Response
+        RemoveMount201Response
     """
 
     return sync_detailed(
@@ -128,8 +126,8 @@ async def asyncio_detailed(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-    json_body: RemoveMountRemoveMountRequest,
-) -> Response[RemoveMountRemoveMount201Response]:
+    json_body: RemoveMountRequest,
+) -> Response[RemoveMount201Response]:
     """Remove Mount
 
      Remove a mount from a ship.
@@ -141,14 +139,14 @@ async def asyncio_detailed(
 
     Args:
         ship_symbol (str):
-        json_body (RemoveMountRemoveMountRequest):
+        json_body (RemoveMountRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[RemoveMountRemoveMount201Response]
+        Response[RemoveMount201Response]
     """
 
     kwargs = _get_kwargs(
@@ -165,8 +163,8 @@ async def asyncio(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-    json_body: RemoveMountRemoveMountRequest,
-) -> Optional[RemoveMountRemoveMount201Response]:
+    json_body: RemoveMountRequest,
+) -> Optional[RemoveMount201Response]:
     """Remove Mount
 
      Remove a mount from a ship.
@@ -178,14 +176,14 @@ async def asyncio(
 
     Args:
         ship_symbol (str):
-        json_body (RemoveMountRemoveMountRequest):
+        json_body (RemoveMountRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        RemoveMountRemoveMount201Response
+        RemoveMount201Response
     """
 
     return (

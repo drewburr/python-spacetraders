@@ -18,11 +18,11 @@ if TYPE_CHECKING:
     from ..models.ship_mount import ShipMount
 
 
-T = TypeVar("T", bound="InstallMountInstallMount201ResponseData")
+T = TypeVar("T", bound="InstallMount201ResponseData")
 
 
 @_attrs_define
-class InstallMountInstallMount201ResponseData:
+class InstallMount201ResponseData:
     """
     Attributes:
         agent (Agent): Agent details.
@@ -86,15 +86,15 @@ class InstallMountInstallMount201ResponseData:
 
         transaction = ShipModificationTransaction.from_dict(d.pop("transaction"))
 
-        install_mount_install_mount_201_response_data = cls(
+        install_mount_201_response_data = cls(
             agent=agent,
             mounts=mounts,
             cargo=cargo,
             transaction=transaction,
         )
 
-        install_mount_install_mount_201_response_data.additional_properties = d
-        return install_mount_install_mount_201_response_data
+        install_mount_201_response_data.additional_properties = d
+        return install_mount_201_response_data
 
     @property
     def additional_keys(self) -> List[str]:

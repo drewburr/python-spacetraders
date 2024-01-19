@@ -11,11 +11,11 @@ from attrs import field as _attrs_field
 
 from ..models.trade_symbol import TradeSymbol
 
-T = TypeVar("T", bound="SellCargoSellCargoRequest")
+T = TypeVar("T", bound="SellCargoRequest")
 
 
 @_attrs_define
-class SellCargoSellCargoRequest:
+class SellCargoRequest:
     """
     Attributes:
         symbol (TradeSymbol): The good's symbol.
@@ -49,13 +49,13 @@ class SellCargoSellCargoRequest:
 
         units = d.pop("units")
 
-        sell_cargo_sell_cargo_request = cls(
+        sell_cargo_request = cls(
             symbol=symbol,
             units=units,
         )
 
-        sell_cargo_sell_cargo_request.additional_properties = d
-        return sell_cargo_sell_cargo_request
+        sell_cargo_request.additional_properties = d
+        return sell_cargo_request
 
     @property
     def additional_keys(self) -> List[str]:

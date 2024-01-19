@@ -5,19 +5,15 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.install_mount_install_mount_201_response import (
-    InstallMountInstallMount201Response,
-)
-from ...models.install_mount_install_mount_request import (
-    InstallMountInstallMountRequest,
-)
+from ...models.install_mount_201_response import InstallMount201Response
+from ...models.install_mount_request import InstallMountRequest
 from ...types import Response
 
 
 def _get_kwargs(
     ship_symbol: str,
     *,
-    json_body: InstallMountInstallMountRequest,
+    json_body: InstallMountRequest,
 ) -> Dict[str, Any]:
     _kwargs: Dict[str, Any] = {
         "method": "post",
@@ -31,9 +27,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[InstallMountInstallMount201Response]:
+) -> Optional[InstallMount201Response]:
     if response.status_code == HTTPStatus.CREATED:
-        response_201 = InstallMountInstallMount201Response.from_dict(response.json())
+        response_201 = InstallMount201Response.from_dict(response.json())
 
         return response_201
     if client.raise_on_unexpected_status:
@@ -44,7 +40,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[InstallMountInstallMount201Response]:
+) -> Response[InstallMount201Response]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -57,8 +53,8 @@ def sync_detailed(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-    json_body: InstallMountInstallMountRequest,
-) -> Response[InstallMountInstallMount201Response]:
+    json_body: InstallMountRequest,
+) -> Response[InstallMount201Response]:
     """Install Mount
 
      Install a mount on a ship.
@@ -70,14 +66,14 @@ def sync_detailed(
 
     Args:
         ship_symbol (str):
-        json_body (InstallMountInstallMountRequest):
+        json_body (InstallMountRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[InstallMountInstallMount201Response]
+        Response[InstallMount201Response]
     """
 
     kwargs = _get_kwargs(
@@ -96,8 +92,8 @@ def sync(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-    json_body: InstallMountInstallMountRequest,
-) -> Optional[InstallMountInstallMount201Response]:
+    json_body: InstallMountRequest,
+) -> Optional[InstallMount201Response]:
     """Install Mount
 
      Install a mount on a ship.
@@ -109,14 +105,14 @@ def sync(
 
     Args:
         ship_symbol (str):
-        json_body (InstallMountInstallMountRequest):
+        json_body (InstallMountRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        InstallMountInstallMount201Response
+        InstallMount201Response
     """
 
     return sync_detailed(
@@ -130,8 +126,8 @@ async def asyncio_detailed(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-    json_body: InstallMountInstallMountRequest,
-) -> Response[InstallMountInstallMount201Response]:
+    json_body: InstallMountRequest,
+) -> Response[InstallMount201Response]:
     """Install Mount
 
      Install a mount on a ship.
@@ -143,14 +139,14 @@ async def asyncio_detailed(
 
     Args:
         ship_symbol (str):
-        json_body (InstallMountInstallMountRequest):
+        json_body (InstallMountRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[InstallMountInstallMount201Response]
+        Response[InstallMount201Response]
     """
 
     kwargs = _get_kwargs(
@@ -167,8 +163,8 @@ async def asyncio(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-    json_body: InstallMountInstallMountRequest,
-) -> Optional[InstallMountInstallMount201Response]:
+    json_body: InstallMountRequest,
+) -> Optional[InstallMount201Response]:
     """Install Mount
 
      Install a mount on a ship.
@@ -180,14 +176,14 @@ async def asyncio(
 
     Args:
         ship_symbol (str):
-        json_body (InstallMountInstallMountRequest):
+        json_body (InstallMountRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        InstallMountInstallMount201Response
+        InstallMount201Response
     """
 
     return (

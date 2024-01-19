@@ -5,7 +5,7 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.get_mounts_get_mounts_200_response import GetMountsGetMounts200Response
+from ...models.get_mounts_200_response import GetMounts200Response
 from ...types import Response
 
 
@@ -24,9 +24,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[GetMountsGetMounts200Response]:
+) -> Optional[GetMounts200Response]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = GetMountsGetMounts200Response.from_dict(response.json())
+        response_200 = GetMounts200Response.from_dict(response.json())
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -37,7 +37,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[GetMountsGetMounts200Response]:
+) -> Response[GetMounts200Response]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -50,7 +50,7 @@ def sync_detailed(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-) -> Response[GetMountsGetMounts200Response]:
+) -> Response[GetMounts200Response]:
     """Get Mounts
 
      Get the mounts installed on a ship.
@@ -63,7 +63,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetMountsGetMounts200Response]
+        Response[GetMounts200Response]
     """
 
     kwargs = _get_kwargs(
@@ -81,7 +81,7 @@ def sync(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-) -> Optional[GetMountsGetMounts200Response]:
+) -> Optional[GetMounts200Response]:
     """Get Mounts
 
      Get the mounts installed on a ship.
@@ -94,7 +94,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetMountsGetMounts200Response
+        GetMounts200Response
     """
 
     return sync_detailed(
@@ -107,7 +107,7 @@ async def asyncio_detailed(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-) -> Response[GetMountsGetMounts200Response]:
+) -> Response[GetMounts200Response]:
     """Get Mounts
 
      Get the mounts installed on a ship.
@@ -120,7 +120,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetMountsGetMounts200Response]
+        Response[GetMounts200Response]
     """
 
     kwargs = _get_kwargs(
@@ -136,7 +136,7 @@ async def asyncio(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-) -> Optional[GetMountsGetMounts200Response]:
+) -> Optional[GetMounts200Response]:
     """Get Mounts
 
      Get the mounts installed on a ship.
@@ -149,7 +149,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetMountsGetMounts200Response
+        GetMounts200Response
     """
 
     return (

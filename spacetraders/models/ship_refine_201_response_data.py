@@ -14,33 +14,31 @@ from attrs import field as _attrs_field
 if TYPE_CHECKING:
     from ..models.cooldown import Cooldown
     from ..models.ship_cargo import ShipCargo
-    from ..models.ship_refine_ship_refine_201_response_data_consumed_item import (
-        ShipRefineShipRefine201ResponseDataConsumedItem,
+    from ..models.ship_refine_201_response_data_consumed_item import (
+        ShipRefine201ResponseDataConsumedItem,
     )
-    from ..models.ship_refine_ship_refine_201_response_data_produced_item import (
-        ShipRefineShipRefine201ResponseDataProducedItem,
+    from ..models.ship_refine_201_response_data_produced_item import (
+        ShipRefine201ResponseDataProducedItem,
     )
 
 
-T = TypeVar("T", bound="ShipRefineShipRefine201ResponseData")
+T = TypeVar("T", bound="ShipRefine201ResponseData")
 
 
 @_attrs_define
-class ShipRefineShipRefine201ResponseData:
+class ShipRefine201ResponseData:
     """
     Attributes:
         cargo (ShipCargo): Ship cargo details.
         cooldown (Cooldown): A cooldown is a period of time in which a ship cannot perform certain actions.
-        produced (List['ShipRefineShipRefine201ResponseDataProducedItem']): Goods that were produced by this refining
-            process.
-        consumed (List['ShipRefineShipRefine201ResponseDataConsumedItem']): Goods that were consumed during this
-            refining process.
+        produced (List['ShipRefine201ResponseDataProducedItem']): Goods that were produced by this refining process.
+        consumed (List['ShipRefine201ResponseDataConsumedItem']): Goods that were consumed during this refining process.
     """
 
     cargo: "ShipCargo"
     cooldown: "Cooldown"
-    produced: List["ShipRefineShipRefine201ResponseDataProducedItem"]
-    consumed: List["ShipRefineShipRefine201ResponseDataConsumedItem"]
+    produced: List["ShipRefine201ResponseDataProducedItem"]
+    consumed: List["ShipRefine201ResponseDataConsumedItem"]
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -78,11 +76,11 @@ class ShipRefineShipRefine201ResponseData:
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         from ..models.cooldown import Cooldown
         from ..models.ship_cargo import ShipCargo
-        from ..models.ship_refine_ship_refine_201_response_data_consumed_item import (
-            ShipRefineShipRefine201ResponseDataConsumedItem,
+        from ..models.ship_refine_201_response_data_consumed_item import (
+            ShipRefine201ResponseDataConsumedItem,
         )
-        from ..models.ship_refine_ship_refine_201_response_data_produced_item import (
-            ShipRefineShipRefine201ResponseDataProducedItem,
+        from ..models.ship_refine_201_response_data_produced_item import (
+            ShipRefine201ResponseDataProducedItem,
         )
 
         d = src_dict.copy()
@@ -93,7 +91,7 @@ class ShipRefineShipRefine201ResponseData:
         produced = []
         _produced = d.pop("produced")
         for produced_item_data in _produced:
-            produced_item = ShipRefineShipRefine201ResponseDataProducedItem.from_dict(
+            produced_item = ShipRefine201ResponseDataProducedItem.from_dict(
                 produced_item_data
             )
 
@@ -102,21 +100,21 @@ class ShipRefineShipRefine201ResponseData:
         consumed = []
         _consumed = d.pop("consumed")
         for consumed_item_data in _consumed:
-            consumed_item = ShipRefineShipRefine201ResponseDataConsumedItem.from_dict(
+            consumed_item = ShipRefine201ResponseDataConsumedItem.from_dict(
                 consumed_item_data
             )
 
             consumed.append(consumed_item)
 
-        ship_refine_ship_refine_201_response_data = cls(
+        ship_refine_201_response_data = cls(
             cargo=cargo,
             cooldown=cooldown,
             produced=produced,
             consumed=consumed,
         )
 
-        ship_refine_ship_refine_201_response_data.additional_properties = d
-        return ship_refine_ship_refine_201_response_data
+        ship_refine_201_response_data.additional_properties = d
+        return ship_refine_201_response_data
 
     @property
     def additional_keys(self) -> List[str]:

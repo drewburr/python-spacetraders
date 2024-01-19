@@ -12,22 +12,20 @@ from attrs import field as _attrs_field
 
 
 if TYPE_CHECKING:
-    from ..models.remove_mount_remove_mount_201_response_data import (
-        RemoveMountRemoveMount201ResponseData,
-    )
+    from ..models.dock_ship_200_response_data import DockShip200ResponseData
 
 
-T = TypeVar("T", bound="RemoveMountRemoveMount201Response")
+T = TypeVar("T", bound="DockShip200Response")
 
 
 @_attrs_define
-class RemoveMountRemoveMount201Response:
+class DockShip200Response:
     """
     Attributes:
-        data (RemoveMountRemoveMount201ResponseData):
+        data (DockShip200ResponseData):
     """
 
-    data: "RemoveMountRemoveMount201ResponseData"
+    data: "DockShip200ResponseData"
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -46,19 +44,17 @@ class RemoveMountRemoveMount201Response:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        from ..models.remove_mount_remove_mount_201_response_data import (
-            RemoveMountRemoveMount201ResponseData,
-        )
+        from ..models.dock_ship_200_response_data import DockShip200ResponseData
 
         d = src_dict.copy()
-        data = RemoveMountRemoveMount201ResponseData.from_dict(d.pop("data"))
+        data = DockShip200ResponseData.from_dict(d.pop("data"))
 
-        remove_mount_remove_mount_201_response = cls(
+        dock_ship_200_response = cls(
             data=data,
         )
 
-        remove_mount_remove_mount_201_response.additional_properties = d
-        return remove_mount_remove_mount_201_response
+        dock_ship_200_response.additional_properties = d
+        return dock_ship_200_response
 
     @property
     def additional_keys(self) -> List[str]:

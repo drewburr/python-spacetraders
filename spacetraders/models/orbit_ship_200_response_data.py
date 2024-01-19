@@ -12,33 +12,31 @@ from attrs import field as _attrs_field
 
 
 if TYPE_CHECKING:
-    from ..models.sell_cargo_sell_cargo_201_response_data import (
-        SellCargoSellCargo201ResponseData,
-    )
+    from ..models.ship_nav import ShipNav
 
 
-T = TypeVar("T", bound="SellCargoSellCargo201Response")
+T = TypeVar("T", bound="OrbitShip200ResponseData")
 
 
 @_attrs_define
-class SellCargoSellCargo201Response:
+class OrbitShip200ResponseData:
     """
     Attributes:
-        data (SellCargoSellCargo201ResponseData):
+        nav (ShipNav): The navigation information of the ship.
     """
 
-    data: "SellCargoSellCargo201ResponseData"
+    nav: "ShipNav"
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
 
-        data = self.data.to_dict()
+        nav = self.nav.to_dict()
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "data": data,
+                "nav": nav,
             }
         )
 
@@ -46,19 +44,17 @@ class SellCargoSellCargo201Response:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        from ..models.sell_cargo_sell_cargo_201_response_data import (
-            SellCargoSellCargo201ResponseData,
-        )
+        from ..models.ship_nav import ShipNav
 
         d = src_dict.copy()
-        data = SellCargoSellCargo201ResponseData.from_dict(d.pop("data"))
+        nav = ShipNav.from_dict(d.pop("nav"))
 
-        sell_cargo_sell_cargo_201_response = cls(
-            data=data,
+        orbit_ship_200_response_data = cls(
+            nav=nav,
         )
 
-        sell_cargo_sell_cargo_201_response.additional_properties = d
-        return sell_cargo_sell_cargo_201_response
+        orbit_ship_200_response_data.additional_properties = d
+        return orbit_ship_200_response_data
 
     @property
     def additional_keys(self) -> List[str]:

@@ -12,22 +12,20 @@ from attrs import field as _attrs_field
 
 
 if TYPE_CHECKING:
-    from ..models.ship_refine_ship_refine_201_response_data import (
-        ShipRefineShipRefine201ResponseData,
-    )
+    from ..models.transfer_cargo_200_response_data import TransferCargo200ResponseData
 
 
-T = TypeVar("T", bound="ShipRefineShipRefine201Response")
+T = TypeVar("T", bound="TransferCargo200Response")
 
 
 @_attrs_define
-class ShipRefineShipRefine201Response:
+class TransferCargo200Response:
     """
     Attributes:
-        data (ShipRefineShipRefine201ResponseData):
+        data (TransferCargo200ResponseData):
     """
 
-    data: "ShipRefineShipRefine201ResponseData"
+    data: "TransferCargo200ResponseData"
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -46,19 +44,19 @@ class ShipRefineShipRefine201Response:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        from ..models.ship_refine_ship_refine_201_response_data import (
-            ShipRefineShipRefine201ResponseData,
+        from ..models.transfer_cargo_200_response_data import (
+            TransferCargo200ResponseData,
         )
 
         d = src_dict.copy()
-        data = ShipRefineShipRefine201ResponseData.from_dict(d.pop("data"))
+        data = TransferCargo200ResponseData.from_dict(d.pop("data"))
 
-        ship_refine_ship_refine_201_response = cls(
+        transfer_cargo_200_response = cls(
             data=data,
         )
 
-        ship_refine_ship_refine_201_response.additional_properties = d
-        return ship_refine_ship_refine_201_response
+        transfer_cargo_200_response.additional_properties = d
+        return transfer_cargo_200_response
 
     @property
     def additional_keys(self) -> List[str]:

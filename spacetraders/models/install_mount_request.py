@@ -1,5 +1,4 @@
 from typing import (
-    TYPE_CHECKING,
     Any,
     Dict,
     List,
@@ -11,32 +10,27 @@ from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 
-if TYPE_CHECKING:
-    from ..models.contract import Contract
-
-
-T = TypeVar("T", bound="NegotiateContractNegotiateContract200ResponseData")
+T = TypeVar("T", bound="InstallMountRequest")
 
 
 @_attrs_define
-class NegotiateContractNegotiateContract200ResponseData:
+class InstallMountRequest:
     """
     Attributes:
-        contract (Contract): Contract details.
+        symbol (str):
     """
 
-    contract: "Contract"
+    symbol: str
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
-
-        contract = self.contract.to_dict()
+        symbol = self.symbol
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "contract": contract,
+                "symbol": symbol,
             }
         )
 
@@ -44,19 +38,15 @@ class NegotiateContractNegotiateContract200ResponseData:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        from ..models.contract import Contract
-
         d = src_dict.copy()
-        contract = Contract.from_dict(d.pop("contract"))
+        symbol = d.pop("symbol")
 
-        negotiate_contract_negotiate_contract_200_response_data = cls(
-            contract=contract,
+        install_mount_request = cls(
+            symbol=symbol,
         )
 
-        negotiate_contract_negotiate_contract_200_response_data.additional_properties = (
-            d
-        )
-        return negotiate_contract_negotiate_contract_200_response_data
+        install_mount_request.additional_properties = d
+        return install_mount_request
 
     @property
     def additional_keys(self) -> List[str]:

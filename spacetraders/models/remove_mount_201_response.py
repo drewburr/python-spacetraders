@@ -1,4 +1,5 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
@@ -10,31 +11,32 @@ from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 
-T = TypeVar("T", bound="ShipRefineShipRefine201ResponseDataConsumedItem")
+if TYPE_CHECKING:
+    from ..models.remove_mount_201_response_data import RemoveMount201ResponseData
+
+
+T = TypeVar("T", bound="RemoveMount201Response")
 
 
 @_attrs_define
-class ShipRefineShipRefine201ResponseDataConsumedItem:
+class RemoveMount201Response:
     """
     Attributes:
-        trade_symbol (str): Symbol of the good.
-        units (int): Amount of units of the good.
+        data (RemoveMount201ResponseData):
     """
 
-    trade_symbol: str
-    units: int
+    data: "RemoveMount201ResponseData"
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
-        trade_symbol = self.trade_symbol
-        units = self.units
+
+        data = self.data.to_dict()
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "tradeSymbol": trade_symbol,
-                "units": units,
+                "data": data,
             }
         )
 
@@ -42,20 +44,17 @@ class ShipRefineShipRefine201ResponseDataConsumedItem:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.remove_mount_201_response_data import RemoveMount201ResponseData
+
         d = src_dict.copy()
-        trade_symbol = d.pop("tradeSymbol")
+        data = RemoveMount201ResponseData.from_dict(d.pop("data"))
 
-        units = d.pop("units")
-
-        ship_refine_ship_refine_201_response_data_consumed_item = cls(
-            trade_symbol=trade_symbol,
-            units=units,
+        remove_mount_201_response = cls(
+            data=data,
         )
 
-        ship_refine_ship_refine_201_response_data_consumed_item.additional_properties = (
-            d
-        )
-        return ship_refine_ship_refine_201_response_data_consumed_item
+        remove_mount_201_response.additional_properties = d
+        return remove_mount_201_response
 
     @property
     def additional_keys(self) -> List[str]:

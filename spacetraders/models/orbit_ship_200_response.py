@@ -1,4 +1,5 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
@@ -10,27 +11,32 @@ from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 
-T = TypeVar("T", bound="RemoveMountRemoveMountRequest")
+if TYPE_CHECKING:
+    from ..models.orbit_ship_200_response_data import OrbitShip200ResponseData
+
+
+T = TypeVar("T", bound="OrbitShip200Response")
 
 
 @_attrs_define
-class RemoveMountRemoveMountRequest:
+class OrbitShip200Response:
     """
     Attributes:
-        symbol (str): The symbol of the mount to remove.
+        data (OrbitShip200ResponseData):
     """
 
-    symbol: str
+    data: "OrbitShip200ResponseData"
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
-        symbol = self.symbol
+
+        data = self.data.to_dict()
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "symbol": symbol,
+                "data": data,
             }
         )
 
@@ -38,15 +44,17 @@ class RemoveMountRemoveMountRequest:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
-        symbol = d.pop("symbol")
+        from ..models.orbit_ship_200_response_data import OrbitShip200ResponseData
 
-        remove_mount_remove_mount_request = cls(
-            symbol=symbol,
+        d = src_dict.copy()
+        data = OrbitShip200ResponseData.from_dict(d.pop("data"))
+
+        orbit_ship_200_response = cls(
+            data=data,
         )
 
-        remove_mount_remove_mount_request.additional_properties = d
-        return remove_mount_remove_mount_request
+        orbit_ship_200_response.additional_properties = d
+        return orbit_ship_200_response
 
     @property
     def additional_keys(self) -> List[str]:

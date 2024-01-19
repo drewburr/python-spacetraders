@@ -12,33 +12,31 @@ from attrs import field as _attrs_field
 
 
 if TYPE_CHECKING:
-    from ..models.negotiate_contract_negotiate_contract_200_response_data import (
-        NegotiateContractNegotiateContract200ResponseData,
-    )
+    from ..models.contract import Contract
 
 
-T = TypeVar("T", bound="NegotiateContractNegotiateContract200Response")
+T = TypeVar("T", bound="NegotiateContract200ResponseData")
 
 
 @_attrs_define
-class NegotiateContractNegotiateContract200Response:
+class NegotiateContract200ResponseData:
     """
     Attributes:
-        data (NegotiateContractNegotiateContract200ResponseData):
+        contract (Contract): Contract details.
     """
 
-    data: "NegotiateContractNegotiateContract200ResponseData"
+    contract: "Contract"
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
 
-        data = self.data.to_dict()
+        contract = self.contract.to_dict()
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "data": data,
+                "contract": contract,
             }
         )
 
@@ -46,21 +44,17 @@ class NegotiateContractNegotiateContract200Response:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        from ..models.negotiate_contract_negotiate_contract_200_response_data import (
-            NegotiateContractNegotiateContract200ResponseData,
-        )
+        from ..models.contract import Contract
 
         d = src_dict.copy()
-        data = NegotiateContractNegotiateContract200ResponseData.from_dict(
-            d.pop("data")
+        contract = Contract.from_dict(d.pop("contract"))
+
+        negotiate_contract_200_response_data = cls(
+            contract=contract,
         )
 
-        negotiate_contract_negotiate_contract_200_response = cls(
-            data=data,
-        )
-
-        negotiate_contract_negotiate_contract_200_response.additional_properties = d
-        return negotiate_contract_negotiate_contract_200_response
+        negotiate_contract_200_response_data.additional_properties = d
+        return negotiate_contract_200_response_data
 
     @property
     def additional_keys(self) -> List[str]:

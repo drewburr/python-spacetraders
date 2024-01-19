@@ -12,29 +12,25 @@ from attrs import field as _attrs_field
 
 
 if TYPE_CHECKING:
-    from ..models.ship_mount import ShipMount
+    from ..models.install_mount_201_response_data import InstallMount201ResponseData
 
 
-T = TypeVar("T", bound="GetMountsGetMounts200Response")
+T = TypeVar("T", bound="InstallMount201Response")
 
 
 @_attrs_define
-class GetMountsGetMounts200Response:
+class InstallMount201Response:
     """
     Attributes:
-        data (List['ShipMount']):
+        data (InstallMount201ResponseData):
     """
 
-    data: List["ShipMount"]
+    data: "InstallMount201ResponseData"
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
 
-        data = []
-        for data_item_data in self.data:
-            data_item = data_item_data.to_dict()
-
-            data.append(data_item)
+        data = self.data.to_dict()
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -48,22 +44,17 @@ class GetMountsGetMounts200Response:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        from ..models.ship_mount import ShipMount
+        from ..models.install_mount_201_response_data import InstallMount201ResponseData
 
         d = src_dict.copy()
-        data = []
-        _data = d.pop("data")
-        for data_item_data in _data:
-            data_item = ShipMount.from_dict(data_item_data)
+        data = InstallMount201ResponseData.from_dict(d.pop("data"))
 
-            data.append(data_item)
-
-        get_mounts_get_mounts_200_response = cls(
+        install_mount_201_response = cls(
             data=data,
         )
 
-        get_mounts_get_mounts_200_response.additional_properties = d
-        return get_mounts_get_mounts_200_response
+        install_mount_201_response.additional_properties = d
+        return install_mount_201_response
 
     @property
     def additional_keys(self) -> List[str]:

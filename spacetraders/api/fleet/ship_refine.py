@@ -5,10 +5,8 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.ship_refine_201_response import ShipRefine201Response
 from ...models.ship_refine_json_body import ShipRefineJsonBody
-from ...models.ship_refine_ship_refine_201_response import (
-    ShipRefineShipRefine201Response,
-)
 from ...types import Response
 
 
@@ -29,9 +27,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[ShipRefineShipRefine201Response]:
+) -> Optional[ShipRefine201Response]:
     if response.status_code == HTTPStatus.CREATED:
-        response_201 = ShipRefineShipRefine201Response.from_dict(response.json())
+        response_201 = ShipRefine201Response.from_dict(response.json())
 
         return response_201
     if client.raise_on_unexpected_status:
@@ -42,7 +40,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[ShipRefineShipRefine201Response]:
+) -> Response[ShipRefine201Response]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -56,7 +54,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     json_body: ShipRefineJsonBody,
-) -> Response[ShipRefineShipRefine201Response]:
+) -> Response[ShipRefine201Response]:
     """Ship Refine
 
      Attempt to refine the raw materials on your ship. The request will only succeed if your ship is
@@ -74,7 +72,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ShipRefineShipRefine201Response]
+        Response[ShipRefine201Response]
     """
 
     kwargs = _get_kwargs(
@@ -94,7 +92,7 @@ def sync(
     *,
     client: AuthenticatedClient,
     json_body: ShipRefineJsonBody,
-) -> Optional[ShipRefineShipRefine201Response]:
+) -> Optional[ShipRefine201Response]:
     """Ship Refine
 
      Attempt to refine the raw materials on your ship. The request will only succeed if your ship is
@@ -112,7 +110,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ShipRefineShipRefine201Response
+        ShipRefine201Response
     """
 
     return sync_detailed(
@@ -127,7 +125,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     json_body: ShipRefineJsonBody,
-) -> Response[ShipRefineShipRefine201Response]:
+) -> Response[ShipRefine201Response]:
     """Ship Refine
 
      Attempt to refine the raw materials on your ship. The request will only succeed if your ship is
@@ -145,7 +143,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ShipRefineShipRefine201Response]
+        Response[ShipRefine201Response]
     """
 
     kwargs = _get_kwargs(
@@ -163,7 +161,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     json_body: ShipRefineJsonBody,
-) -> Optional[ShipRefineShipRefine201Response]:
+) -> Optional[ShipRefine201Response]:
     """Ship Refine
 
      Attempt to refine the raw materials on your ship. The request will only succeed if your ship is
@@ -181,7 +179,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ShipRefineShipRefine201Response
+        ShipRefine201Response
     """
 
     return (

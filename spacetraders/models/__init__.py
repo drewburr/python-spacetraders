@@ -30,8 +30,8 @@ from .create_survey_response_201_data import CreateSurveyResponse201Data
 from .deliver_contract_json_body import DeliverContractJsonBody
 from .deliver_contract_response_200 import DeliverContractResponse200
 from .deliver_contract_response_200_data import DeliverContractResponse200Data
-from .dock_ship_dock_ship_200_response import DockShipDockShip200Response
-from .dock_ship_dock_ship_200_response_data import DockShipDockShip200ResponseData
+from .dock_ship_200_response import DockShip200Response
+from .dock_ship_200_response_data import DockShip200ResponseData
 from .extract_resources_json_body import ExtractResourcesJsonBody
 from .extract_resources_response_201 import ExtractResourcesResponse201
 from .extract_resources_response_201_data import ExtractResourcesResponse201Data
@@ -58,7 +58,7 @@ from .get_faction_response_200 import GetFactionResponse200
 from .get_factions_response_200 import GetFactionsResponse200
 from .get_jump_gate_response_200 import GetJumpGateResponse200
 from .get_market_response_200 import GetMarketResponse200
-from .get_mounts_get_mounts_200_response import GetMountsGetMounts200Response
+from .get_mounts_200_response import GetMounts200Response
 from .get_my_agent_response_200 import GetMyAgentResponse200
 from .get_my_ship_cargo_response_200 import GetMyShipCargoResponse200
 from .get_my_ship_response_200 import GetMyShipResponse200
@@ -84,13 +84,9 @@ from .get_system_response_200 import GetSystemResponse200
 from .get_system_waypoints_response_200 import GetSystemWaypointsResponse200
 from .get_systems_response_200 import GetSystemsResponse200
 from .get_waypoint_response_200 import GetWaypointResponse200
-from .install_mount_install_mount_201_response import (
-    InstallMountInstallMount201Response,
-)
-from .install_mount_install_mount_201_response_data import (
-    InstallMountInstallMount201ResponseData,
-)
-from .install_mount_install_mount_request import InstallMountInstallMountRequest
+from .install_mount_201_response import InstallMount201Response
+from .install_mount_201_response_data import InstallMount201ResponseData
+from .install_mount_request import InstallMountRequest
 from .jettison_json_body import JettisonJsonBody
 from .jettison_response_200 import JettisonResponse200
 from .jettison_response_200_data import JettisonResponse200Data
@@ -107,23 +103,15 @@ from .meta import Meta
 from .navigate_ship_json_body import NavigateShipJsonBody
 from .navigate_ship_response_200 import NavigateShipResponse200
 from .navigate_ship_response_200_data import NavigateShipResponse200Data
-from .negotiate_contract_negotiate_contract_200_response import (
-    NegotiateContractNegotiateContract200Response,
-)
-from .negotiate_contract_negotiate_contract_200_response_data import (
-    NegotiateContractNegotiateContract200ResponseData,
-)
-from .orbit_ship_orbit_ship_200_response import OrbitShipOrbitShip200Response
-from .orbit_ship_orbit_ship_200_response_data import OrbitShipOrbitShip200ResponseData
+from .negotiate_contract_200_response import NegotiateContract200Response
+from .negotiate_contract_200_response_data import NegotiateContract200ResponseData
+from .orbit_ship_200_response import OrbitShip200Response
+from .orbit_ship_200_response_data import OrbitShip200ResponseData
 from .patch_ship_nav_json_body import PatchShipNavJsonBody
 from .patch_ship_nav_response_200 import PatchShipNavResponse200
-from .purchase_cargo_purchase_cargo_201_response import (
-    PurchaseCargoPurchaseCargo201Response,
-)
-from .purchase_cargo_purchase_cargo_201_response_data import (
-    PurchaseCargoPurchaseCargo201ResponseData,
-)
-from .purchase_cargo_purchase_cargo_request import PurchaseCargoPurchaseCargoRequest
+from .purchase_cargo_201_response import PurchaseCargo201Response
+from .purchase_cargo_201_response_data import PurchaseCargo201ResponseData
+from .purchase_cargo_request import PurchaseCargoRequest
 from .purchase_ship_json_body import PurchaseShipJsonBody
 from .purchase_ship_response_201 import PurchaseShipResponse201
 from .purchase_ship_response_201_data import PurchaseShipResponse201Data
@@ -133,11 +121,9 @@ from .refuel_ship_response_200_data import RefuelShipResponse200Data
 from .register_json_body import RegisterJsonBody
 from .register_response_201 import RegisterResponse201
 from .register_response_201_data import RegisterResponse201Data
-from .remove_mount_remove_mount_201_response import RemoveMountRemoveMount201Response
-from .remove_mount_remove_mount_201_response_data import (
-    RemoveMountRemoveMount201ResponseData,
-)
-from .remove_mount_remove_mount_request import RemoveMountRemoveMountRequest
+from .remove_mount_201_response import RemoveMount201Response
+from .remove_mount_201_response_data import RemoveMount201ResponseData
+from .remove_mount_request import RemoveMountRequest
 from .scanned_ship import ScannedShip
 from .scanned_ship_engine import ScannedShipEngine
 from .scanned_ship_frame import ScannedShipFrame
@@ -145,9 +131,9 @@ from .scanned_ship_mounts_item import ScannedShipMountsItem
 from .scanned_ship_reactor import ScannedShipReactor
 from .scanned_system import ScannedSystem
 from .scanned_waypoint import ScannedWaypoint
-from .sell_cargo_sell_cargo_201_response import SellCargoSellCargo201Response
-from .sell_cargo_sell_cargo_201_response_data import SellCargoSellCargo201ResponseData
-from .sell_cargo_sell_cargo_request import SellCargoSellCargoRequest
+from .sell_cargo_201_response import SellCargo201Response
+from .sell_cargo_201_response_data import SellCargo201ResponseData
+from .sell_cargo_request import SellCargoRequest
 from .ship import Ship
 from .ship_cargo import ShipCargo
 from .ship_cargo_item import ShipCargoItem
@@ -172,18 +158,16 @@ from .ship_nav_route_waypoint import ShipNavRouteWaypoint
 from .ship_nav_status import ShipNavStatus
 from .ship_reactor import ShipReactor
 from .ship_reactor_symbol import ShipReactorSymbol
+from .ship_refine_201_response import ShipRefine201Response
+from .ship_refine_201_response_data import ShipRefine201ResponseData
+from .ship_refine_201_response_data_consumed_item import (
+    ShipRefine201ResponseDataConsumedItem,
+)
+from .ship_refine_201_response_data_produced_item import (
+    ShipRefine201ResponseDataProducedItem,
+)
 from .ship_refine_json_body import ShipRefineJsonBody
 from .ship_refine_json_body_produce import ShipRefineJsonBodyProduce
-from .ship_refine_ship_refine_201_response import ShipRefineShipRefine201Response
-from .ship_refine_ship_refine_201_response_data import (
-    ShipRefineShipRefine201ResponseData,
-)
-from .ship_refine_ship_refine_201_response_data_consumed_item import (
-    ShipRefineShipRefine201ResponseDataConsumedItem,
-)
-from .ship_refine_ship_refine_201_response_data_produced_item import (
-    ShipRefineShipRefine201ResponseDataProducedItem,
-)
 from .ship_registration import ShipRegistration
 from .ship_requirements import ShipRequirements
 from .ship_role import ShipRole
@@ -210,13 +194,9 @@ from .system_type import SystemType
 from .system_waypoint import SystemWaypoint
 from .trade_good import TradeGood
 from .trade_symbol import TradeSymbol
-from .transfer_cargo_transfer_cargo_200_response import (
-    TransferCargoTransferCargo200Response,
-)
-from .transfer_cargo_transfer_cargo_200_response_data import (
-    TransferCargoTransferCargo200ResponseData,
-)
-from .transfer_cargo_transfer_cargo_request import TransferCargoTransferCargoRequest
+from .transfer_cargo_200_response import TransferCargo200Response
+from .transfer_cargo_200_response_data import TransferCargo200ResponseData
+from .transfer_cargo_request import TransferCargoRequest
 from .warp_ship_json_body import WarpShipJsonBody
 from .warp_ship_response_200 import WarpShipResponse200
 from .warp_ship_response_200_data import WarpShipResponse200Data
@@ -256,8 +236,8 @@ __all__ = (
     "DeliverContractJsonBody",
     "DeliverContractResponse200",
     "DeliverContractResponse200Data",
-    "DockShipDockShip200Response",
-    "DockShipDockShip200ResponseData",
+    "DockShip200Response",
+    "DockShip200ResponseData",
     "Extraction",
     "ExtractionYield",
     "ExtractResourcesJsonBody",
@@ -280,7 +260,7 @@ __all__ = (
     "GetFactionsResponse200",
     "GetJumpGateResponse200",
     "GetMarketResponse200",
-    "GetMountsGetMounts200Response",
+    "GetMounts200Response",
     "GetMyAgentResponse200",
     "GetMyShipCargoResponse200",
     "GetMyShipResponse200",
@@ -300,9 +280,9 @@ __all__ = (
     "GetSystemsResponse200",
     "GetSystemWaypointsResponse200",
     "GetWaypointResponse200",
-    "InstallMountInstallMount201Response",
-    "InstallMountInstallMount201ResponseData",
-    "InstallMountInstallMountRequest",
+    "InstallMount201Response",
+    "InstallMount201ResponseData",
+    "InstallMountRequest",
     "JettisonJsonBody",
     "JettisonResponse200",
     "JettisonResponse200Data",
@@ -319,15 +299,15 @@ __all__ = (
     "NavigateShipJsonBody",
     "NavigateShipResponse200",
     "NavigateShipResponse200Data",
-    "NegotiateContractNegotiateContract200Response",
-    "NegotiateContractNegotiateContract200ResponseData",
-    "OrbitShipOrbitShip200Response",
-    "OrbitShipOrbitShip200ResponseData",
+    "NegotiateContract200Response",
+    "NegotiateContract200ResponseData",
+    "OrbitShip200Response",
+    "OrbitShip200ResponseData",
     "PatchShipNavJsonBody",
     "PatchShipNavResponse200",
-    "PurchaseCargoPurchaseCargo201Response",
-    "PurchaseCargoPurchaseCargo201ResponseData",
-    "PurchaseCargoPurchaseCargoRequest",
+    "PurchaseCargo201Response",
+    "PurchaseCargo201ResponseData",
+    "PurchaseCargoRequest",
     "PurchaseShipJsonBody",
     "PurchaseShipResponse201",
     "PurchaseShipResponse201Data",
@@ -337,9 +317,9 @@ __all__ = (
     "RegisterJsonBody",
     "RegisterResponse201",
     "RegisterResponse201Data",
-    "RemoveMountRemoveMount201Response",
-    "RemoveMountRemoveMount201ResponseData",
-    "RemoveMountRemoveMountRequest",
+    "RemoveMount201Response",
+    "RemoveMount201ResponseData",
+    "RemoveMountRequest",
     "ScannedShip",
     "ScannedShipEngine",
     "ScannedShipFrame",
@@ -347,9 +327,9 @@ __all__ = (
     "ScannedShipReactor",
     "ScannedSystem",
     "ScannedWaypoint",
-    "SellCargoSellCargo201Response",
-    "SellCargoSellCargo201ResponseData",
-    "SellCargoSellCargoRequest",
+    "SellCargo201Response",
+    "SellCargo201ResponseData",
+    "SellCargoRequest",
     "Ship",
     "ShipCargo",
     "ShipCargoItem",
@@ -374,12 +354,12 @@ __all__ = (
     "ShipNavStatus",
     "ShipReactor",
     "ShipReactorSymbol",
+    "ShipRefine201Response",
+    "ShipRefine201ResponseData",
+    "ShipRefine201ResponseDataConsumedItem",
+    "ShipRefine201ResponseDataProducedItem",
     "ShipRefineJsonBody",
     "ShipRefineJsonBodyProduce",
-    "ShipRefineShipRefine201Response",
-    "ShipRefineShipRefine201ResponseData",
-    "ShipRefineShipRefine201ResponseDataConsumedItem",
-    "ShipRefineShipRefine201ResponseDataProducedItem",
     "ShipRegistration",
     "ShipRequirements",
     "ShipRole",
@@ -406,9 +386,9 @@ __all__ = (
     "SystemWaypoint",
     "TradeGood",
     "TradeSymbol",
-    "TransferCargoTransferCargo200Response",
-    "TransferCargoTransferCargo200ResponseData",
-    "TransferCargoTransferCargoRequest",
+    "TransferCargo200Response",
+    "TransferCargo200ResponseData",
+    "TransferCargoRequest",
     "WarpShipJsonBody",
     "WarpShipResponse200",
     "WarpShipResponse200Data",
