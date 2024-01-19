@@ -15,14 +15,15 @@ def _get_kwargs(
     *,
     json_body: DeliverContractJsonBody,
 ) -> Dict[str, Any]:
-    _kwargs: Dict[str, Any] = {
+    json_json_body = json_body.to_dict()
+
+    return {
         "method": "post",
         "url": "/my/contracts/{contractId}/deliver".format(
             contractId=contract_id,
         ),
+        "json": json_json_body,
     }
-
-    return _kwargs
 
 
 def _parse_response(

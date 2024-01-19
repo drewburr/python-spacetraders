@@ -1,12 +1,11 @@
-""" Contains methods for accessing the API """
+""" Contains modules for accessing the API """
 
+from . import (
 {% for endpoint in endpoint_collection.endpoints %}
 {% set endpoint_identifier = python_identifier(endpoint.name) %}
-
-from .{{ endpoint_identifier }} import sync_detailed as {{ endpoint_identifier }}
-from .{{ endpoint_identifier }} import asyncio_detailed as {{ endpoint_identifier }}_asyncio
+    {{ endpoint_identifier }},
 {% endfor %}
-
+)
 
 class {{ class_name(endpoint_collection.tag) }}:
     {% for endpoint in endpoint_collection.endpoints %}
@@ -14,14 +13,4 @@ class {{ class_name(endpoint_collection.tag) }}:
     {{ endpoint_identifier }} = {{ endpoint_identifier }}
     {% endfor %}
 
-
-class Async{{ class_name(endpoint_collection.tag) }}:
-    {% for endpoint in endpoint_collection.endpoints %}
-    {% set endpoint_identifier = python_identifier(endpoint.name) %}
-    {{ endpoint_identifier }} = {{ endpoint_identifier }}_asyncio
-    {% endfor %}
-
-__all__ = (
-    "{{ class_name(endpoint_collection.tag) }}",
-    "Async{{ class_name(endpoint_collection.tag) }}"
-)
+__all__ = "{{ class_name(endpoint_collection.tag) }}"

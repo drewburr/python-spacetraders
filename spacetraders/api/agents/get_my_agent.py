@@ -10,12 +10,10 @@ from ...types import Response
 
 
 def _get_kwargs() -> Dict[str, Any]:
-    _kwargs: Dict[str, Any] = {
+    return {
         "method": "get",
         "url": "/my/agent",
     }
-
-    return _kwargs
 
 
 def _parse_response(

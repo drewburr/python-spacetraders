@@ -12,14 +12,12 @@ from ...types import Response
 def _get_kwargs(
     ship_symbol: str,
 ) -> Dict[str, Any]:
-    _kwargs: Dict[str, Any] = {
+    return {
         "method": "post",
         "url": "/my/ships/{shipSymbol}/chart".format(
             shipSymbol=ship_symbol,
         ),
     }
-
-    return _kwargs
 
 
 def _parse_response(

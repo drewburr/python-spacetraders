@@ -17,14 +17,15 @@ def _get_kwargs(
     *,
     json_body: Survey,
 ) -> Dict[str, Any]:
-    _kwargs: Dict[str, Any] = {
+    json_json_body = json_body.to_dict()
+
+    return {
         "method": "post",
         "url": "/my/ships/{shipSymbol}/extract/survey".format(
             shipSymbol=ship_symbol,
         ),
+        "json": json_json_body,
     }
-
-    return _kwargs
 
 
 def _parse_response(

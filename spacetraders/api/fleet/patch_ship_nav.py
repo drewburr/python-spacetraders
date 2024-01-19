@@ -15,14 +15,15 @@ def _get_kwargs(
     *,
     json_body: PatchShipNavJsonBody,
 ) -> Dict[str, Any]:
-    _kwargs: Dict[str, Any] = {
+    json_json_body = json_body.to_dict()
+
+    return {
         "method": "patch",
         "url": "/my/ships/{shipSymbol}/nav".format(
             shipSymbol=ship_symbol,
         ),
+        "json": json_json_body,
     }
-
-    return _kwargs
 
 
 def _parse_response(

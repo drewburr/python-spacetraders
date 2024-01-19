@@ -14,12 +14,13 @@ def _get_kwargs(
     *,
     json_body: RegisterJsonBody,
 ) -> Dict[str, Any]:
-    _kwargs: Dict[str, Any] = {
+    json_json_body = json_body.to_dict()
+
+    return {
         "method": "post",
         "url": "/register",
+        "json": json_json_body,
     }
-
-    return _kwargs
 
 
 def _parse_response(
