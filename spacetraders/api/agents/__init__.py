@@ -1,4 +1,4 @@
-""" Contains methods for accessing the API """
+""" Contains modules for accessing the API """
 
 from . import get_agent, get_agents, get_my_agent
 
