@@ -14,6 +14,7 @@ from ...types import Response
 def _get_kwargs(
     ship_symbol: str,
 ) -> Dict[str, Any]:
+
     return {
         "method": "post",
         "url": "/my/ships/{shipSymbol}/scan/waypoints".format(

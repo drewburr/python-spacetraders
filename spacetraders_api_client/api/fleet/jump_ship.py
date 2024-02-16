@@ -15,6 +15,7 @@ def _get_kwargs(
     *,
     json_body: JumpShipJsonBody,
 ) -> Dict[str, Any]:
+
     json_json_body = json_body.to_dict()
 
     return {

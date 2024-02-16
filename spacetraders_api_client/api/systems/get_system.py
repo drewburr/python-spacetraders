@@ -12,6 +12,7 @@ from ...types import Response
 def _get_kwargs(
     system_symbol: str = "X1-OE",
 ) -> Dict[str, Any]:
+
     return {
         "method": "get",
         "url": "/systems/{systemSymbol}".format(

@@ -19,6 +19,7 @@ def _get_kwargs(
     type: Union[Unset, None, WaypointType] = UNSET,
     traits: Union[List[WaypointTraitSymbol], None, Unset, WaypointTraitSymbol] = UNSET,
 ) -> Dict[str, Any]:
+
     params: Dict[str, Any] = {}
     params["page"] = page
 

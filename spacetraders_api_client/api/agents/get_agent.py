@@ -12,6 +12,7 @@ from ...types import Response
 def _get_kwargs(
     agent_symbol: str = "FEBA66",
 ) -> Dict[str, Any]:
+
     return {
         "method": "get",
         "url": "/agents/{agentSymbol}".format(

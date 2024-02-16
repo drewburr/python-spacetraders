@@ -10,6 +10,7 @@ from ...types import Response
 
 
 def _get_kwargs() -> Dict[str, Any]:
+
     return {
         "method": "get",
         "url": "/my/agent",

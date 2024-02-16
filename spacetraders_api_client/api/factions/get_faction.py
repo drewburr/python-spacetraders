@@ -12,6 +12,7 @@ from ...types import Response
 def _get_kwargs(
     faction_symbol: str,
 ) -> Dict[str, Any]:
+
     return {
         "method": "get",
         "url": "/factions/{factionSymbol}".format(

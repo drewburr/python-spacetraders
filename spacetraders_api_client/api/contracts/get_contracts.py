@@ -14,6 +14,7 @@ def _get_kwargs(
     page: Union[Unset, None, int] = 1,
     limit: Union[Unset, None, int] = 10,
 ) -> Dict[str, Any]:
+
     params: Dict[str, Any] = {}
     params["page"] = page
 

@@ -14,6 +14,7 @@ def _get_kwargs(
     *,
     json_body: RegisterJsonBody,
 ) -> Dict[str, Any]:
+
     json_json_body = json_body.to_dict()
 
     return {

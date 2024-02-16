@@ -12,6 +12,7 @@ from ...types import Response
 def _get_kwargs(
     contract_id: str,
 ) -> Dict[str, Any]:
+
     return {
         "method": "post",
         "url": "/my/contracts/{contractId}/accept".format(

@@ -13,6 +13,7 @@ def _get_kwargs(
     system_symbol: str,
     waypoint_symbol: str,
 ) -> Dict[str, Any]:
+
     return {
         "method": "get",
         "url": "/systems/{systemSymbol}/waypoints/{waypointSymbol}/shipyard".format(
