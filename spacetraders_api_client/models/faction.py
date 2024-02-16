@@ -45,12 +45,14 @@ class Faction:
         symbol = self.symbol.value
 
         name = self.name
+
         description = self.description
+
         headquarters = self.headquarters
+
         traits = []
         for traits_item_data in self.traits:
             traits_item = traits_item_data.to_dict()
-
             traits.append(traits_item)
 
         is_recruiting = self.is_recruiting

@@ -28,6 +28,7 @@ class JumpGate:
 
     def to_dict(self) -> Dict[str, Any]:
         symbol = self.symbol
+
         connections = self.connections
 
         field_dict: Dict[str, Any] = {}

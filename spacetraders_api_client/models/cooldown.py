@@ -36,8 +36,11 @@ class Cooldown:
 
     def to_dict(self) -> Dict[str, Any]:
         ship_symbol = self.ship_symbol
+
         total_seconds = self.total_seconds
+
         remaining_seconds = self.remaining_seconds
+
         expiration: Union[Unset, str] = UNSET
         if not isinstance(self.expiration, Unset):
             expiration = self.expiration.isoformat()

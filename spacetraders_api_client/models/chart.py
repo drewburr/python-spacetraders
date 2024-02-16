@@ -34,7 +34,9 @@ class Chart:
 
     def to_dict(self) -> Dict[str, Any]:
         waypoint_symbol = self.waypoint_symbol
+
         submitted_by = self.submitted_by
+
         submitted_on: Union[Unset, str] = UNSET
         if not isinstance(self.submitted_on, Unset):
             submitted_on = self.submitted_on.isoformat()

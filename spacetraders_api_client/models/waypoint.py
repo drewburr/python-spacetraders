@@ -65,25 +65,29 @@ class Waypoint:
     def to_dict(self) -> Dict[str, Any]:
 
         symbol = self.symbol
+
         type = self.type.value
 
         system_symbol = self.system_symbol
+
         x = self.x
+
         y = self.y
+
         orbitals = []
         for orbitals_item_data in self.orbitals:
             orbitals_item = orbitals_item_data.to_dict()
-
             orbitals.append(orbitals_item)
 
         traits = []
         for traits_item_data in self.traits:
             traits_item = traits_item_data.to_dict()
-
             traits.append(traits_item)
 
         is_under_construction = self.is_under_construction
+
         orbits = self.orbits
+
         faction: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.faction, Unset):
             faction = self.faction.to_dict()
@@ -93,7 +97,6 @@ class Waypoint:
             modifiers = []
             for modifiers_item_data in self.modifiers:
                 modifiers_item = modifiers_item_data.to_dict()
-
                 modifiers.append(modifiers_item)
 
         chart: Union[Unset, Dict[str, Any]] = UNSET

@@ -1,4 +1,5 @@
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
@@ -10,52 +11,58 @@ from typing import (
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..models.ship_nav_flight_mode import ShipNavFlightMode
 from ..types import UNSET, Unset
 
-T = TypeVar("T", bound="PatchShipNavJsonBody")
+if TYPE_CHECKING:
+    from ..models.survey import Survey
+
+
+T = TypeVar("T", bound="ExtractResourcesBody")
 
 
 @_attrs_define
-class PatchShipNavJsonBody:
+class ExtractResourcesBody:
     """
     Attributes:
-        flight_mode (Union[Unset, ShipNavFlightMode]): The ship's set speed when traveling between waypoints or systems.
-            Default: ShipNavFlightMode.CRUISE.
+        survey (Union[Unset, Survey]): A resource survey of a waypoint, detailing a specific extraction location and the
+            types of resources that can be found there.
     """
 
-    flight_mode: Union[Unset, ShipNavFlightMode] = ShipNavFlightMode.CRUISE
+    survey: Union[Unset, "Survey"] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
-        flight_mode: Union[Unset, str] = UNSET
-        if not isinstance(self.flight_mode, Unset):
-            flight_mode = self.flight_mode.value
+
+        survey: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.survey, Unset):
+            survey = self.survey.to_dict()
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
-        if flight_mode is not UNSET:
-            field_dict["flightMode"] = flight_mode
+        if survey is not UNSET:
+            field_dict["survey"] = survey
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
-        _flight_mode = d.pop("flightMode", UNSET)
-        flight_mode: Union[Unset, ShipNavFlightMode]
-        if isinstance(_flight_mode, Unset):
-            flight_mode = UNSET
-        else:
-            flight_mode = ShipNavFlightMode(_flight_mode)
+        from ..models.survey import Survey
 
-        patch_ship_nav_json_body = cls(
-            flight_mode=flight_mode,
+        d = src_dict.copy()
+        _survey = d.pop("survey", UNSET)
+        survey: Union[Unset, Survey]
+        if isinstance(_survey, Unset):
+            survey = UNSET
+        else:
+            survey = Survey.from_dict(_survey)
+
+        extract_resources_body = cls(
+            survey=survey,
         )
 
-        patch_ship_nav_json_body.additional_properties = d
-        return patch_ship_nav_json_body
+        extract_resources_body.additional_properties = d
+        return extract_resources_body
 
     @property
     def additional_keys(self) -> List[str]:

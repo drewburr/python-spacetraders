@@ -59,9 +59,13 @@ class GetStatusResponse200:
     def to_dict(self) -> Dict[str, Any]:
 
         status = self.status
+
         version = self.version
+
         reset_date = self.reset_date
+
         description = self.description
+
         stats = self.stats.to_dict()
 
         leaderboards = self.leaderboards.to_dict()
@@ -71,13 +75,11 @@ class GetStatusResponse200:
         announcements = []
         for announcements_item_data in self.announcements:
             announcements_item = announcements_item_data.to_dict()
-
             announcements.append(announcements_item)
 
         links = []
         for links_item_data in self.links:
             links_item = links_item_data.to_dict()
-
             links.append(links_item)
 
         field_dict: Dict[str, Any] = {}

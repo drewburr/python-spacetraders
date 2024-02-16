@@ -27,6 +27,7 @@ class GetStatusResponse200AnnouncementsItem:
 
     def to_dict(self) -> Dict[str, Any]:
         title = self.title
+
         body = self.body
 
         field_dict: Dict[str, Any] = {}

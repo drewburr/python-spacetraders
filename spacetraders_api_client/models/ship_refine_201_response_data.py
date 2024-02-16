@@ -50,13 +50,11 @@ class ShipRefine201ResponseData:
         produced = []
         for produced_item_data in self.produced:
             produced_item = produced_item_data.to_dict()
-
             produced.append(produced_item)
 
         consumed = []
         for consumed_item_data in self.consumed:
             consumed_item = consumed_item_data.to_dict()
-
             consumed.append(consumed_item)
 
         field_dict: Dict[str, Any] = {}

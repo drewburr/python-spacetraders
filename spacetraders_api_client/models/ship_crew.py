@@ -40,11 +40,15 @@ class ShipCrew:
 
     def to_dict(self) -> Dict[str, Any]:
         current = self.current
+
         required = self.required
+
         capacity = self.capacity
+
         rotation = self.rotation.value
 
         morale = self.morale
+
         wages = self.wages
 
         field_dict: Dict[str, Any] = {}

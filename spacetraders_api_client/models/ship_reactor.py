@@ -49,8 +49,11 @@ class ShipReactor:
         symbol = self.symbol.value
 
         name = self.name
+
         description = self.description
+
         power_output = self.power_output
+
         requirements = self.requirements.to_dict()
 
         condition = self.condition

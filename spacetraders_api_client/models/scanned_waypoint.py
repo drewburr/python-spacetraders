@@ -55,21 +55,23 @@ class ScannedWaypoint:
     def to_dict(self) -> Dict[str, Any]:
 
         symbol = self.symbol
+
         type = self.type.value
 
         system_symbol = self.system_symbol
+
         x = self.x
+
         y = self.y
+
         orbitals = []
         for orbitals_item_data in self.orbitals:
             orbitals_item = orbitals_item_data.to_dict()
-
             orbitals.append(orbitals_item)
 
         traits = []
         for traits_item_data in self.traits:
             traits_item = traits_item_data.to_dict()
-
             traits.append(traits_item)
 
         faction: Union[Unset, Dict[str, Any]] = UNSET

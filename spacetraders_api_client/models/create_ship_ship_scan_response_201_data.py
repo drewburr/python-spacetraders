@@ -38,7 +38,6 @@ class CreateShipShipScanResponse201Data:
         ships = []
         for ships_item_data in self.ships:
             ships_item = ships_item_data.to_dict()
-
             ships.append(ships_item)
 
         field_dict: Dict[str, Any] = {}

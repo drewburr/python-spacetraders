@@ -1,5 +1,4 @@
 from typing import (
-    TYPE_CHECKING,
     Any,
     Dict,
     List,
@@ -13,56 +12,53 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-if TYPE_CHECKING:
-    from ..models.survey import Survey
-
-
-T = TypeVar("T", bound="ExtractResourcesJsonBody")
+T = TypeVar("T", bound="RefuelShipBody")
 
 
 @_attrs_define
-class ExtractResourcesJsonBody:
+class RefuelShipBody:
     """
     Attributes:
-        survey (Union[Unset, Survey]): A resource survey of a waypoint, detailing a specific extraction location and the
-            types of resources that can be found there.
+        units (Union[Unset, int]): The amount of fuel to fill in the ship's tanks. When not specified, the ship will be
+            refueled to its maximum fuel capacity. If the amount specified is greater than the ship's remaining capacity,
+            the ship will only be refueled to its maximum fuel capacity. The amount specified is not in market units but in
+            ship fuel units. Example: 100.
+        from_cargo (Union[Unset, bool]): Wether to use the FUEL thats in your cargo or not. Default: false
     """
 
-    survey: Union[Unset, "Survey"] = UNSET
+    units: Union[Unset, int] = UNSET
+    from_cargo: Union[Unset, bool] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
+        units = self.units
 
-        survey: Union[Unset, Dict[str, Any]] = UNSET
-        if not isinstance(self.survey, Unset):
-            survey = self.survey.to_dict()
+        from_cargo = self.from_cargo
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
-        if survey is not UNSET:
-            field_dict["survey"] = survey
+        if units is not UNSET:
+            field_dict["units"] = units
+        if from_cargo is not UNSET:
+            field_dict["fromCargo"] = from_cargo
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        from ..models.survey import Survey
-
         d = src_dict.copy()
-        _survey = d.pop("survey", UNSET)
-        survey: Union[Unset, Survey]
-        if isinstance(_survey, Unset):
-            survey = UNSET
-        else:
-            survey = Survey.from_dict(_survey)
+        units = d.pop("units", UNSET)
 
-        extract_resources_json_body = cls(
-            survey=survey,
+        from_cargo = d.pop("fromCargo", UNSET)
+
+        refuel_ship_body = cls(
+            units=units,
+            from_cargo=from_cargo,
         )
 
-        extract_resources_json_body.additional_properties = d
-        return extract_resources_json_body
+        refuel_ship_body.additional_properties = d
+        return refuel_ship_body
 
     @property
     def additional_keys(self) -> List[str]:

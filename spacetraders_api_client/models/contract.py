@@ -32,8 +32,8 @@ class Contract:
         faction_symbol (str): The symbol of the faction that this contract is for.
         type (ContractType): Type of contract.
         terms (ContractTerms): The terms to fulfill the contract.
-        accepted (bool): Whether the contract has been accepted by the agent
-        fulfilled (bool): Whether the contract has been fulfilled
+        accepted (bool): Whether the contract has been accepted by the agent Default: False.
+        fulfilled (bool): Whether the contract has been fulfilled Default: False.
         expiration (datetime.datetime): Deprecated in favor of deadlineToAccept
         deadline_to_accept (Union[Unset, datetime.datetime]): The time at which the contract is no longer available to
             be accepted
@@ -52,13 +52,17 @@ class Contract:
     def to_dict(self) -> Dict[str, Any]:
 
         id = self.id
+
         faction_symbol = self.faction_symbol
+
         type = self.type.value
 
         terms = self.terms.to_dict()
 
         accepted = self.accepted
+
         fulfilled = self.fulfilled
+
         expiration = self.expiration.isoformat()
 
         deadline_to_accept: Union[Unset, str] = UNSET

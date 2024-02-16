@@ -57,10 +57,15 @@ class ShipFrame:
         symbol = self.symbol.value
 
         name = self.name
+
         description = self.description
+
         module_slots = self.module_slots
+
         mounting_points = self.mounting_points
+
         fuel_capacity = self.fuel_capacity
+
         requirements = self.requirements.to_dict()
 
         condition = self.condition

@@ -31,7 +31,9 @@ class Meta:
 
     def to_dict(self) -> Dict[str, Any]:
         total = self.total
+
         page = self.page
+
         limit = self.limit
 
         field_dict: Dict[str, Any] = {}

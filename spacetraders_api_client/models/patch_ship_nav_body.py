@@ -4,49 +4,57 @@ from typing import (
     List,
     Type,
     TypeVar,
+    Union,
 )
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..models.ship_nav_flight_mode import ShipNavFlightMode
+from ..types import UNSET, Unset
 
-T = TypeVar("T", bound="WarpShipJsonBody")
+T = TypeVar("T", bound="PatchShipNavBody")
 
 
 @_attrs_define
-class WarpShipJsonBody:
+class PatchShipNavBody:
     """
     Attributes:
-        waypoint_symbol (str): The target destination.
+        flight_mode (Union[Unset, ShipNavFlightMode]): The ship's set speed when traveling between waypoints or systems.
     """
 
-    waypoint_symbol: str
+    flight_mode: Union[Unset, ShipNavFlightMode] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
-        waypoint_symbol = self.waypoint_symbol
+        flight_mode: Union[Unset, str] = UNSET
+        if not isinstance(self.flight_mode, Unset):
+            flight_mode = self.flight_mode.value
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "waypointSymbol": waypoint_symbol,
-            }
-        )
+        field_dict.update({})
+        if flight_mode is not UNSET:
+            field_dict["flightMode"] = flight_mode
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        waypoint_symbol = d.pop("waypointSymbol")
+        _flight_mode = d.pop("flightMode", UNSET)
+        flight_mode: Union[Unset, ShipNavFlightMode]
+        if isinstance(_flight_mode, Unset):
+            flight_mode = UNSET
+        else:
+            flight_mode = ShipNavFlightMode(_flight_mode)
 
-        warp_ship_json_body = cls(
-            waypoint_symbol=waypoint_symbol,
+        patch_ship_nav_body = cls(
+            flight_mode=flight_mode,
         )
 
-        warp_ship_json_body.additional_properties = d
-        return warp_ship_json_body
+        patch_ship_nav_body.additional_properties = d
+        return patch_ship_nav_body
 
     @property
     def additional_keys(self) -> List[str]:

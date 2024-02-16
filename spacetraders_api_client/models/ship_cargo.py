@@ -36,11 +36,12 @@ class ShipCargo:
     def to_dict(self) -> Dict[str, Any]:
 
         capacity = self.capacity
+
         units = self.units
+
         inventory = []
         for inventory_item_data in self.inventory:
             inventory_item = inventory_item_data.to_dict()
-
             inventory.append(inventory_item)
 
         field_dict: Dict[str, Any] = {}

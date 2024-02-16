@@ -13,18 +13,24 @@ from ...types import Response
 def _get_kwargs(
     ship_symbol: str,
     *,
-    json_body: RemoveMountRequest,
+    body: RemoveMountRequest,
 ) -> Dict[str, Any]:
+    headers: Dict[str, Any] = {}
 
-    json_json_body = json_body.to_dict()
-
-    return {
+    _kwargs: Dict[str, Any] = {
         "method": "post",
         "url": "/my/ships/{shipSymbol}/mounts/remove".format(
             shipSymbol=ship_symbol,
         ),
-        "json": json_json_body,
     }
+
+    _body = body.to_dict()
+
+    _kwargs["json"] = _body
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
+    return _kwargs
 
 
 def _parse_response(
@@ -55,7 +61,7 @@ def sync_detailed(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-    json_body: RemoveMountRequest,
+    body: RemoveMountRequest,
 ) -> Response[RemoveMount201Response]:
     """Remove Mount
 
@@ -68,7 +74,7 @@ def sync_detailed(
 
     Args:
         ship_symbol (str):
-        json_body (RemoveMountRequest):
+        body (RemoveMountRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -80,7 +86,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         ship_symbol=ship_symbol,
-        json_body=json_body,
+        body=body,
     )
 
     response = client.get_httpx_client().request(
@@ -94,7 +100,7 @@ def sync(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-    json_body: RemoveMountRequest,
+    body: RemoveMountRequest,
 ) -> Optional[RemoveMount201Response]:
     """Remove Mount
 
@@ -107,7 +113,7 @@ def sync(
 
     Args:
         ship_symbol (str):
-        json_body (RemoveMountRequest):
+        body (RemoveMountRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -120,7 +126,7 @@ def sync(
     return sync_detailed(
         ship_symbol=ship_symbol,
         client=client,
-        json_body=json_body,
+        body=body,
     ).parsed
 
 
@@ -128,7 +134,7 @@ async def asyncio_detailed(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-    json_body: RemoveMountRequest,
+    body: RemoveMountRequest,
 ) -> Response[RemoveMount201Response]:
     """Remove Mount
 
@@ -141,7 +147,7 @@ async def asyncio_detailed(
 
     Args:
         ship_symbol (str):
-        json_body (RemoveMountRequest):
+        body (RemoveMountRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -153,7 +159,7 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         ship_symbol=ship_symbol,
-        json_body=json_body,
+        body=body,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -165,7 +171,7 @@ async def asyncio(
     ship_symbol: str,
     *,
     client: AuthenticatedClient,
-    json_body: RemoveMountRequest,
+    body: RemoveMountRequest,
 ) -> Optional[RemoveMount201Response]:
     """Remove Mount
 
@@ -178,7 +184,7 @@ async def asyncio(
 
     Args:
         ship_symbol (str):
-        json_body (RemoveMountRequest):
+        body (RemoveMountRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -192,6 +198,6 @@ async def asyncio(
         await asyncio_detailed(
             ship_symbol=ship_symbol,
             client=client,
-            json_body=json_body,
+            body=body,
         )
     ).parsed

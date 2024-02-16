@@ -49,8 +49,11 @@ class ShipEngine:
         symbol = self.symbol.value
 
         name = self.name
+
         description = self.description
+
         speed = self.speed
+
         requirements = self.requirements.to_dict()
 
         condition = self.condition

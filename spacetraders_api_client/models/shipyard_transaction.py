@@ -38,10 +38,15 @@ class ShipyardTransaction:
 
     def to_dict(self) -> Dict[str, Any]:
         waypoint_symbol = self.waypoint_symbol
+
         ship_symbol = self.ship_symbol
+
         ship_type = self.ship_type
+
         price = self.price
+
         agent_symbol = self.agent_symbol
+
         timestamp = self.timestamp.isoformat()
 
         field_dict: Dict[str, Any] = {}

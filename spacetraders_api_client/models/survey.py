@@ -49,11 +49,12 @@ class Survey:
     def to_dict(self) -> Dict[str, Any]:
 
         signature = self.signature
+
         symbol = self.symbol
+
         deposits = []
         for deposits_item_data in self.deposits:
             deposits_item = deposits_item_data.to_dict()
-
             deposits.append(deposits_item)
 
         expiration = self.expiration.isoformat()

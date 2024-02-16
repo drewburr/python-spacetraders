@@ -31,8 +31,11 @@ class GetStatusResponse200Stats:
 
     def to_dict(self) -> Dict[str, Any]:
         agents = self.agents
+
         ships = self.ships
+
         systems = self.systems
+
         waypoints = self.waypoints
 
         field_dict: Dict[str, Any] = {}

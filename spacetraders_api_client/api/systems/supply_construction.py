@@ -5,7 +5,7 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.supply_construction_json_body import SupplyConstructionJsonBody
+from ...models.supply_construction_body import SupplyConstructionBody
 from ...models.supply_construction_response_201 import SupplyConstructionResponse201
 from ...types import Response
 
@@ -14,19 +14,25 @@ def _get_kwargs(
     system_symbol: str,
     waypoint_symbol: str,
     *,
-    json_body: SupplyConstructionJsonBody,
+    body: SupplyConstructionBody,
 ) -> Dict[str, Any]:
+    headers: Dict[str, Any] = {}
 
-    json_json_body = json_body.to_dict()
-
-    return {
+    _kwargs: Dict[str, Any] = {
         "method": "post",
         "url": "/systems/{systemSymbol}/waypoints/{waypointSymbol}/construction/supply".format(
             systemSymbol=system_symbol,
             waypointSymbol=waypoint_symbol,
         ),
-        "json": json_json_body,
     }
+
+    _body = body.to_dict()
+
+    _kwargs["json"] = _body
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
+    return _kwargs
 
 
 def _parse_response(
@@ -58,7 +64,7 @@ def sync_detailed(
     waypoint_symbol: str,
     *,
     client: AuthenticatedClient,
-    json_body: SupplyConstructionJsonBody,
+    body: SupplyConstructionBody,
 ) -> Response[SupplyConstructionResponse201]:
     """Supply Construction Site
 
@@ -71,7 +77,7 @@ def sync_detailed(
     Args:
         system_symbol (str):
         waypoint_symbol (str):
-        json_body (SupplyConstructionJsonBody):
+        body (SupplyConstructionBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -84,7 +90,7 @@ def sync_detailed(
     kwargs = _get_kwargs(
         system_symbol=system_symbol,
         waypoint_symbol=waypoint_symbol,
-        json_body=json_body,
+        body=body,
     )
 
     response = client.get_httpx_client().request(
@@ -99,7 +105,7 @@ def sync(
     waypoint_symbol: str,
     *,
     client: AuthenticatedClient,
-    json_body: SupplyConstructionJsonBody,
+    body: SupplyConstructionBody,
 ) -> Optional[SupplyConstructionResponse201]:
     """Supply Construction Site
 
@@ -112,7 +118,7 @@ def sync(
     Args:
         system_symbol (str):
         waypoint_symbol (str):
-        json_body (SupplyConstructionJsonBody):
+        body (SupplyConstructionBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -126,7 +132,7 @@ def sync(
         system_symbol=system_symbol,
         waypoint_symbol=waypoint_symbol,
         client=client,
-        json_body=json_body,
+        body=body,
     ).parsed
 
 
@@ -135,7 +141,7 @@ async def asyncio_detailed(
     waypoint_symbol: str,
     *,
     client: AuthenticatedClient,
-    json_body: SupplyConstructionJsonBody,
+    body: SupplyConstructionBody,
 ) -> Response[SupplyConstructionResponse201]:
     """Supply Construction Site
 
@@ -148,7 +154,7 @@ async def asyncio_detailed(
     Args:
         system_symbol (str):
         waypoint_symbol (str):
-        json_body (SupplyConstructionJsonBody):
+        body (SupplyConstructionBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -161,7 +167,7 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         system_symbol=system_symbol,
         waypoint_symbol=waypoint_symbol,
-        json_body=json_body,
+        body=body,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -174,7 +180,7 @@ async def asyncio(
     waypoint_symbol: str,
     *,
     client: AuthenticatedClient,
-    json_body: SupplyConstructionJsonBody,
+    body: SupplyConstructionBody,
 ) -> Optional[SupplyConstructionResponse201]:
     """Supply Construction Site
 
@@ -187,7 +193,7 @@ async def asyncio(
     Args:
         system_symbol (str):
         waypoint_symbol (str):
-        json_body (SupplyConstructionJsonBody):
+        body (SupplyConstructionBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -202,6 +208,6 @@ async def asyncio(
             system_symbol=system_symbol,
             waypoint_symbol=waypoint_symbol,
             client=client,
-            json_body=json_body,
+            body=body,
         )
     ).parsed

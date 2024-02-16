@@ -4,69 +4,58 @@ from typing import (
     List,
     Type,
     TypeVar,
-    Union,
 )
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..models.faction_symbol import FactionSymbol
-from ..types import UNSET, Unset
+from ..models.trade_symbol import TradeSymbol
 
-T = TypeVar("T", bound="RegisterJsonBody")
+T = TypeVar("T", bound="JettisonBody")
 
 
 @_attrs_define
-class RegisterJsonBody:
+class JettisonBody:
     """
     Attributes:
-        faction (FactionSymbol): The symbol of the faction.
-        symbol (str): Your desired agent symbol. This will be a unique name used to represent your agent, and will be
-            the prefix for your ships. Example: BADGER.
-        email (Union[Unset, str]): Your email address. This is used if you reserved your call sign between resets.
+        symbol (TradeSymbol): The good's symbol.
+        units (int): Amount of units to jettison of this good.
     """
 
-    faction: FactionSymbol
-    symbol: str
-    email: Union[Unset, str] = UNSET
+    symbol: TradeSymbol
+    units: int
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
-        faction = self.faction.value
+        symbol = self.symbol.value
 
-        symbol = self.symbol
-        email = self.email
+        units = self.units
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "faction": faction,
                 "symbol": symbol,
+                "units": units,
             }
         )
-        if email is not UNSET:
-            field_dict["email"] = email
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        faction = FactionSymbol(d.pop("faction"))
+        symbol = TradeSymbol(d.pop("symbol"))
 
-        symbol = d.pop("symbol")
+        units = d.pop("units")
 
-        email = d.pop("email", UNSET)
-
-        register_json_body = cls(
-            faction=faction,
+        jettison_body = cls(
             symbol=symbol,
-            email=email,
+            units=units,
         )
 
-        register_json_body.additional_properties = d
-        return register_json_body
+        jettison_body.additional_properties = d
+        return jettison_body
 
     @property
     def additional_keys(self) -> List[str]:

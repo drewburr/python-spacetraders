@@ -32,6 +32,7 @@ class WaypointModifier:
         symbol = self.symbol.value
 
         name = self.name
+
         description = self.description
 
         field_dict: Dict[str, Any] = {}

@@ -33,6 +33,7 @@ class ConstructionMaterial:
         trade_symbol = self.trade_symbol.value
 
         required = self.required
+
         fulfilled = self.fulfilled
 
         field_dict: Dict[str, Any] = {}

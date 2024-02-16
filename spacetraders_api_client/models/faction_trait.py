@@ -32,6 +32,7 @@ class FactionTrait:
         symbol = self.symbol.value
 
         name = self.name
+
         description = self.description
 
         field_dict: Dict[str, Any] = {}

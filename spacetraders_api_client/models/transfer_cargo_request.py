@@ -32,6 +32,7 @@ class TransferCargoRequest:
         trade_symbol = self.trade_symbol.value
 
         units = self.units
+
         ship_symbol = self.ship_symbol
 
         field_dict: Dict[str, Any] = {}

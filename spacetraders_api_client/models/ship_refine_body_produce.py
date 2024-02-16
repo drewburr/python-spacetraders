@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class ShipRefineJsonBodyProduce(str, Enum):
+class ShipRefineBodyProduce(str, Enum):
     ALUMINUM = "ALUMINUM"
     COPPER = "COPPER"
     FUEL = "FUEL"

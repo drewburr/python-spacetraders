@@ -32,7 +32,9 @@ class ShipRequirements:
 
     def to_dict(self) -> Dict[str, Any]:
         power = self.power
+
         crew = self.crew
+
         slots = self.slots
 
         field_dict: Dict[str, Any] = {}

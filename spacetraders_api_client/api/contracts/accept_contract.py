@@ -13,12 +13,14 @@ def _get_kwargs(
     contract_id: str,
 ) -> Dict[str, Any]:
 
-    return {
+    _kwargs: Dict[str, Any] = {
         "method": "post",
         "url": "/my/contracts/{contractId}/accept".format(
             contractId=contract_id,
         ),
     }
+
+    return _kwargs
 
 
 def _parse_response(

@@ -31,7 +31,9 @@ class ShipRegistration:
 
     def to_dict(self) -> Dict[str, Any]:
         name = self.name
+
         faction_symbol = self.faction_symbol
+
         role = self.role.value
 
         field_dict: Dict[str, Any] = {}

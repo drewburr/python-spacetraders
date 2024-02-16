@@ -35,7 +35,9 @@ class ShipCargoItem:
         symbol = self.symbol.value
 
         name = self.name
+
         description = self.description
+
         units = self.units
 
         field_dict: Dict[str, Any] = {}

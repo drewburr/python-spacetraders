@@ -43,13 +43,11 @@ class GetStatusResponse200Leaderboards:
         most_credits = []
         for most_credits_item_data in self.most_credits:
             most_credits_item = most_credits_item_data.to_dict()
-
             most_credits.append(most_credits_item)
 
         most_submitted_charts = []
         for most_submitted_charts_item_data in self.most_submitted_charts:
             most_submitted_charts_item = most_submitted_charts_item_data.to_dict()
-
             most_submitted_charts.append(most_submitted_charts_item)
 
         field_dict: Dict[str, Any] = {}

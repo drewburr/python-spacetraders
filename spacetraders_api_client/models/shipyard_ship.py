@@ -71,10 +71,13 @@ class ShipyardShip:
         type = self.type.value
 
         name = self.name
+
         description = self.description
+
         supply = self.supply.value
 
         purchase_price = self.purchase_price
+
         frame = self.frame.to_dict()
 
         reactor = self.reactor.to_dict()
@@ -84,13 +87,11 @@ class ShipyardShip:
         modules = []
         for modules_item_data in self.modules:
             modules_item = modules_item_data.to_dict()
-
             modules.append(modules_item)
 
         mounts = []
         for mounts_item_data in self.mounts:
             mounts_item = mounts_item_data.to_dict()
-
             mounts.append(mounts_item)
 
         crew = self.crew.to_dict()

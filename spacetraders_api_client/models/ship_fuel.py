@@ -39,7 +39,9 @@ class ShipFuel:
     def to_dict(self) -> Dict[str, Any]:
 
         current = self.current
+
         capacity = self.capacity
+
         consumed: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.consumed, Unset):
             consumed = self.consumed.to_dict()

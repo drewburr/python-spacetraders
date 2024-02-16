@@ -9,25 +9,29 @@ from typing import (
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..models.trade_symbol import TradeSymbol
 
-T = TypeVar("T", bound="JettisonJsonBody")
+T = TypeVar("T", bound="DeliverContractBody")
 
 
 @_attrs_define
-class JettisonJsonBody:
+class DeliverContractBody:
     """
     Attributes:
-        symbol (TradeSymbol): The good's symbol.
-        units (int): Amount of units to jettison of this good.
+        ship_symbol (str): Symbol of a ship located in the destination to deliver a contract and that has a good to
+            deliver in its cargo.
+        trade_symbol (str): The symbol of the good to deliver.
+        units (int): Amount of units to deliver.
     """
 
-    symbol: TradeSymbol
+    ship_symbol: str
+    trade_symbol: str
     units: int
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
-        symbol = self.symbol.value
+        ship_symbol = self.ship_symbol
+
+        trade_symbol = self.trade_symbol
 
         units = self.units
 
@@ -35,7 +39,8 @@ class JettisonJsonBody:
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "symbol": symbol,
+                "shipSymbol": ship_symbol,
+                "tradeSymbol": trade_symbol,
                 "units": units,
             }
         )
@@ -45,17 +50,20 @@ class JettisonJsonBody:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        symbol = TradeSymbol(d.pop("symbol"))
+        ship_symbol = d.pop("shipSymbol")
+
+        trade_symbol = d.pop("tradeSymbol")
 
         units = d.pop("units")
 
-        jettison_json_body = cls(
-            symbol=symbol,
+        deliver_contract_body = cls(
+            ship_symbol=ship_symbol,
+            trade_symbol=trade_symbol,
             units=units,
         )
 
-        jettison_json_body.additional_properties = d
-        return jettison_json_body
+        deliver_contract_body.additional_properties = d
+        return deliver_contract_body
 
     @property
     def additional_keys(self) -> List[str]:

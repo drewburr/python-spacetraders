@@ -38,7 +38,6 @@ class CreateShipSystemScanResponse201Data:
         systems = []
         for systems_item_data in self.systems:
             systems_item = systems_item_data.to_dict()
-
             systems.append(systems_item)
 
         field_dict: Dict[str, Any] = {}

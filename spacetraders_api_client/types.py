@@ -50,4 +50,4 @@ class Response(Generic[T]):
     parsed: Optional[T]
 
 
-__all__ = ["File", "Response", "FileJsonType"]
+__all__ = ["File", "Response", "FileJsonType", "Unset", "UNSET"]

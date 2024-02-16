@@ -36,10 +36,10 @@ class Construction:
     def to_dict(self) -> Dict[str, Any]:
 
         symbol = self.symbol
+
         materials = []
         for materials_item_data in self.materials:
             materials_item = materials_item_data.to_dict()
-
             materials.append(materials_item)
 
         is_complete = self.is_complete

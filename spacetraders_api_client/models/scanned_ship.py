@@ -51,6 +51,7 @@ class ScannedShip:
     def to_dict(self) -> Dict[str, Any]:
 
         symbol = self.symbol
+
         registration = self.registration.to_dict()
 
         nav = self.nav.to_dict()
@@ -70,7 +71,6 @@ class ScannedShip:
             mounts = []
             for mounts_item_data in self.mounts:
                 mounts_item = mounts_item_data.to_dict()
-
                 mounts.append(mounts_item)
 
         field_dict: Dict[str, Any] = {}

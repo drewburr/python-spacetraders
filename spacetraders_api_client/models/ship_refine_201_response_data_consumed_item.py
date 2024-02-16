@@ -27,6 +27,7 @@ class ShipRefine201ResponseDataConsumedItem:
 
     def to_dict(self) -> Dict[str, Any]:
         trade_symbol = self.trade_symbol
+
         units = self.units
 
         field_dict: Dict[str, Any] = {}

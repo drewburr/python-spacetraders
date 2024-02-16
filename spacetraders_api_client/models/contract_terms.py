@@ -50,7 +50,6 @@ class ContractTerms:
             deliver = []
             for deliver_item_data in self.deliver:
                 deliver_item = deliver_item_data.to_dict()
-
                 deliver.append(deliver_item)
 
         field_dict: Dict[str, Any] = {}

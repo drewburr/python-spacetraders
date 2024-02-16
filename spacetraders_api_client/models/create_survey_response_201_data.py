@@ -38,7 +38,6 @@ class CreateSurveyResponse201Data:
         surveys = []
         for surveys_item_data in self.surveys:
             surveys_item = surveys_item_data.to_dict()
-
             surveys.append(surveys_item)
 
         field_dict: Dict[str, Any] = {}

@@ -1,5 +1,4 @@
 from typing import (
-    TYPE_CHECKING,
     Any,
     Dict,
     List,
@@ -10,39 +9,29 @@ from typing import (
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..models.ship_refine_body_produce import ShipRefineBodyProduce
 
-if TYPE_CHECKING:
-    from ..models.siphon_yield import SiphonYield
-
-
-T = TypeVar("T", bound="Siphon")
+T = TypeVar("T", bound="ShipRefineBody")
 
 
 @_attrs_define
-class Siphon:
-    """Siphon details.
-
+class ShipRefineBody:
+    """
     Attributes:
-        ship_symbol (str): Symbol of the ship that executed the siphon.
-        yield_ (SiphonYield): A yield from the siphon operation.
+        produce (ShipRefineBodyProduce): The type of good to produce out of the refining process.
     """
 
-    ship_symbol: str
-    yield_: "SiphonYield"
+    produce: ShipRefineBodyProduce
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
-
-        ship_symbol = self.ship_symbol
-
-        yield_ = self.yield_.to_dict()
+        produce = self.produce.value
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "shipSymbol": ship_symbol,
-                "yield": yield_,
+                "produce": produce,
             }
         )
 
@@ -50,20 +39,15 @@ class Siphon:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        from ..models.siphon_yield import SiphonYield
-
         d = src_dict.copy()
-        ship_symbol = d.pop("shipSymbol")
+        produce = ShipRefineBodyProduce(d.pop("produce"))
 
-        yield_ = SiphonYield.from_dict(d.pop("yield"))
-
-        siphon = cls(
-            ship_symbol=ship_symbol,
-            yield_=yield_,
+        ship_refine_body = cls(
+            produce=produce,
         )
 
-        siphon.additional_properties = d
-        return siphon
+        ship_refine_body.additional_properties = d
+        return ship_refine_body
 
     @property
     def additional_keys(self) -> List[str]:

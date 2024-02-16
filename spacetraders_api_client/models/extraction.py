@@ -34,6 +34,7 @@ class Extraction:
     def to_dict(self) -> Dict[str, Any]:
 
         ship_symbol = self.ship_symbol
+
         yield_ = self.yield_.to_dict()
 
         field_dict: Dict[str, Any] = {}

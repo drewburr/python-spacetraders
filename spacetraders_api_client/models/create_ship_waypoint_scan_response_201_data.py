@@ -38,7 +38,6 @@ class CreateShipWaypointScanResponse201Data:
         waypoints = []
         for waypoints_item_data in self.waypoints:
             waypoints_item = waypoints_item_data.to_dict()
-
             waypoints.append(waypoints_item)
 
         field_dict: Dict[str, Any] = {}

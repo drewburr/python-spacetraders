@@ -52,10 +52,13 @@ class MarketTradeGood:
         type = self.type.value
 
         trade_volume = self.trade_volume
+
         supply = self.supply.value
 
         purchase_price = self.purchase_price
+
         sell_price = self.sell_price
+
         activity: Union[Unset, str] = UNSET
         if not isinstance(self.activity, Unset):
             activity = self.activity.value

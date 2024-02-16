@@ -27,6 +27,7 @@ class GetStatusResponse200LinksItem:
 
     def to_dict(self) -> Dict[str, Any]:
         name = self.name
+
         url = self.url
 
         field_dict: Dict[str, Any] = {}

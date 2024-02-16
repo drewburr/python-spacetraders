@@ -27,6 +27,7 @@ class ShipyardShipCrew:
 
     def to_dict(self) -> Dict[str, Any]:
         required = self.required
+
         capacity = self.capacity
 
         field_dict: Dict[str, Any] = {}

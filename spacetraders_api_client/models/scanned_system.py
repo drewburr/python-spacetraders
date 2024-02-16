@@ -37,11 +37,15 @@ class ScannedSystem:
 
     def to_dict(self) -> Dict[str, Any]:
         symbol = self.symbol
+
         sector_symbol = self.sector_symbol
+
         type = self.type.value
 
         x = self.x
+
         y = self.y
+
         distance = self.distance
 
         field_dict: Dict[str, Any] = {}

@@ -9,29 +9,28 @@ from typing import (
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..models.ship_refine_json_body_produce import ShipRefineJsonBodyProduce
 
-T = TypeVar("T", bound="ShipRefineJsonBody")
+T = TypeVar("T", bound="WarpShipBody")
 
 
 @_attrs_define
-class ShipRefineJsonBody:
+class WarpShipBody:
     """
     Attributes:
-        produce (ShipRefineJsonBodyProduce): The type of good to produce out of the refining process.
+        waypoint_symbol (str): The target destination.
     """
 
-    produce: ShipRefineJsonBodyProduce
+    waypoint_symbol: str
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
-        produce = self.produce.value
+        waypoint_symbol = self.waypoint_symbol
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "produce": produce,
+                "waypointSymbol": waypoint_symbol,
             }
         )
 
@@ -40,14 +39,14 @@ class ShipRefineJsonBody:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        produce = ShipRefineJsonBodyProduce(d.pop("produce"))
+        waypoint_symbol = d.pop("waypointSymbol")
 
-        ship_refine_json_body = cls(
-            produce=produce,
+        warp_ship_body = cls(
+            waypoint_symbol=waypoint_symbol,
         )
 
-        ship_refine_json_body.additional_properties = d
-        return ship_refine_json_body
+        warp_ship_body.additional_properties = d
+        return warp_ship_body
 
     @property
     def additional_keys(self) -> List[str]:

@@ -27,6 +27,7 @@ class GetStatusResponse200LeaderboardsMostSubmittedChartsItem:
 
     def to_dict(self) -> Dict[str, Any]:
         agent_symbol = self.agent_symbol
+
         chart_count = self.chart_count
 
         field_dict: Dict[str, Any] = {}

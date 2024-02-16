@@ -47,14 +47,16 @@ class SystemWaypoint:
     def to_dict(self) -> Dict[str, Any]:
 
         symbol = self.symbol
+
         type = self.type.value
 
         x = self.x
+
         y = self.y
+
         orbitals = []
         for orbitals_item_data in self.orbitals:
             orbitals_item = orbitals_item_data.to_dict()
-
             orbitals.append(orbitals_item)
 
         orbits = self.orbits

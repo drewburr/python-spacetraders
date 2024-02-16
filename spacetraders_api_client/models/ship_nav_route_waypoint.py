@@ -35,10 +35,13 @@ class ShipNavRouteWaypoint:
 
     def to_dict(self) -> Dict[str, Any]:
         symbol = self.symbol
+
         type = self.type.value
 
         system_symbol = self.system_symbol
+
         x = self.x
+
         y = self.y
 
         field_dict: Dict[str, Any] = {}

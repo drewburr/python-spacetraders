@@ -27,6 +27,7 @@ class GetStatusResponse200LeaderboardsMostCreditsItem:
 
     def to_dict(self) -> Dict[str, Any]:
         agent_symbol = self.agent_symbol
+
         credits_ = self.credits_
 
         field_dict: Dict[str, Any] = {}

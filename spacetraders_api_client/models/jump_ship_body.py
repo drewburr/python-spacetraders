@@ -10,36 +10,27 @@ from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 
-T = TypeVar("T", bound="DeliverContractJsonBody")
+T = TypeVar("T", bound="JumpShipBody")
 
 
 @_attrs_define
-class DeliverContractJsonBody:
+class JumpShipBody:
     """
     Attributes:
-        ship_symbol (str): Symbol of a ship located in the destination to deliver a contract and that has a good to
-            deliver in its cargo.
-        trade_symbol (str): The symbol of the good to deliver.
-        units (int): Amount of units to deliver.
+        waypoint_symbol (str): The symbol of the waypoint to jump to. The destination must be a connected waypoint.
     """
 
-    ship_symbol: str
-    trade_symbol: str
-    units: int
+    waypoint_symbol: str
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
-        ship_symbol = self.ship_symbol
-        trade_symbol = self.trade_symbol
-        units = self.units
+        waypoint_symbol = self.waypoint_symbol
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "shipSymbol": ship_symbol,
-                "tradeSymbol": trade_symbol,
-                "units": units,
+                "waypointSymbol": waypoint_symbol,
             }
         )
 
@@ -48,20 +39,14 @@ class DeliverContractJsonBody:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        ship_symbol = d.pop("shipSymbol")
+        waypoint_symbol = d.pop("waypointSymbol")
 
-        trade_symbol = d.pop("tradeSymbol")
-
-        units = d.pop("units")
-
-        deliver_contract_json_body = cls(
-            ship_symbol=ship_symbol,
-            trade_symbol=trade_symbol,
-            units=units,
+        jump_ship_body = cls(
+            waypoint_symbol=waypoint_symbol,
         )
 
-        deliver_contract_json_body.additional_properties = d
-        return deliver_contract_json_body
+        jump_ship_body.additional_properties = d
+        return jump_ship_body
 
     @property
     def additional_keys(self) -> List[str]:

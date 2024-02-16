@@ -47,22 +47,20 @@ class Market:
     def to_dict(self) -> Dict[str, Any]:
 
         symbol = self.symbol
+
         exports = []
         for exports_item_data in self.exports:
             exports_item = exports_item_data.to_dict()
-
             exports.append(exports_item)
 
         imports = []
         for imports_item_data in self.imports:
             imports_item = imports_item_data.to_dict()
-
             imports.append(imports_item)
 
         exchange = []
         for exchange_item_data in self.exchange:
             exchange_item = exchange_item_data.to_dict()
-
             exchange.append(exchange_item)
 
         transactions: Union[Unset, List[Dict[str, Any]]] = UNSET
@@ -70,7 +68,6 @@ class Market:
             transactions = []
             for transactions_item_data in self.transactions:
                 transactions_item = transactions_item_data.to_dict()
-
                 transactions.append(transactions_item)
 
         trade_goods: Union[Unset, List[Dict[str, Any]]] = UNSET
@@ -78,7 +75,6 @@ class Market:
             trade_goods = []
             for trade_goods_item_data in self.trade_goods:
                 trade_goods_item = trade_goods_item_data.to_dict()
-
                 trade_goods.append(trade_goods_item)
 
         field_dict: Dict[str, Any] = {}

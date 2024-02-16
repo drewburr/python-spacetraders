@@ -68,6 +68,7 @@ class Ship:
     def to_dict(self) -> Dict[str, Any]:
 
         symbol = self.symbol
+
         registration = self.registration.to_dict()
 
         nav = self.nav.to_dict()
@@ -85,13 +86,11 @@ class Ship:
         modules = []
         for modules_item_data in self.modules:
             modules_item = modules_item_data.to_dict()
-
             modules.append(modules_item)
 
         mounts = []
         for mounts_item_data in self.mounts:
             mounts_item = mounts_item_data.to_dict()
-
             mounts.append(mounts_item)
 
         cargo = self.cargo.to_dict()

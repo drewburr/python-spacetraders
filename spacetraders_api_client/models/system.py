@@ -45,21 +45,23 @@ class System:
     def to_dict(self) -> Dict[str, Any]:
 
         symbol = self.symbol
+
         sector_symbol = self.sector_symbol
+
         type = self.type.value
 
         x = self.x
+
         y = self.y
+
         waypoints = []
         for waypoints_item_data in self.waypoints:
             waypoints_item = waypoints_item_data.to_dict()
-
             waypoints.append(waypoints_item)
 
         factions = []
         for factions_item_data in self.factions:
             factions_item = factions_item_data.to_dict()
-
             factions.append(factions_item)
 
         field_dict: Dict[str, Any] = {}

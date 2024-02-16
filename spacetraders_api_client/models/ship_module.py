@@ -50,10 +50,13 @@ class ShipModule:
         symbol = self.symbol.value
 
         name = self.name
+
         description = self.description
+
         requirements = self.requirements.to_dict()
 
         capacity = self.capacity
+
         range_ = self.range_
 
         field_dict: Dict[str, Any] = {}

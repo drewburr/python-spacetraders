@@ -36,7 +36,6 @@ class GetAgentsResponse200:
         data = []
         for data_item_data in self.data:
             data_item = data_item_data.to_dict()
-
             data.append(data_item)
 
         meta = self.meta.to_dict()

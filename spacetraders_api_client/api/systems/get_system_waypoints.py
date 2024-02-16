@@ -14,54 +14,48 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     system_symbol: str,
     *,
-    page: Union[Unset, None, int] = 1,
-    limit: Union[Unset, None, int] = 10,
-    type: Union[Unset, None, WaypointType] = UNSET,
-    traits: Union[List[WaypointTraitSymbol], None, Unset, WaypointTraitSymbol] = UNSET,
+    page: Union[Unset, int] = 1,
+    limit: Union[Unset, int] = 10,
+    type: Union[Unset, WaypointType] = UNSET,
+    traits: Union[List[WaypointTraitSymbol], Unset, WaypointTraitSymbol] = UNSET,
 ) -> Dict[str, Any]:
 
     params: Dict[str, Any] = {}
+
     params["page"] = page
 
     params["limit"] = limit
 
-    json_type: Union[Unset, None, str] = UNSET
+    json_type: Union[Unset, str] = UNSET
     if not isinstance(type, Unset):
-        json_type = type.value if type else None
+        json_type = type.value
 
     params["type"] = json_type
 
-    json_traits: Union[List[str], None, Unset, str]
+    json_traits: Union[List[str], Unset, str]
     if isinstance(traits, Unset):
         json_traits = UNSET
-    elif traits is None:
-        json_traits = None
-
     elif isinstance(traits, WaypointTraitSymbol):
-        json_traits = UNSET
-        if not isinstance(traits, Unset):
-            json_traits = traits.value
-
+        json_traits = traits.value
     else:
-        json_traits = UNSET
-        if not isinstance(traits, Unset):
-            json_traits = []
-            for traits_type_1_item_data in traits:
-                traits_type_1_item = traits_type_1_item_data.value
-
-                json_traits.append(traits_type_1_item)
+        json_traits = []
+        for traits_type_1_item_data in traits:
+            traits_type_1_item = traits_type_1_item_data.value
+            json_traits.append(traits_type_1_item)
 
     params["traits"] = json_traits
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
-    return {
+    _kwargs: Dict[str, Any] = {
         "method": "get",
         "url": "/systems/{systemSymbol}/waypoints".format(
             systemSymbol=system_symbol,
         ),
         "params": params,
     }
+
+    return _kwargs
 
 
 def _parse_response(
@@ -92,10 +86,10 @@ def sync_detailed(
     system_symbol: str,
     *,
     client: AuthenticatedClient,
-    page: Union[Unset, None, int] = 1,
-    limit: Union[Unset, None, int] = 10,
-    type: Union[Unset, None, WaypointType] = UNSET,
-    traits: Union[List[WaypointTraitSymbol], None, Unset, WaypointTraitSymbol] = UNSET,
+    page: Union[Unset, int] = 1,
+    limit: Union[Unset, int] = 10,
+    type: Union[Unset, WaypointType] = UNSET,
+    traits: Union[List[WaypointTraitSymbol], Unset, WaypointTraitSymbol] = UNSET,
 ) -> Response[GetSystemWaypointsResponse200]:
     """List Waypoints in System
 
@@ -105,10 +99,10 @@ def sync_detailed(
 
     Args:
         system_symbol (str):
-        page (Union[Unset, None, int]):  Default: 1.
-        limit (Union[Unset, None, int]):  Default: 10.
-        type (Union[Unset, None, WaypointType]): The type of waypoint.
-        traits (Union[List[WaypointTraitSymbol], None, Unset, WaypointTraitSymbol]):
+        page (Union[Unset, int]):  Default: 1.
+        limit (Union[Unset, int]):  Default: 10.
+        type (Union[Unset, WaypointType]): The type of waypoint.
+        traits (Union[List[WaypointTraitSymbol], Unset, WaypointTraitSymbol]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -137,10 +131,10 @@ def sync(
     system_symbol: str,
     *,
     client: AuthenticatedClient,
-    page: Union[Unset, None, int] = 1,
-    limit: Union[Unset, None, int] = 10,
-    type: Union[Unset, None, WaypointType] = UNSET,
-    traits: Union[List[WaypointTraitSymbol], None, Unset, WaypointTraitSymbol] = UNSET,
+    page: Union[Unset, int] = 1,
+    limit: Union[Unset, int] = 10,
+    type: Union[Unset, WaypointType] = UNSET,
+    traits: Union[List[WaypointTraitSymbol], Unset, WaypointTraitSymbol] = UNSET,
 ) -> Optional[GetSystemWaypointsResponse200]:
     """List Waypoints in System
 
@@ -150,10 +144,10 @@ def sync(
 
     Args:
         system_symbol (str):
-        page (Union[Unset, None, int]):  Default: 1.
-        limit (Union[Unset, None, int]):  Default: 10.
-        type (Union[Unset, None, WaypointType]): The type of waypoint.
-        traits (Union[List[WaypointTraitSymbol], None, Unset, WaypointTraitSymbol]):
+        page (Union[Unset, int]):  Default: 1.
+        limit (Union[Unset, int]):  Default: 10.
+        type (Union[Unset, WaypointType]): The type of waypoint.
+        traits (Union[List[WaypointTraitSymbol], Unset, WaypointTraitSymbol]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -177,10 +171,10 @@ async def asyncio_detailed(
     system_symbol: str,
     *,
     client: AuthenticatedClient,
-    page: Union[Unset, None, int] = 1,
-    limit: Union[Unset, None, int] = 10,
-    type: Union[Unset, None, WaypointType] = UNSET,
-    traits: Union[List[WaypointTraitSymbol], None, Unset, WaypointTraitSymbol] = UNSET,
+    page: Union[Unset, int] = 1,
+    limit: Union[Unset, int] = 10,
+    type: Union[Unset, WaypointType] = UNSET,
+    traits: Union[List[WaypointTraitSymbol], Unset, WaypointTraitSymbol] = UNSET,
 ) -> Response[GetSystemWaypointsResponse200]:
     """List Waypoints in System
 
@@ -190,10 +184,10 @@ async def asyncio_detailed(
 
     Args:
         system_symbol (str):
-        page (Union[Unset, None, int]):  Default: 1.
-        limit (Union[Unset, None, int]):  Default: 10.
-        type (Union[Unset, None, WaypointType]): The type of waypoint.
-        traits (Union[List[WaypointTraitSymbol], None, Unset, WaypointTraitSymbol]):
+        page (Union[Unset, int]):  Default: 1.
+        limit (Union[Unset, int]):  Default: 10.
+        type (Union[Unset, WaypointType]): The type of waypoint.
+        traits (Union[List[WaypointTraitSymbol], Unset, WaypointTraitSymbol]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -220,10 +214,10 @@ async def asyncio(
     system_symbol: str,
     *,
     client: AuthenticatedClient,
-    page: Union[Unset, None, int] = 1,
-    limit: Union[Unset, None, int] = 10,
-    type: Union[Unset, None, WaypointType] = UNSET,
-    traits: Union[List[WaypointTraitSymbol], None, Unset, WaypointTraitSymbol] = UNSET,
+    page: Union[Unset, int] = 1,
+    limit: Union[Unset, int] = 10,
+    type: Union[Unset, WaypointType] = UNSET,
+    traits: Union[List[WaypointTraitSymbol], Unset, WaypointTraitSymbol] = UNSET,
 ) -> Optional[GetSystemWaypointsResponse200]:
     """List Waypoints in System
 
@@ -233,10 +227,10 @@ async def asyncio(
 
     Args:
         system_symbol (str):
-        page (Union[Unset, None, int]):  Default: 1.
-        limit (Union[Unset, None, int]):  Default: 10.
-        type (Union[Unset, None, WaypointType]): The type of waypoint.
-        traits (Union[List[WaypointTraitSymbol], None, Unset, WaypointTraitSymbol]):
+        page (Union[Unset, int]):  Default: 1.
+        limit (Union[Unset, int]):  Default: 10.
+        type (Union[Unset, WaypointType]): The type of waypoint.
+        traits (Union[List[WaypointTraitSymbol], Unset, WaypointTraitSymbol]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

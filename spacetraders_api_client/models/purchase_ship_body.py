@@ -9,27 +9,33 @@ from typing import (
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..models.ship_type import ShipType
 
-T = TypeVar("T", bound="JumpShipJsonBody")
+T = TypeVar("T", bound="PurchaseShipBody")
 
 
 @_attrs_define
-class JumpShipJsonBody:
+class PurchaseShipBody:
     """
     Attributes:
-        waypoint_symbol (str): The symbol of the waypoint to jump to. The destination must be a connected waypoint.
+        ship_type (ShipType): Type of ship
+        waypoint_symbol (str): The symbol of the waypoint you want to purchase the ship at.
     """
 
+    ship_type: ShipType
     waypoint_symbol: str
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
+        ship_type = self.ship_type.value
+
         waypoint_symbol = self.waypoint_symbol
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
+                "shipType": ship_type,
                 "waypointSymbol": waypoint_symbol,
             }
         )
@@ -39,14 +45,17 @@ class JumpShipJsonBody:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
+        ship_type = ShipType(d.pop("shipType"))
+
         waypoint_symbol = d.pop("waypointSymbol")
 
-        jump_ship_json_body = cls(
+        purchase_ship_body = cls(
+            ship_type=ship_type,
             waypoint_symbol=waypoint_symbol,
         )
 
-        jump_ship_json_body.additional_properties = d
-        return jump_ship_json_body
+        purchase_ship_body.additional_properties = d
+        return purchase_ship_body
 
     @property
     def additional_keys(self) -> List[str]:

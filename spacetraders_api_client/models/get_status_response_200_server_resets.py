@@ -27,6 +27,7 @@ class GetStatusResponse200ServerResets:
 
     def to_dict(self) -> Dict[str, Any]:
         next_ = self.next_
+
         frequency = self.frequency
 
         field_dict: Dict[str, Any] = {}

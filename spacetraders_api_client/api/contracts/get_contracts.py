@@ -11,22 +11,25 @@ from ...types import UNSET, Response, Unset
 
 def _get_kwargs(
     *,
-    page: Union[Unset, None, int] = 1,
-    limit: Union[Unset, None, int] = 10,
+    page: Union[Unset, int] = 1,
+    limit: Union[Unset, int] = 10,
 ) -> Dict[str, Any]:
 
     params: Dict[str, Any] = {}
+
     params["page"] = page
 
     params["limit"] = limit
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
-    return {
+    _kwargs: Dict[str, Any] = {
         "method": "get",
         "url": "/my/contracts",
         "params": params,
     }
+
+    return _kwargs
 
 
 def _parse_response(
@@ -56,16 +59,16 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient,
-    page: Union[Unset, None, int] = 1,
-    limit: Union[Unset, None, int] = 10,
+    page: Union[Unset, int] = 1,
+    limit: Union[Unset, int] = 10,
 ) -> Response[GetContractsResponse200]:
     """List Contracts
 
      Return a paginated list of all your contracts.
 
     Args:
-        page (Union[Unset, None, int]):  Default: 1.
-        limit (Union[Unset, None, int]):  Default: 10.
+        page (Union[Unset, int]):  Default: 1.
+        limit (Union[Unset, int]):  Default: 10.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -90,16 +93,16 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient,
-    page: Union[Unset, None, int] = 1,
-    limit: Union[Unset, None, int] = 10,
+    page: Union[Unset, int] = 1,
+    limit: Union[Unset, int] = 10,
 ) -> Optional[GetContractsResponse200]:
     """List Contracts
 
      Return a paginated list of all your contracts.
 
     Args:
-        page (Union[Unset, None, int]):  Default: 1.
-        limit (Union[Unset, None, int]):  Default: 10.
+        page (Union[Unset, int]):  Default: 1.
+        limit (Union[Unset, int]):  Default: 10.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -119,16 +122,16 @@ def sync(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
-    page: Union[Unset, None, int] = 1,
-    limit: Union[Unset, None, int] = 10,
+    page: Union[Unset, int] = 1,
+    limit: Union[Unset, int] = 10,
 ) -> Response[GetContractsResponse200]:
     """List Contracts
 
      Return a paginated list of all your contracts.
 
     Args:
-        page (Union[Unset, None, int]):  Default: 1.
-        limit (Union[Unset, None, int]):  Default: 10.
+        page (Union[Unset, int]):  Default: 1.
+        limit (Union[Unset, int]):  Default: 10.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -151,16 +154,16 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient,
-    page: Union[Unset, None, int] = 1,
-    limit: Union[Unset, None, int] = 10,
+    page: Union[Unset, int] = 1,
+    limit: Union[Unset, int] = 10,
 ) -> Optional[GetContractsResponse200]:
     """List Contracts
 
      Return a paginated list of all your contracts.
 
     Args:
-        page (Union[Unset, None, int]):  Default: 1.
-        limit (Union[Unset, None, int]):  Default: 10.
+        page (Union[Unset, int]):  Default: 1.
+        limit (Union[Unset, int]):  Default: 10.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

@@ -43,13 +43,19 @@ class MarketTransaction:
 
     def to_dict(self) -> Dict[str, Any]:
         waypoint_symbol = self.waypoint_symbol
+
         ship_symbol = self.ship_symbol
+
         trade_symbol = self.trade_symbol
+
         type = self.type.value
 
         units = self.units
+
         price_per_unit = self.price_per_unit
+
         total_price = self.total_price
+
         timestamp = self.timestamp.isoformat()
 
         field_dict: Dict[str, Any] = {}

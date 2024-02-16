@@ -10,27 +10,37 @@ from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 
-T = TypeVar("T", bound="NavigateShipJsonBody")
+T = TypeVar("T", bound="SupplyConstructionBody")
 
 
 @_attrs_define
-class NavigateShipJsonBody:
+class SupplyConstructionBody:
     """
     Attributes:
-        waypoint_symbol (str): The target destination.
+        ship_symbol (str): Symbol of the ship to use.
+        trade_symbol (str): The symbol of the good to supply.
+        units (int): Amount of units to supply.
     """
 
-    waypoint_symbol: str
+    ship_symbol: str
+    trade_symbol: str
+    units: int
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
-        waypoint_symbol = self.waypoint_symbol
+        ship_symbol = self.ship_symbol
+
+        trade_symbol = self.trade_symbol
+
+        units = self.units
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "waypointSymbol": waypoint_symbol,
+                "shipSymbol": ship_symbol,
+                "tradeSymbol": trade_symbol,
+                "units": units,
             }
         )
 
@@ -39,14 +49,20 @@ class NavigateShipJsonBody:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        waypoint_symbol = d.pop("waypointSymbol")
+        ship_symbol = d.pop("shipSymbol")
 
-        navigate_ship_json_body = cls(
-            waypoint_symbol=waypoint_symbol,
+        trade_symbol = d.pop("tradeSymbol")
+
+        units = d.pop("units")
+
+        supply_construction_body = cls(
+            ship_symbol=ship_symbol,
+            trade_symbol=trade_symbol,
+            units=units,
         )
 
-        navigate_ship_json_body.additional_properties = d
-        return navigate_ship_json_body
+        supply_construction_body.additional_properties = d
+        return supply_construction_body
 
     @property
     def additional_keys(self) -> List[str]:

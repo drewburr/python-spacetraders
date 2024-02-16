@@ -27,12 +27,12 @@ from .create_ship_waypoint_scan_response_201_data import (
 )
 from .create_survey_response_201 import CreateSurveyResponse201
 from .create_survey_response_201_data import CreateSurveyResponse201Data
-from .deliver_contract_json_body import DeliverContractJsonBody
+from .deliver_contract_body import DeliverContractBody
 from .deliver_contract_response_200 import DeliverContractResponse200
 from .deliver_contract_response_200_data import DeliverContractResponse200Data
 from .dock_ship_200_response import DockShip200Response
 from .dock_ship_200_response_data import DockShip200ResponseData
-from .extract_resources_json_body import ExtractResourcesJsonBody
+from .extract_resources_body import ExtractResourcesBody
 from .extract_resources_response_201 import ExtractResourcesResponse201
 from .extract_resources_response_201_data import ExtractResourcesResponse201Data
 from .extract_resources_with_survey_response_201 import (
@@ -87,11 +87,11 @@ from .get_waypoint_response_200 import GetWaypointResponse200
 from .install_mount_201_response import InstallMount201Response
 from .install_mount_201_response_data import InstallMount201ResponseData
 from .install_mount_request import InstallMountRequest
-from .jettison_json_body import JettisonJsonBody
+from .jettison_body import JettisonBody
 from .jettison_response_200 import JettisonResponse200
 from .jettison_response_200_data import JettisonResponse200Data
 from .jump_gate import JumpGate
-from .jump_ship_json_body import JumpShipJsonBody
+from .jump_ship_body import JumpShipBody
 from .jump_ship_response_200 import JumpShipResponse200
 from .jump_ship_response_200_data import JumpShipResponse200Data
 from .market import Market
@@ -100,25 +100,25 @@ from .market_trade_good_type import MarketTradeGoodType
 from .market_transaction import MarketTransaction
 from .market_transaction_type import MarketTransactionType
 from .meta import Meta
-from .navigate_ship_json_body import NavigateShipJsonBody
+from .navigate_ship_body import NavigateShipBody
 from .navigate_ship_response_200 import NavigateShipResponse200
 from .navigate_ship_response_200_data import NavigateShipResponse200Data
 from .negotiate_contract_200_response import NegotiateContract200Response
 from .negotiate_contract_200_response_data import NegotiateContract200ResponseData
 from .orbit_ship_200_response import OrbitShip200Response
 from .orbit_ship_200_response_data import OrbitShip200ResponseData
-from .patch_ship_nav_json_body import PatchShipNavJsonBody
+from .patch_ship_nav_body import PatchShipNavBody
 from .patch_ship_nav_response_200 import PatchShipNavResponse200
 from .purchase_cargo_201_response import PurchaseCargo201Response
 from .purchase_cargo_201_response_data import PurchaseCargo201ResponseData
 from .purchase_cargo_request import PurchaseCargoRequest
-from .purchase_ship_json_body import PurchaseShipJsonBody
+from .purchase_ship_body import PurchaseShipBody
 from .purchase_ship_response_201 import PurchaseShipResponse201
 from .purchase_ship_response_201_data import PurchaseShipResponse201Data
-from .refuel_ship_json_body import RefuelShipJsonBody
+from .refuel_ship_body import RefuelShipBody
 from .refuel_ship_response_200 import RefuelShipResponse200
 from .refuel_ship_response_200_data import RefuelShipResponse200Data
-from .register_json_body import RegisterJsonBody
+from .register_body import RegisterBody
 from .register_response_201 import RegisterResponse201
 from .register_response_201_data import RegisterResponse201Data
 from .remove_mount_201_response import RemoveMount201Response
@@ -166,8 +166,8 @@ from .ship_refine_201_response_data_consumed_item import (
 from .ship_refine_201_response_data_produced_item import (
     ShipRefine201ResponseDataProducedItem,
 )
-from .ship_refine_json_body import ShipRefineJsonBody
-from .ship_refine_json_body_produce import ShipRefineJsonBodyProduce
+from .ship_refine_body import ShipRefineBody
+from .ship_refine_body_produce import ShipRefineBodyProduce
 from .ship_registration import ShipRegistration
 from .ship_requirements import ShipRequirements
 from .ship_role import ShipRole
@@ -181,7 +181,7 @@ from .siphon import Siphon
 from .siphon_resources_response_201 import SiphonResourcesResponse201
 from .siphon_resources_response_201_data import SiphonResourcesResponse201Data
 from .siphon_yield import SiphonYield
-from .supply_construction_json_body import SupplyConstructionJsonBody
+from .supply_construction_body import SupplyConstructionBody
 from .supply_construction_response_201 import SupplyConstructionResponse201
 from .supply_construction_response_201_data import SupplyConstructionResponse201Data
 from .supply_level import SupplyLevel
@@ -197,7 +197,7 @@ from .trade_symbol import TradeSymbol
 from .transfer_cargo_200_response import TransferCargo200Response
 from .transfer_cargo_200_response_data import TransferCargo200ResponseData
 from .transfer_cargo_request import TransferCargoRequest
-from .warp_ship_json_body import WarpShipJsonBody
+from .warp_ship_body import WarpShipBody
 from .warp_ship_response_200 import WarpShipResponse200
 from .warp_ship_response_200_data import WarpShipResponse200Data
 from .waypoint import Waypoint
@@ -233,14 +233,14 @@ __all__ = (
     "CreateShipWaypointScanResponse201Data",
     "CreateSurveyResponse201",
     "CreateSurveyResponse201Data",
-    "DeliverContractJsonBody",
+    "DeliverContractBody",
     "DeliverContractResponse200",
     "DeliverContractResponse200Data",
     "DockShip200Response",
     "DockShip200ResponseData",
     "Extraction",
     "ExtractionYield",
-    "ExtractResourcesJsonBody",
+    "ExtractResourcesBody",
     "ExtractResourcesResponse201",
     "ExtractResourcesResponse201Data",
     "ExtractResourcesWithSurveyResponse201",
@@ -283,11 +283,11 @@ __all__ = (
     "InstallMount201Response",
     "InstallMount201ResponseData",
     "InstallMountRequest",
-    "JettisonJsonBody",
+    "JettisonBody",
     "JettisonResponse200",
     "JettisonResponse200Data",
     "JumpGate",
-    "JumpShipJsonBody",
+    "JumpShipBody",
     "JumpShipResponse200",
     "JumpShipResponse200Data",
     "Market",
@@ -296,25 +296,25 @@ __all__ = (
     "MarketTransaction",
     "MarketTransactionType",
     "Meta",
-    "NavigateShipJsonBody",
+    "NavigateShipBody",
     "NavigateShipResponse200",
     "NavigateShipResponse200Data",
     "NegotiateContract200Response",
     "NegotiateContract200ResponseData",
     "OrbitShip200Response",
     "OrbitShip200ResponseData",
-    "PatchShipNavJsonBody",
+    "PatchShipNavBody",
     "PatchShipNavResponse200",
     "PurchaseCargo201Response",
     "PurchaseCargo201ResponseData",
     "PurchaseCargoRequest",
-    "PurchaseShipJsonBody",
+    "PurchaseShipBody",
     "PurchaseShipResponse201",
     "PurchaseShipResponse201Data",
-    "RefuelShipJsonBody",
+    "RefuelShipBody",
     "RefuelShipResponse200",
     "RefuelShipResponse200Data",
-    "RegisterJsonBody",
+    "RegisterBody",
     "RegisterResponse201",
     "RegisterResponse201Data",
     "RemoveMount201Response",
@@ -358,8 +358,8 @@ __all__ = (
     "ShipRefine201ResponseData",
     "ShipRefine201ResponseDataConsumedItem",
     "ShipRefine201ResponseDataProducedItem",
-    "ShipRefineJsonBody",
-    "ShipRefineJsonBodyProduce",
+    "ShipRefineBody",
+    "ShipRefineBodyProduce",
     "ShipRegistration",
     "ShipRequirements",
     "ShipRole",
@@ -373,7 +373,7 @@ __all__ = (
     "SiphonResourcesResponse201",
     "SiphonResourcesResponse201Data",
     "SiphonYield",
-    "SupplyConstructionJsonBody",
+    "SupplyConstructionBody",
     "SupplyConstructionResponse201",
     "SupplyConstructionResponse201Data",
     "SupplyLevel",
@@ -389,7 +389,7 @@ __all__ = (
     "TransferCargo200Response",
     "TransferCargo200ResponseData",
     "TransferCargoRequest",
-    "WarpShipJsonBody",
+    "WarpShipBody",
     "WarpShipResponse200",
     "WarpShipResponse200Data",
     "Waypoint",

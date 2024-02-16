@@ -5,7 +5,7 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.deliver_contract_json_body import DeliverContractJsonBody
+from ...models.deliver_contract_body import DeliverContractBody
 from ...models.deliver_contract_response_200 import DeliverContractResponse200
 from ...types import Response
 
@@ -13,18 +13,24 @@ from ...types import Response
 def _get_kwargs(
     contract_id: str,
     *,
-    json_body: DeliverContractJsonBody,
+    body: DeliverContractBody,
 ) -> Dict[str, Any]:
+    headers: Dict[str, Any] = {}
 
-    json_json_body = json_body.to_dict()
-
-    return {
+    _kwargs: Dict[str, Any] = {
         "method": "post",
         "url": "/my/contracts/{contractId}/deliver".format(
             contractId=contract_id,
         ),
-        "json": json_json_body,
     }
+
+    _body = body.to_dict()
+
+    _kwargs["json"] = _body
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
+    return _kwargs
 
 
 def _parse_response(
@@ -55,7 +61,7 @@ def sync_detailed(
     contract_id: str,
     *,
     client: AuthenticatedClient,
-    json_body: DeliverContractJsonBody,
+    body: DeliverContractBody,
 ) -> Response[DeliverContractResponse200]:
     """Deliver Cargo to Contract
 
@@ -69,7 +75,7 @@ def sync_detailed(
 
     Args:
         contract_id (str):
-        json_body (DeliverContractJsonBody):
+        body (DeliverContractBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -81,7 +87,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         contract_id=contract_id,
-        json_body=json_body,
+        body=body,
     )
 
     response = client.get_httpx_client().request(
@@ -95,7 +101,7 @@ def sync(
     contract_id: str,
     *,
     client: AuthenticatedClient,
-    json_body: DeliverContractJsonBody,
+    body: DeliverContractBody,
 ) -> Optional[DeliverContractResponse200]:
     """Deliver Cargo to Contract
 
@@ -109,7 +115,7 @@ def sync(
 
     Args:
         contract_id (str):
-        json_body (DeliverContractJsonBody):
+        body (DeliverContractBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -122,7 +128,7 @@ def sync(
     return sync_detailed(
         contract_id=contract_id,
         client=client,
-        json_body=json_body,
+        body=body,
     ).parsed
 
 
@@ -130,7 +136,7 @@ async def asyncio_detailed(
     contract_id: str,
     *,
     client: AuthenticatedClient,
-    json_body: DeliverContractJsonBody,
+    body: DeliverContractBody,
 ) -> Response[DeliverContractResponse200]:
     """Deliver Cargo to Contract
 
@@ -144,7 +150,7 @@ async def asyncio_detailed(
 
     Args:
         contract_id (str):
-        json_body (DeliverContractJsonBody):
+        body (DeliverContractBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -156,7 +162,7 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         contract_id=contract_id,
-        json_body=json_body,
+        body=body,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -168,7 +174,7 @@ async def asyncio(
     contract_id: str,
     *,
     client: AuthenticatedClient,
-    json_body: DeliverContractJsonBody,
+    body: DeliverContractBody,
 ) -> Optional[DeliverContractResponse200]:
     """Deliver Cargo to Contract
 
@@ -182,7 +188,7 @@ async def asyncio(
 
     Args:
         contract_id (str):
-        json_body (DeliverContractJsonBody):
+        body (DeliverContractBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -196,6 +202,6 @@ async def asyncio(
         await asyncio_detailed(
             contract_id=contract_id,
             client=client,
-            json_body=json_body,
+            body=body,
         )
     ).parsed

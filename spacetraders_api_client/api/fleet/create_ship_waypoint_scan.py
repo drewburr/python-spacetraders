@@ -15,12 +15,14 @@ def _get_kwargs(
     ship_symbol: str,
 ) -> Dict[str, Any]:
 
-    return {
+    _kwargs: Dict[str, Any] = {
         "method": "post",
         "url": "/my/ships/{shipSymbol}/scan/waypoints".format(
             shipSymbol=ship_symbol,
         ),
     }
+
+    return _kwargs
 
 
 def _parse_response(

@@ -30,6 +30,7 @@ class ShipFuelConsumed:
 
     def to_dict(self) -> Dict[str, Any]:
         amount = self.amount
+
         timestamp = self.timestamp.isoformat()
 
         field_dict: Dict[str, Any] = {}

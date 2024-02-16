@@ -28,6 +28,7 @@ class ContractPayment:
 
     def to_dict(self) -> Dict[str, Any]:
         on_accepted = self.on_accepted
+
         on_fulfilled = self.on_fulfilled
 
         field_dict: Dict[str, Any] = {}

@@ -45,19 +45,19 @@ class Shipyard:
     def to_dict(self) -> Dict[str, Any]:
 
         symbol = self.symbol
+
         ship_types = []
         for ship_types_item_data in self.ship_types:
             ship_types_item = ship_types_item_data.to_dict()
-
             ship_types.append(ship_types_item)
 
         modifications_fee = self.modifications_fee
+
         transactions: Union[Unset, List[Dict[str, Any]]] = UNSET
         if not isinstance(self.transactions, Unset):
             transactions = []
             for transactions_item_data in self.transactions:
                 transactions_item = transactions_item_data.to_dict()
-
                 transactions.append(transactions_item)
 
         ships: Union[Unset, List[Dict[str, Any]]] = UNSET
@@ -65,7 +65,6 @@ class Shipyard:
             ships = []
             for ships_item_data in self.ships:
                 ships_item = ships_item_data.to_dict()
-
                 ships.append(ships_item)
 
         field_dict: Dict[str, Any] = {}

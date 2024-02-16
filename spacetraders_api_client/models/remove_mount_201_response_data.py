@@ -45,7 +45,6 @@ class RemoveMount201ResponseData:
         mounts = []
         for mounts_item_data in self.mounts:
             mounts_item = mounts_item_data.to_dict()
-
             mounts.append(mounts_item)
 
         cargo = self.cargo.to_dict()

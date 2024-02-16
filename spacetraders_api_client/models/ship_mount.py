@@ -50,16 +50,18 @@ class ShipMount:
         symbol = self.symbol.value
 
         name = self.name
+
         requirements = self.requirements.to_dict()
 
         description = self.description
+
         strength = self.strength
+
         deposits: Union[Unset, List[str]] = UNSET
         if not isinstance(self.deposits, Unset):
             deposits = []
             for deposits_item_data in self.deposits:
                 deposits_item = deposits_item_data.value
-
                 deposits.append(deposits_item)
 
         field_dict: Dict[str, Any] = {}

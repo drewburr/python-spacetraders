@@ -29,21 +29,22 @@ class ShipNav:
         waypoint_symbol (str): The symbol of the waypoint.
         route (ShipNavRoute): The routing information for the ship's most recent transit or current location.
         status (ShipNavStatus): The current status of the ship
-        flight_mode (ShipNavFlightMode): The ship's set speed when traveling between waypoints or systems. Default:
-            ShipNavFlightMode.CRUISE.
+        flight_mode (ShipNavFlightMode): The ship's set speed when traveling between waypoints or systems.
     """
 
     system_symbol: str
     waypoint_symbol: str
     route: "ShipNavRoute"
     status: ShipNavStatus
-    flight_mode: ShipNavFlightMode = ShipNavFlightMode.CRUISE
+    flight_mode: ShipNavFlightMode
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
 
         system_symbol = self.system_symbol
+
         waypoint_symbol = self.waypoint_symbol
+
         route = self.route.to_dict()
 
         status = self.status.value

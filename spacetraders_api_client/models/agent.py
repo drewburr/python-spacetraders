@@ -39,10 +39,15 @@ class Agent:
 
     def to_dict(self) -> Dict[str, Any]:
         symbol = self.symbol
+
         headquarters = self.headquarters
+
         credits_ = self.credits_
+
         starting_faction = self.starting_faction
+
         ship_count = self.ship_count
+
         account_id = self.account_id
 
         field_dict: Dict[str, Any] = {}

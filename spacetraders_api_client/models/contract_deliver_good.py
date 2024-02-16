@@ -32,8 +32,11 @@ class ContractDeliverGood:
 
     def to_dict(self) -> Dict[str, Any]:
         trade_symbol = self.trade_symbol
+
         destination_symbol = self.destination_symbol
+
         units_required = self.units_required
+
         units_fulfilled = self.units_fulfilled
 
         field_dict: Dict[str, Any] = {}
