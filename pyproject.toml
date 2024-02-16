@@ -1,11 +1,14 @@
 [tool.poetry]
 name = "spacetraders"
-version = "0.11.0-rc13"
+version = "0.11.0-rc18"
 description = "Python API for Space Traders"
 authors = ["Marco Ceppi <marco@ceppi.net>"]
 license = "Apache-2.0"
 readme = "README.md"
-packages = [{include = "spacetraders"}]
+packages = [
+    {include = "spacetraders_api_client"},
+    {include = "spacetraders_generator"}
+]
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -20,6 +23,10 @@ isort = "*"
 ruff = "*"
 pytest = "^7.3.1"
 openapi-python-client = "^0.16.1"
+typer = {extras = ["all"], version = "^0.9.0"}
+
+[tool.poetry.scripts]
+spacetraders_generator = "spacetraders_generator.cli:app"
 
 [tool.ruff]
 # Allow lines to be as long as 120 characters.
