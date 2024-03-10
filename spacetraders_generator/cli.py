@@ -53,7 +53,7 @@ class ModuleRep:
 @dataclass()
 class ModuleNode():
     name: str
-    module: ModuleRep | None = field(default=None)
+    modules: list[ModuleRep] = field(default_factory=list)
     next: list["ModuleNode"] = field(default_factory=list)
     is_root: bool = field(default=False)
 
@@ -64,27 +64,18 @@ class ModuleNode():
 
         return None if not found else found[0]
 
-    # def __dict__(self):
-    #     return {
-    #         "name": self.name,
-    #         "module": dict(self.module),
-    #         "next": self.next
-    #     }
-
     def to_dict(self):
-        module = self.module.to_dict() if self.module else None
         return {
             "name": self.name,
-            "module": module,
+            "modules": [x.to_dict() for x in self.modules],
             "next": [x.to_dict() for x in self.next]
         }
 
     def render(self, path: Path, env: Environment):
         path = path/self.name
         self.setup_dir(path)
-        if self.module:
-            self.module.render(path, env)
 
+        [module.render(path, env) for module in self.modules]
         [node.render(path, env) for node in self.next]
 
 
@@ -153,7 +144,7 @@ def generate_tree(endpoint_collections: dict[oapi_utils.PythonIdentifier, Endpoi
             next = module_node
             for step in module.path:
                 if step == '':
-                    module_node.module = module
+                    module_node.modules.append(module)
                     continue
 
                 next = module_node.find_next(step)
@@ -164,7 +155,7 @@ def generate_tree(endpoint_collections: dict[oapi_utils.PythonIdentifier, Endpoi
                 # print(next)
                 module_node = next
 
-            next.module = module
+            next.modules.append(module)
 
     return module_tree
 
