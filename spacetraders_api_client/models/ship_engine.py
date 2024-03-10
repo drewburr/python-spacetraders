@@ -5,14 +5,12 @@ from typing import (
     List,
     Type,
     TypeVar,
-    Union,
 )
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..models.ship_engine_symbol import ShipEngineSymbol
-from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.ship_requirements import ShipRequirements
@@ -29,19 +27,25 @@ class ShipEngine:
         symbol (ShipEngineSymbol): The symbol of the engine.
         name (str): The name of the engine.
         description (str): The description of the engine.
+        condition (float): The repairable condition of a component. A value of 0 indicates the component needs
+            significant repairs, while a value of 1 indicates the component is in near perfect condition. As the condition
+            of a component is repaired, the overall integrity of the component decreases.
+        integrity (float): The overall integrity of the component, which determines the performance of the component. A
+            value of 0 indicates that the component is almost completely degraded, while a value of 1 indicates that the
+            component is in near perfect condition. The integrity of the component is non-repairable, and represents
+            permanent wear over time.
         speed (int): The speed stat of this engine. The higher the speed, the faster a ship can travel from one point to
             another. Reduces the time of arrival when navigating the ship.
         requirements (ShipRequirements): The requirements for installation on a ship
-        condition (Union[Unset, int]): Condition is a range of 0 to 100 where 0 is completely worn out and 100 is brand
-            new.
     """
 
     symbol: ShipEngineSymbol
     name: str
     description: str
+    condition: float
+    integrity: float
     speed: int
     requirements: "ShipRequirements"
-    condition: Union[Unset, int] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -52,11 +56,13 @@ class ShipEngine:
 
         description = self.description
 
+        condition = self.condition
+
+        integrity = self.integrity
+
         speed = self.speed
 
         requirements = self.requirements.to_dict()
-
-        condition = self.condition
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -65,12 +71,12 @@ class ShipEngine:
                 "symbol": symbol,
                 "name": name,
                 "description": description,
+                "condition": condition,
+                "integrity": integrity,
                 "speed": speed,
                 "requirements": requirements,
             }
         )
-        if condition is not UNSET:
-            field_dict["condition"] = condition
 
         return field_dict
 
@@ -85,19 +91,22 @@ class ShipEngine:
 
         description = d.pop("description")
 
+        condition = d.pop("condition")
+
+        integrity = d.pop("integrity")
+
         speed = d.pop("speed")
 
         requirements = ShipRequirements.from_dict(d.pop("requirements"))
-
-        condition = d.pop("condition", UNSET)
 
         ship_engine = cls(
             symbol=symbol,
             name=name,
             description=description,
+            condition=condition,
+            integrity=integrity,
             speed=speed,
             requirements=requirements,
-            condition=condition,
         )
 
         ship_engine.additional_properties = d

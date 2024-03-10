@@ -14,6 +14,7 @@ from attrs import field as _attrs_field
 if TYPE_CHECKING:
     from ..models.cooldown import Cooldown
     from ..models.ship_cargo import ShipCargo
+    from ..models.ship_condition_event import ShipConditionEvent
     from ..models.siphon import Siphon
 
 
@@ -27,11 +28,13 @@ class SiphonResourcesResponse201Data:
         cooldown (Cooldown): A cooldown is a period of time in which a ship cannot perform certain actions.
         siphon (Siphon): Siphon details.
         cargo (ShipCargo): Ship cargo details.
+        events (List['ShipConditionEvent']):
     """
 
     cooldown: "Cooldown"
     siphon: "Siphon"
     cargo: "ShipCargo"
+    events: List["ShipConditionEvent"]
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -42,6 +45,11 @@ class SiphonResourcesResponse201Data:
 
         cargo = self.cargo.to_dict()
 
+        events = []
+        for events_item_data in self.events:
+            events_item = events_item_data.to_dict()
+            events.append(events_item)
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -49,6 +57,7 @@ class SiphonResourcesResponse201Data:
                 "cooldown": cooldown,
                 "siphon": siphon,
                 "cargo": cargo,
+                "events": events,
             }
         )
 
@@ -58,6 +67,7 @@ class SiphonResourcesResponse201Data:
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         from ..models.cooldown import Cooldown
         from ..models.ship_cargo import ShipCargo
+        from ..models.ship_condition_event import ShipConditionEvent
         from ..models.siphon import Siphon
 
         d = src_dict.copy()
@@ -67,10 +77,18 @@ class SiphonResourcesResponse201Data:
 
         cargo = ShipCargo.from_dict(d.pop("cargo"))
 
+        events = []
+        _events = d.pop("events")
+        for events_item_data in _events:
+            events_item = ShipConditionEvent.from_dict(events_item_data)
+
+            events.append(events_item)
+
         siphon_resources_response_201_data = cls(
             cooldown=cooldown,
             siphon=siphon,
             cargo=cargo,
+            events=events,
         )
 
         siphon_resources_response_201_data.additional_properties = d

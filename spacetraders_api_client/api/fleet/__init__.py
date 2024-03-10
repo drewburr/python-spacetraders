@@ -13,6 +13,8 @@ from . import (
     get_my_ship,
     get_my_ship_cargo,
     get_my_ships,
+    get_repair_ship,
+    get_scrap_ship,
     get_ship_cooldown,
     get_ship_nav,
     install_mount,
@@ -26,6 +28,8 @@ from . import (
     purchase_ship,
     refuel_ship,
     remove_mount,
+    repair_ship,
+    scrap_ship,
     sell_cargo,
     ship_refine,
     siphon_resources,
@@ -65,6 +69,10 @@ class Fleet:
     get_mounts = get_mounts
     install_mount = install_mount
     remove_mount = remove_mount
+    get_scrap_ship = get_scrap_ship
+    scrap_ship = scrap_ship
+    get_repair_ship = get_repair_ship
+    repair_ship = repair_ship
 
 
 __all__ = "Fleet"

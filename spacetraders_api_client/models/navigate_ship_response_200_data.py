@@ -12,6 +12,7 @@ from attrs import field as _attrs_field
 
 
 if TYPE_CHECKING:
+    from ..models.ship_condition_event import ShipConditionEvent
     from ..models.ship_fuel import ShipFuel
     from ..models.ship_nav import ShipNav
 
@@ -26,10 +27,12 @@ class NavigateShipResponse200Data:
         fuel (ShipFuel): Details of the ship's fuel tanks including how much fuel was consumed during the last transit
             or action.
         nav (ShipNav): The navigation information of the ship.
+        events (List['ShipConditionEvent']):
     """
 
     fuel: "ShipFuel"
     nav: "ShipNav"
+    events: List["ShipConditionEvent"]
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -38,12 +41,18 @@ class NavigateShipResponse200Data:
 
         nav = self.nav.to_dict()
 
+        events = []
+        for events_item_data in self.events:
+            events_item = events_item_data.to_dict()
+            events.append(events_item)
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
                 "fuel": fuel,
                 "nav": nav,
+                "events": events,
             }
         )
 
@@ -51,6 +60,7 @@ class NavigateShipResponse200Data:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.ship_condition_event import ShipConditionEvent
         from ..models.ship_fuel import ShipFuel
         from ..models.ship_nav import ShipNav
 
@@ -59,9 +69,17 @@ class NavigateShipResponse200Data:
 
         nav = ShipNav.from_dict(d.pop("nav"))
 
+        events = []
+        _events = d.pop("events")
+        for events_item_data in _events:
+            events_item = ShipConditionEvent.from_dict(events_item_data)
+
+            events.append(events_item)
+
         navigate_ship_response_200_data = cls(
             fuel=fuel,
             nav=nav,
+            events=events,
         )
 
         navigate_ship_response_200_data.additional_properties = d

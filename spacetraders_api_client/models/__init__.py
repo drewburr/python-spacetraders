@@ -63,6 +63,10 @@ from .get_my_agent_response_200 import GetMyAgentResponse200
 from .get_my_ship_cargo_response_200 import GetMyShipCargoResponse200
 from .get_my_ship_response_200 import GetMyShipResponse200
 from .get_my_ships_response_200 import GetMyShipsResponse200
+from .get_repair_ship_response_200 import GetRepairShipResponse200
+from .get_repair_ship_response_200_data import GetRepairShipResponse200Data
+from .get_scrap_ship_response_200 import GetScrapShipResponse200
+from .get_scrap_ship_response_200_data import GetScrapShipResponse200Data
 from .get_ship_cooldown_response_200 import GetShipCooldownResponse200
 from .get_ship_nav_response_200 import GetShipNavResponse200
 from .get_shipyard_response_200 import GetShipyardResponse200
@@ -124,6 +128,9 @@ from .register_response_201_data import RegisterResponse201Data
 from .remove_mount_201_response import RemoveMount201Response
 from .remove_mount_201_response_data import RemoveMount201ResponseData
 from .remove_mount_request import RemoveMountRequest
+from .repair_ship_response_200 import RepairShipResponse200
+from .repair_ship_response_200_data import RepairShipResponse200Data
+from .repair_transaction import RepairTransaction
 from .scanned_ship import ScannedShip
 from .scanned_ship_engine import ScannedShipEngine
 from .scanned_ship_frame import ScannedShipFrame
@@ -131,12 +138,18 @@ from .scanned_ship_mounts_item import ScannedShipMountsItem
 from .scanned_ship_reactor import ScannedShipReactor
 from .scanned_system import ScannedSystem
 from .scanned_waypoint import ScannedWaypoint
+from .scrap_ship_response_200 import ScrapShipResponse200
+from .scrap_ship_response_200_data import ScrapShipResponse200Data
+from .scrap_transaction import ScrapTransaction
 from .sell_cargo_201_response import SellCargo201Response
 from .sell_cargo_201_response_data import SellCargo201ResponseData
 from .sell_cargo_request import SellCargoRequest
 from .ship import Ship
 from .ship_cargo import ShipCargo
 from .ship_cargo_item import ShipCargoItem
+from .ship_condition_event import ShipConditionEvent
+from .ship_condition_event_component import ShipConditionEventComponent
+from .ship_condition_event_symbol import ShipConditionEventSymbol
 from .ship_crew import ShipCrew
 from .ship_crew_rotation import ShipCrewRotation
 from .ship_engine import ShipEngine
@@ -265,6 +278,10 @@ __all__ = (
     "GetMyShipCargoResponse200",
     "GetMyShipResponse200",
     "GetMyShipsResponse200",
+    "GetRepairShipResponse200",
+    "GetRepairShipResponse200Data",
+    "GetScrapShipResponse200",
+    "GetScrapShipResponse200Data",
     "GetShipCooldownResponse200",
     "GetShipNavResponse200",
     "GetShipyardResponse200",
@@ -320,6 +337,9 @@ __all__ = (
     "RemoveMount201Response",
     "RemoveMount201ResponseData",
     "RemoveMountRequest",
+    "RepairShipResponse200",
+    "RepairShipResponse200Data",
+    "RepairTransaction",
     "ScannedShip",
     "ScannedShipEngine",
     "ScannedShipFrame",
@@ -327,12 +347,18 @@ __all__ = (
     "ScannedShipReactor",
     "ScannedSystem",
     "ScannedWaypoint",
+    "ScrapShipResponse200",
+    "ScrapShipResponse200Data",
+    "ScrapTransaction",
     "SellCargo201Response",
     "SellCargo201ResponseData",
     "SellCargoRequest",
     "Ship",
     "ShipCargo",
     "ShipCargoItem",
+    "ShipConditionEvent",
+    "ShipConditionEventComponent",
+    "ShipConditionEventSymbol",
     "ShipCrew",
     "ShipCrewRotation",
     "ShipEngine",

@@ -5,14 +5,12 @@ from typing import (
     List,
     Type,
     TypeVar,
-    Union,
 )
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..models.ship_reactor_symbol import ShipReactorSymbol
-from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.ship_requirements import ShipRequirements
@@ -29,19 +27,25 @@ class ShipReactor:
         symbol (ShipReactorSymbol): Symbol of the reactor.
         name (str): Name of the reactor.
         description (str): Description of the reactor.
+        condition (float): The repairable condition of a component. A value of 0 indicates the component needs
+            significant repairs, while a value of 1 indicates the component is in near perfect condition. As the condition
+            of a component is repaired, the overall integrity of the component decreases.
+        integrity (float): The overall integrity of the component, which determines the performance of the component. A
+            value of 0 indicates that the component is almost completely degraded, while a value of 1 indicates that the
+            component is in near perfect condition. The integrity of the component is non-repairable, and represents
+            permanent wear over time.
         power_output (int): The amount of power provided by this reactor. The more power a reactor provides to the ship,
             the lower the cooldown it gets when using a module or mount that taxes the ship's power.
         requirements (ShipRequirements): The requirements for installation on a ship
-        condition (Union[Unset, int]): Condition is a range of 0 to 100 where 0 is completely worn out and 100 is brand
-            new.
     """
 
     symbol: ShipReactorSymbol
     name: str
     description: str
+    condition: float
+    integrity: float
     power_output: int
     requirements: "ShipRequirements"
-    condition: Union[Unset, int] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -52,11 +56,13 @@ class ShipReactor:
 
         description = self.description
 
+        condition = self.condition
+
+        integrity = self.integrity
+
         power_output = self.power_output
 
         requirements = self.requirements.to_dict()
-
-        condition = self.condition
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -65,12 +71,12 @@ class ShipReactor:
                 "symbol": symbol,
                 "name": name,
                 "description": description,
+                "condition": condition,
+                "integrity": integrity,
                 "powerOutput": power_output,
                 "requirements": requirements,
             }
         )
-        if condition is not UNSET:
-            field_dict["condition"] = condition
 
         return field_dict
 
@@ -85,19 +91,22 @@ class ShipReactor:
 
         description = d.pop("description")
 
+        condition = d.pop("condition")
+
+        integrity = d.pop("integrity")
+
         power_output = d.pop("powerOutput")
 
         requirements = ShipRequirements.from_dict(d.pop("requirements"))
-
-        condition = d.pop("condition", UNSET)
 
         ship_reactor = cls(
             symbol=symbol,
             name=name,
             description=description,
+            condition=condition,
+            integrity=integrity,
             power_output=power_output,
             requirements=requirements,
-            condition=condition,
         )
 
         ship_reactor.additional_properties = d

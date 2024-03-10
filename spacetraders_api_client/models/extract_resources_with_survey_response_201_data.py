@@ -15,6 +15,7 @@ if TYPE_CHECKING:
     from ..models.cooldown import Cooldown
     from ..models.extraction import Extraction
     from ..models.ship_cargo import ShipCargo
+    from ..models.ship_condition_event import ShipConditionEvent
 
 
 T = TypeVar("T", bound="ExtractResourcesWithSurveyResponse201Data")
@@ -27,11 +28,13 @@ class ExtractResourcesWithSurveyResponse201Data:
         cooldown (Cooldown): A cooldown is a period of time in which a ship cannot perform certain actions.
         extraction (Extraction): Extraction details.
         cargo (ShipCargo): Ship cargo details.
+        events (List['ShipConditionEvent']):
     """
 
     cooldown: "Cooldown"
     extraction: "Extraction"
     cargo: "ShipCargo"
+    events: List["ShipConditionEvent"]
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -42,6 +45,11 @@ class ExtractResourcesWithSurveyResponse201Data:
 
         cargo = self.cargo.to_dict()
 
+        events = []
+        for events_item_data in self.events:
+            events_item = events_item_data.to_dict()
+            events.append(events_item)
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -49,6 +57,7 @@ class ExtractResourcesWithSurveyResponse201Data:
                 "cooldown": cooldown,
                 "extraction": extraction,
                 "cargo": cargo,
+                "events": events,
             }
         )
 
@@ -59,6 +68,7 @@ class ExtractResourcesWithSurveyResponse201Data:
         from ..models.cooldown import Cooldown
         from ..models.extraction import Extraction
         from ..models.ship_cargo import ShipCargo
+        from ..models.ship_condition_event import ShipConditionEvent
 
         d = src_dict.copy()
         cooldown = Cooldown.from_dict(d.pop("cooldown"))
@@ -67,10 +77,18 @@ class ExtractResourcesWithSurveyResponse201Data:
 
         cargo = ShipCargo.from_dict(d.pop("cargo"))
 
+        events = []
+        _events = d.pop("events")
+        for events_item_data in _events:
+            events_item = ShipConditionEvent.from_dict(events_item_data)
+
+            events.append(events_item)
+
         extract_resources_with_survey_response_201_data = cls(
             cooldown=cooldown,
             extraction=extraction,
             cargo=cargo,
+            events=events,
         )
 
         extract_resources_with_survey_response_201_data.additional_properties = d
