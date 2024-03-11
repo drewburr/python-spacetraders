@@ -8,7 +8,7 @@ from typing import Union
 from openapi_python_client import cli as oapi_cli
 from openapi_python_client import utils as oapi_utils
 from openapi_python_client import config as oapi_config
-from openapi_python_client.parser.openapi import EndpointCollection
+from openapi_python_client.parser.openapi import EndpointCollection, Endpoint
 import openapi_python_client as oapi_client
 
 from jinja2 import Environment, PackageLoader, select_autoescape
@@ -28,22 +28,19 @@ class ModuleRep:
     identifier: str
     path: list[str]
     tag: str
+    endpoint: Endpoint
 
-    def render(self, path: Path, env: Environment):
-        module_template = env.get_template("module.py.jinja")
-        module_path = path / f"{self.identifier}.py"
-        module_path.write_text(
-            module_template.render(**self.template_data), encoding="utf-8"
-        )
+    def __post_init__(self):
+        self.endpoint_vars = vars(self.endpoint)
 
-    @property
-    def template_data(self):
-        return {
-            "identifier": self.identifier,
-            "path": self.path,
-            "name": self.name,
-            "tag": self.tag,
-        }
+    # @property
+    # def template_data(self):
+    #     return {
+    #         "identifier": self.identifier,
+    #         "path": self.path,
+    #         "name": self.name,
+    #         "tag": self.tag,
+    #     }
 
     def to_dict(self):
         return {
@@ -72,10 +69,24 @@ class ModuleNode():
         }
 
     def render(self, path: Path, env: Environment):
-        path = path/self.name
-        self.setup_dir(path)
 
-        [module.render(path, env) for module in self.modules]
+        render_data = {
+            "modules": self.modules,
+            "next": self.next
+        }
+
+        if not self.next:
+            module_path = path/f"{self.name}.py"
+        else:
+            path = path/self.name
+            module_path = path/"__init__.py"
+            self.setup_dir(path)
+
+        if self.modules:
+            module_template = env.get_template("module.py.jinja")
+            module_path.write_text(
+                module_template.render(**render_data), encoding="utf-8")
+
         [node.render(path, env) for node in self.next]
 
 
@@ -108,6 +119,7 @@ def generate(bundle_path: str):
     )
 
     env.globals.update(
+        type=type
         # utils=utils,
         # python_identifier=lambda x: utils.PythonIdentifier(x, config.field_prefix),
         # class_name=lambda x: utils.ClassName(x, config.field_prefix),
@@ -138,14 +150,14 @@ def generate_tree(endpoint_collections: dict[oapi_utils.PythonIdentifier, Endpoi
                 identifier=oapi_utils.PythonIdentifier(endpoint.name, ""),
                 path=endpoint.path.split("/")[1:],
                 tag=endpoint.tag,
+                endpoint=endpoint
             )
 
             module_node = module_tree
             next = module_node
             for step in module.path:
                 if step == '':
-                    module_node.modules.append(module)
-                    continue
+                    step = module.identifier
 
                 next = module_node.find_next(step)
                 if not next:

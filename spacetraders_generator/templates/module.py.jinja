@@ -1,7 +1,24 @@
-import spacetraders_api_client.api.{{ tag }}.{{ identifier }}
+{% for module in modules %}
+from spacetraders_api_client.api.{{ module.tag }}.{{ module.identifier }} import sync_detailed as {{ module.endpoint.method }}
 
+{% for response in module.endpoint.responses %}
+{% if type(response.prop).__name__ == "ModelProperty" %}
+from spacetraders_api_client.models import {{ response.prop.class_info.module_name }}
+{% endif %}
+{% endfor %}
 
-# name: {{ name }}
-# identifier: {{ identifier }}
-# path: {{ path }}
-# tag: {{ tag }}
+# name: {{ module.name }}
+# identifier: {{ module.identifier }}
+# path: {{ module.path }}
+# tag: {{ module.tag }}
+
+# path: {{ module.endpoint.path }}
+# method: {{ module.endpoint.method }}
+# description: {{ module.endpoint.description | replace('\n', '\n# ')}}
+# name: {{ module.endpoint.name }}
+# requires_security: {{ module.endpoint.requires_security }}
+# summary: {{ module.endpoint.summary }}
+# responses: module.endpoint.responses
+# errors: {{ module.endpoint.errors }}
+
+{% endfor %}
