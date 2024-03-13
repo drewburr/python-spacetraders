@@ -1,11 +1,12 @@
-{% for module in modules %}
 from spacetraders_api_client.api.{{ module.tag }}.{{ module.identifier }} import sync_detailed as {{ module.endpoint.method }}
 
 {% for response in module.endpoint.responses %}
 {% if type(response.prop).__name__ == "ModelProperty" %}
 from spacetraders_api_client.models import {{ response.prop.class_info.module_name }}
+{{ response.prop.class_info }}
+required_properties = {{ response.prop.required_properties | length }}
 {% endif %}
-{% endfor %}
+
 
 # name: {{ module.name }}
 # identifier: {{ module.identifier }}

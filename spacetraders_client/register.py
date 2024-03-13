@@ -1,6 +1,9 @@
 from spacetraders_api_client.api.default.register import sync_detailed as post
 
 from spacetraders_api_client.models import register_response_201
+Class(name='RegisterResponse201', module_name='register_response_201')
+required_properties = 1
+
 
 # name: register
 # identifier: register

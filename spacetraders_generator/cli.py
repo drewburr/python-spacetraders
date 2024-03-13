@@ -4,6 +4,7 @@ import typer
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Union
+import re
 
 from openapi_python_client import cli as oapi_cli
 from openapi_python_client import utils as oapi_utils
@@ -70,19 +71,22 @@ class ModuleNode():
 
     def render(self, path: Path, env: Environment):
 
-        render_data = {
-            "modules": self.modules,
-            "next": self.next
-        }
+        if self.next:
+            module_name = self.name
+            if re.fullmatch("{.*}", module_name):
+                module_name = re.sub("{([a-z]+)[A-Z][a-z]+}", "\g<1>", module_name)
 
-        if not self.next:
-            module_path = path/f"{self.name}.py"
-        else:
-            path = path/self.name
-            module_path = path/"__init__.py"
+            path = path/module_name
             self.setup_dir(path)
 
-        if self.modules:
+        for module in self.modules:
+            module_path = path/f"{module.identifier}.py"
+
+            render_data = {
+                "module": module,
+                "next": self.next
+            }
+
             module_template = env.get_template("module.py.jinja")
             module_path.write_text(
                 module_template.render(**render_data), encoding="utf-8")
@@ -137,7 +141,7 @@ def generate(bundle_path: str):
 
     module_tree.render(PROJECT_DIR, env)
 
-    pprint.pp(module_tree.to_dict())
+    # pprint.pp(module_tree.to_dict())
 
 
 def generate_tree(endpoint_collections: dict[oapi_utils.PythonIdentifier, EndpointCollection]):
@@ -145,10 +149,14 @@ def generate_tree(endpoint_collections: dict[oapi_utils.PythonIdentifier, Endpoi
     for endpoint_collection in endpoint_collections.values():
         for endpoint in endpoint_collection.endpoints:
 
+            module_path = endpoint.path.split("/")[1:]
+            if module_path[0] == 'my':
+                module_path = module_path[1:]
+
             module = ModuleRep(
                 name=endpoint.name,
                 identifier=oapi_utils.PythonIdentifier(endpoint.name, ""),
-                path=endpoint.path.split("/")[1:],
+                path=module_path,
                 tag=endpoint.tag,
                 endpoint=endpoint
             )

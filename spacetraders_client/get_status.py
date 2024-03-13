@@ -1,6 +1,9 @@
 from spacetraders_api_client.api.default.get_status import sync_detailed as get
 
 from spacetraders_api_client.models import get_status_response_200
+Class(name='GetStatusResponse200', module_name='get_status_response_200')
+required_properties = 9
+
 
 # name: get-status
 # identifier: get_status
